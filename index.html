@@ -12,418 +12,278 @@
   html { -webkit-tap-highlight-color: transparent; touch-action: manipulation; overscroll-behavior: none; }
   body {
     font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
-    background: #090c10;
-    color: #c9d1d9;
+    background: #090c10; color: #c9d1d9;
     min-height: 100vh; min-height: 100dvh;
     display: flex; align-items: center; justify-content: center;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     user-select: none; -webkit-user-select: none;
   }
-  /* ---- Canvas 粒子背景 ---- */
   #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
   .container { width: 100%; max-width: 500px; padding: 20px 16px; position: relative; z-index: 1; }
 
   /* ---- 封面 ---- */
   .cover { text-align: center; }
-  .cover .mascot {
-    font-size: 4.5rem; margin-bottom: 16px;
-    animation: mascotFloat 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 30px #58a6ff44);
-  }
-  @keyframes mascotFloat {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    30% { transform: translateY(-12px) rotate(2deg); }
-    60% { transform: translateY(-4px) rotate(-1deg); }
-  }
-  .cover h1 {
-    font-size: 1.7rem; font-weight: 800;
-    background: linear-gradient(135deg, #58a6ff, #a78bfa);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 6px; letter-spacing: 2px;
-  }
-  .cover .subtitle {
-    font-size: 0.9rem; color: #8b949e; margin-bottom: 6px;
-  }
-  .cover .hint {
-    font-size: 0.78rem; color: #484f58; margin-bottom: 36px;
-  }
-  .cover .tag-row {
-    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px;
-  }
-  .cover .tag {
-    font-size: 0.72rem; padding: 4px 12px;
-    border-radius: 20px; background: #161b22; border: 1px solid #21262d;
-    color: #8b949e;
-  }
+  .cover .mascot { font-size: 4.5rem; margin-bottom: 16px; animation: mascotFloat 3s ease-in-out infinite; filter: drop-shadow(0 0 30px #58a6ff44); }
+  @keyframes mascotFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 30% { transform: translateY(-12px) rotate(2deg); } 60% { transform: translateY(-4px) rotate(-1deg); } }
+  .cover h1 { font-size: 1.7rem; font-weight: 800; background: linear-gradient(135deg, #58a6ff, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; letter-spacing: 2px; }
+  .cover .subtitle { font-size: 0.9rem; color: #8b949e; margin-bottom: 6px; }
+  .cover .hint { font-size: 0.78rem; color: #484f58; margin-bottom: 36px; }
+  .cover .tag-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+  .cover .tag { font-size: 0.72rem; padding: 4px 12px; border-radius: 20px; background: #161b22; border: 1px solid #21262d; color: #8b949e; }
 
   /* ---- 进度条 ---- */
   .progress-wrap { margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-  .progress-track {
-    flex: 1; height: 4px; background: #21262d; border-radius: 2px; overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%; border-radius: 2px;
-    background: linear-gradient(90deg, #238636, #3fb950);
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .progress-num {
-    font-size: 0.75rem; color: #8b949e; font-variant-numeric: tabular-nums; min-width: 32px; text-align: right;
-  }
+  .progress-track { flex: 1; height: 4px; background: #21262d; border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #238636, #3fb950); transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .progress-num { font-size: 0.75rem; color: #8b949e; font-variant-numeric: tabular-nums; min-width: 32px; text-align: right; }
 
   /* ---- 卡片 ---- */
-  .card {
-    background: #0f131a;
-    border: 1px solid #1c2128;
-    border-radius: 16px;
-    padding: 28px 22px 22px;
-    margin-bottom: 16px;
-    position: relative;
-    overflow: hidden;
-  }
-  .card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #30363d66, transparent);
-  }
-  .stage-label {
-    font-size: 0.72rem; letter-spacing: 2px; color: #58a6ff;
-    margin-bottom: 10px; font-weight: 600;
-  }
-  .question {
-    font-size: 1.1rem; line-height: 1.65; margin-bottom: 22px; color: #e6edf3;
-    min-height: 2em;
-  }
+  .card { background: #0f131a; border: 1px solid #1c2128; border-radius: 16px; padding: 28px 22px 22px; margin-bottom: 16px; position: relative; overflow: hidden; }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #30363d66, transparent); }
+  .stage-label { font-size: 0.72rem; letter-spacing: 2px; color: #58a6ff; margin-bottom: 10px; font-weight: 600; }
+  .question { font-size: 1.1rem; line-height: 1.65; margin-bottom: 22px; color: #e6edf3; }
 
   /* ---- 选项 ---- */
   .options { display: flex; flex-direction: column; gap: 10px; }
-  .option {
-    background: #131820;
-    border: 1px solid #1c2128;
-    border-radius: 10px;
-    padding: 15px 16px;
-    cursor: pointer;
-    font-size: 0.95rem; color: #b0b8c1; text-align: left;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    min-height: 50px;
-    display: flex; align-items: center;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .option .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #21262d; margin-right: 12px; flex-shrink: 0;
-    transition: all 0.2s ease;
-  }
+  .option { background: #131820; border: 1px solid #1c2128; border-radius: 10px; padding: 15px 16px; cursor: pointer; font-size: 0.95rem; color: #b0b8c1; text-align: left; -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 50px; display: flex; align-items: center; transition: all 0.2s ease; }
+  .option .dot { width: 8px; height: 8px; border-radius: 50%; background: #21262d; margin-right: 12px; flex-shrink: 0; transition: all 0.2s ease; }
   .option:active { transform: scale(0.985); }
-  .option.selected {
-    border-color: #58a6ff;
-    background: #0d1a2d;
-    color: #e6edf3;
-  }
-  .option.selected .dot {
-    background: #58a6ff;
-    box-shadow: 0 0 8px #58a6ff66;
-  }
-  @media (hover: hover) {
-    .option:hover { border-color: #30363d; background: #161c26; }
-    .option.selected:hover { border-color: #58a6ff; }
-  }
-
-  /* ---- 选项入场动画 ---- */
-  .option.stagger-in {
-    opacity: 0; transform: translateX(-16px);
-    animation: staggerIn 0.35s ease-out forwards;
-  }
-  @keyframes staggerIn {
-    to { opacity: 1; transform: translateX(0); }
-  }
+  .option.selected { border-color: #58a6ff; background: #0d1a2d; color: #e6edf3; }
+  .option.selected .dot { background: #58a6ff; box-shadow: 0 0 8px #58a6ff66; }
+  @media (hover: hover) { .option:hover { border-color: #30363d; background: #161c26; } .option.selected:hover { border-color: #58a6ff; } }
+  .option.stagger-in { opacity: 0; transform: translateX(-16px); animation: staggerIn 0.35s ease-out forwards; }
+  @keyframes staggerIn { to { opacity: 1; transform: translateX(0); } }
 
   /* ---- 按钮 ---- */
-  .btn {
-    display: block; width: 100%; padding: 15px;
-    border: none; border-radius: 10px; font-size: 1rem;
-    cursor: pointer; font-weight: 600; letter-spacing: 1px;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation; min-height: 50px;
-    transition: all 0.2s ease;
-  }
+  .btn { display: block; width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; font-weight: 600; letter-spacing: 1px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 50px; transition: all 0.2s ease; }
   .btn:active { transform: scale(0.975); }
-  .btn-primary {
-    background: linear-gradient(135deg, #238636, #2ea043);
-    color: #fff;
-  }
-  .btn-primary:disabled {
-    background: #161b22; color: #3a3f47; cursor: not-allowed;
-    box-shadow: none;
-  }
+  .btn-primary { background: linear-gradient(135deg, #238636, #2ea043); color: #fff; }
+  .btn-primary:disabled { background: #161b22; color: #3a3f47; cursor: not-allowed; box-shadow: none; }
   .btn-primary:disabled:active { transform: none; }
-  .btn-secondary {
-    background: #161b22; color: #8b949e; border: 1px solid #21262d; margin-top: 8px;
-  }
-  .btn-share {
-    background: linear-gradient(135deg, #1f6feb, #388bfd); color: #fff; margin-top: 8px;
-  }
-  @media (hover: hover) {
-    .btn-primary:hover:not(:disabled) { box-shadow: 0 4px 20px #23863644; }
-    .btn-secondary:hover { background: #1c2128; }
-    .btn-share:hover { box-shadow: 0 4px 20px #1f6feb44; }
-  }
+  .btn-secondary { background: #161b22; color: #8b949e; border: 1px solid #21262d; margin-top: 8px; }
+  .btn-share { background: linear-gradient(135deg, #1f6feb, #388bfd); color: #fff; margin-top: 8px; }
+  @media (hover: hover) { .btn-primary:hover:not(:disabled) { box-shadow: 0 4px 20px #23863644; } .btn-secondary:hover { background: #1c2128; } .btn-share:hover { box-shadow: 0 4px 20px #1f6feb44; } }
 
   /* ---- 抖动 ---- */
   .shake { animation: shake 0.5s ease-in-out; }
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    15% { transform: translateX(-6px); }
-    30% { transform: translateX(6px); }
-    45% { transform: translateX(-4px); }
-    60% { transform: translateX(4px); }
-    75% { transform: translateX(-2px); }
-    90% { transform: translateX(2px); }
-  }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 15% { transform: translateX(-6px); } 30% { transform: translateX(6px); } 45% { transform: translateX(-4px); } 60% { transform: translateX(4px); } 75% { transform: translateX(-2px); } 90% { transform: translateX(2px); } }
 
-  /* ---- 牌面翻转 ---- */
-  .card.slide-in {
-    animation: slideIn 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
-  }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(40px) scale(0.97); }
-    to { opacity: 1; transform: translateX(0) scale(1); }
-  }
-  .card.slide-out {
-    animation: slideOut 0.3s cubic-bezier(0.55, 0, 1, 0.45) forwards;
-  }
-  @keyframes slideOut {
-    to { opacity: 0; transform: translateX(-40px) scale(0.97); }
-  }
+  /* ---- 卡片滑动 ---- */
+  .card.slide-in { animation: slideIn 0.4s cubic-bezier(0.22, 0.61, 0.36, 1); }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(40px) scale(0.97); } to { opacity: 1; transform: translateX(0) scale(1); } }
 
   /* ---- 结果页 ---- */
   .result-page { text-align: center; }
-  .result-emoji {
-    font-size: 5rem; margin-bottom: 12px;
-    animation: resultBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  @keyframes resultBounce {
-    0% { transform: scale(0); opacity: 0; }
-    60% { transform: scale(1.15); }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  .result-title {
-    font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; line-height: 1.4;
-    background: linear-gradient(135deg, #c9d1d9, #f0f6fc);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .result-sub {
-    font-size: 0.9rem; color: #8b949e; line-height: 1.65; margin-bottom: 20px;
-  }
-  /* ---- 忧郁值仪表 ---- */
+  .result-emoji { font-size: 5rem; margin-bottom: 12px; animation: resultBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  @keyframes resultBounce { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
+  .result-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; line-height: 1.4; background: linear-gradient(135deg, #c9d1d9, #f0f6fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .result-sub { font-size: 0.9rem; color: #8b949e; line-height: 1.65; margin-bottom: 16px; }
+
+  /* ---- 仪表 ---- */
   .gauge-wrap { margin: 0 auto 20px; max-width: 280px; }
-  .gauge-label {
-    display: flex; justify-content: space-between;
-    font-size: 0.72rem; color: #484f58; margin-bottom: 6px;
+  .gauge-label { display: flex; justify-content: space-between; font-size: 0.72rem; color: #484f58; margin-bottom: 6px; }
+  .gauge-track { height: 14px; background: #161b22; border-radius: 7px; overflow: hidden; border: 1px solid #1c2128; }
+  .gauge-fill { height: 100%; border-radius: 7px; background: linear-gradient(90deg, #3fb950, #d29922, #da3633, #a371f7); background-size: 300% 100%; transition: width 1.2s cubic-bezier(0.22, 0.61, 0.36, 1); }
+  .gauge-value { text-align: center; font-size: 2rem; font-weight: 800; margin-top: 4px; color: #c9d1d9; }
+
+  /* ---- 类型徽章 ---- */
+  .type-badge {
+    display: inline-block; padding: 8px 20px; border-radius: 20px;
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;
+    margin-bottom: 16px;
+    background: #161b22; border: 1px solid #30363d;
   }
-  .gauge-track {
-    height: 14px; background: #161b22; border-radius: 7px; overflow: hidden;
+  .type-portrait {
+    background: #0d1117; border-radius: 12px; padding: 18px; margin-bottom: 16px;
+    text-align: left; font-size: 0.85rem; line-height: 1.65; color: #8b949e;
     border: 1px solid #1c2128;
   }
-  .gauge-fill {
-    height: 100%; border-radius: 7px;
-    background: linear-gradient(90deg, #3fb950, #d29922, #da3633, #a371f7);
-    background-size: 300% 100%;
-    transition: width 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+  .type-portrait strong { color: #e6edf3; }
+  .type-portrait .portrait-icon { font-size: 1.5rem; margin-right: 6px; vertical-align: -4px; }
+
+  /* ---- 箴言卡片 ---- */
+  .quote-card {
+    background: linear-gradient(135deg, #131820, #161b22);
+    border: 1px solid #1c2128; border-radius: 12px;
+    padding: 16px 18px; margin-bottom: 16px; text-align: center;
   }
-  .gauge-value {
-    text-align: center; font-size: 2rem; font-weight: 800; margin-top: 4px;
-    color: #c9d1d9;
-    font-variant-numeric: tabular-nums;
-  }
+  .quote-text { font-size: 0.95rem; color: #c9d1d9; line-height: 1.6; font-style: italic; margin-bottom: 6px; }
+  .quote-from { font-size: 0.72rem; color: #484f58; }
 
   /* ---- 维度条 ---- */
-  .breakdown {
-    text-align: left; padding: 0; margin-bottom: 20px;
-  }
-  .dim-row {
-    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
-  }
-  .dim-name {
-    font-size: 0.78rem; color: #8b949e; width: 70px; flex-shrink: 0; text-align: right;
-  }
-  .dim-bar-wrap {
-    flex: 1; height: 8px; background: #161b22; border-radius: 4px; overflow: hidden;
-  }
-  .dim-bar-fill {
-    height: 100%; border-radius: 4px;
-    width: 0;
-    transition: width 1s cubic-bezier(0.22, 0.61, 0.36, 1);
-  }
-  .dim-score {
-    font-size: 0.72rem; color: #484f58; width: 32px; flex-shrink: 0;
-  }
+  .breakdown { text-align: left; padding: 0; margin-bottom: 20px; }
+  .section-head { font-size: 0.72rem; letter-spacing: 2px; color: #484f58; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .dim-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .dim-name { font-size: 0.78rem; color: #8b949e; width: 75px; flex-shrink: 0; text-align: right; }
+  .dim-bar-wrap { flex: 1; height: 8px; background: #161b22; border-radius: 4px; overflow: hidden; }
+  .dim-bar-fill { height: 100%; border-radius: 4px; width: 0; transition: width 1s cubic-bezier(0.22, 0.61, 0.36, 1); }
+  .dim-score { font-size: 0.72rem; color: #484f58; width: 32px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
 
-  /* ---- 转场叠加 ---- */
-  .transition-overlay {
-    position: fixed; inset: 0; background: #090c10;
-    z-index: 10; pointer-events: none; opacity: 0;
+  /* ---- 名人堂 ---- */
+  .hall-card {
+    background: #0d1117; border: 1px solid #1c2128; border-radius: 10px;
+    padding: 14px 16px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px; font-size: 0.82rem;
   }
+  .hall-rank { font-size: 1.2rem; font-weight: 800; color: #484f58; width: 28px; text-align: center; }
+  .hall-avatar { font-size: 1.6rem; }
+  .hall-info { flex: 1; }
+  .hall-name { color: #e6edf3; font-weight: 600; }
+  .hall-desc { color: #8b949e; font-size: 0.75rem; }
 
   hr { border: none; border-top: 1px solid #1c2128; margin: 24px 0; }
 
   /* ---- 响应式 ---- */
   @media (max-width: 380px) {
-    .cover h1 { font-size: 1.4rem; }
-    .cover .mascot { font-size: 3.5rem; }
-    .question { font-size: 1rem; }
-    .option { padding: 13px 14px; font-size: 0.9rem; }
-    .card { padding: 22px 16px 18px; }
-    .result-emoji { font-size: 4rem; }
-    .result-title { font-size: 1.15rem; }
-    .gauge-value { font-size: 1.6rem; }
+    .cover h1 { font-size: 1.4rem; } .cover .mascot { font-size: 3.5rem; }
+    .question { font-size: 1rem; } .option { padding: 13px 14px; font-size: 0.9rem; }
+    .card { padding: 22px 16px 18px; } .result-emoji { font-size: 4rem; }
+    .result-title { font-size: 1.15rem; } .gauge-value { font-size: 1.6rem; }
+    .dim-name { width: 65px; font-size: 0.72rem; }
   }
 </style>
 </head>
 <body>
-
 <canvas id="particles"></canvas>
 <div class="container" id="app"></div>
 
 <script>
-// ===== 粒子背景 (Canvas) =====
+// ===== 粒子背景 =====
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 let particles = [];
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
 
 class Particle {
-  constructor() {
-    this.reset();
-    this.y = Math.random() * canvas.height; // 初始散布
-  }
-  reset() {
-    this.x = Math.random() * canvas.width;
-    this.y = -10;
-    this.size = Math.random() * 1.5 + 0.5;
-    this.speed = Math.random() * 0.6 + 0.3;
-    this.opacity = Math.random() * 0.35 + 0.1;
-    this.wobble = Math.random() * 0.3;
-    this.wobbleSpeed = Math.random() * 0.02 + 0.005;
-    this.wobbleOffset = Math.random() * Math.PI * 2;
-  }
-  update() {
-    this.y += this.speed;
-    this.x += Math.sin(this.y * this.wobbleSpeed + this.wobbleOffset) * this.wobble;
-    if (this.y > canvas.height + 10) this.reset();
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(88, 166, 255, ${this.opacity})`;
-    ctx.fill();
-  }
+  constructor() { this.reset(); this.y = Math.random() * canvas.height; }
+  reset() { this.x = Math.random() * canvas.width; this.y = -10; this.size = Math.random() * 1.5 + 0.5; this.speed = Math.random() * 0.6 + 0.3; this.opacity = Math.random() * 0.35 + 0.1; this.wobble = Math.random() * 0.3; this.wobbleSpeed = Math.random() * 0.02 + 0.005; this.wobbleOffset = Math.random() * Math.PI * 2; }
+  update() { this.y += this.speed; this.x += Math.sin(this.y * this.wobbleSpeed + this.wobbleOffset) * this.wobble; if (this.y > canvas.height + 10) this.reset(); }
+  draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(88, 166, 255, ${this.opacity})`; ctx.fill(); }
 }
-
 for (let i = 0; i < 70; i++) particles.push(new Particle());
+(function loop() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(loop); })();
 
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => { p.update(); p.draw(); });
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-// ===== 关卡数据 =====
+// ===== 关卡数据 (10 关 · 10 维度) =====
 const STAGES = [
-  {
-    title: '第一关 · 清晨',
-    question: '早上八点的课，你睁开眼看到手机时间是 7:58，你的反应是？',
-    options: [
-      { text: '翻身继续睡，反正去了也听不懂', score: 4 },
-      { text: '以最快速度洗漱冲出宿舍，跑向教室', score: 0 },
-      { text: '打开雨课堂，发现老师还没开直播', score: 2 },
-      { text: '醒了但不想动，盯着天花板发呆十分钟', score: 5 },
-    ]
-  },
-  {
-    title: '第二关 · 食堂',
-    question: '你在韵苑食堂打饭，阿姨给你舀了一勺菜，你看着那勺菜，心里想的是？',
-    options: [
-      { text: '谢谢阿姨！', score: 0 },
-      { text: '这勺菜的分量和人生的希望差不多', score: 5 },
-      { text: '默默拍张照发朋友圈：「这就是985的伙食吗」', score: 2 },
-      { text: '低头吃完，一句话不说，像完成某种仪式', score: 4 },
-    ]
-  },
-  {
-    title: '第三关 · 课堂',
-    question: '老师在讲台上激情四射，你在台下——',
-    options: [
-      { text: '认真记笔记，积极互动', score: 0 },
-      { text: '刷着手机，每隔五分钟抬头假装思考', score: 2 },
-      { text: '盯着PPT上的公式，感觉它们也在盯着你', score: 4 },
-      { text: '在想「我到底为什么要学这个专业」', score: 5 },
-    ]
-  },
-  {
-    title: '第四关 · 社交',
-    question: '室友问你周末要不要一起出去吃饭，你——',
-    options: [
-      { text: '好啊！去哪吃？', score: 0 },
-      { text: '嘴上答应，其实已经在想借口推掉了', score: 3 },
-      { text: '说不去了，然后在宿舍独自点外卖刷B站', score: 4 },
-      { text: '说不去了，理由是「我要写作业」，但其实只是在床上躺着', score: 5 },
-    ]
-  },
-  {
-    title: '第五关 · 深夜',
-    question: '凌晨一点，你躺在床上，脑海中反复回荡的是？',
-    options: [
-      { text: '明天要交的作业还没写', score: 1 },
-      { text: '大二了还没谈过恋爱，是不是要孤独终老', score: 3 },
-      { text: '高考完以为解放了，结果发现人生才刚入狱', score: 4 },
-      { text: '以上全部，轮番播放，直到凌晨三点', score: 5 },
-    ]
-  },
-  {
-    title: '第六关 · 未来',
-    question: '想到「未来」两个字，你的第一反应是？',
-    options: [
-      { text: '充满期待，已经在做规划了', score: 0 },
-      { text: '考研、出国、工作，每条路都看不清', score: 3 },
-      { text: '算了，先把这个学期的课苟过去再说', score: 4 },
-      { text: '脑子里一片空白，像华科冬天的梧桐树', score: 5 },
-    ]
-  },
-  {
-    title: '第七关 · 终极',
-    question: '如果现在有人对你说「你好像不太开心」，你会？',
-    options: [
-      { text: '笑着说「没有啊，我挺好的」', score: 1 },
-      { text: '愣住了，因为很久没人这么问过了', score: 3 },
-      { text: '眼眶突然有点酸，但还是说了句「没事」', score: 5 },
-      { text: '沉默很久，然后说「习惯了」', score: 5 },
-    ]
-  },
+  { dim: 'morning', title: '第一关 · 清晨', question: '早上八点的课，你睁开眼看到手机时间是 7:58，你的反应是？', options: [
+    { text: '翻身继续睡，反正去了也听不懂', score: 4 },
+    { text: '以最快速度洗漱冲出宿舍，跑向教室', score: 0 },
+    { text: '打开雨课堂，发现老师还没开直播', score: 2 },
+    { text: '醒了但不想动，盯着天花板发呆十分钟', score: 5 },
+  ]},
+  { dim: 'canteen', title: '第二关 · 食堂', question: '你在韵苑食堂打饭，阿姨给你舀了一勺菜，你看着那勺菜，心里想的是？', options: [
+    { text: '谢谢阿姨！', score: 0 },
+    { text: '这勺菜的分量和人生的希望差不多', score: 5 },
+    { text: '默默拍张照发朋友圈：「这就是985的伙食吗」', score: 2 },
+    { text: '低头吃完，一句话不说，像完成某种仪式', score: 4 },
+  ]},
+  { dim: 'class', title: '第三关 · 课堂', question: '老师在讲台上激情四射，你在台下——', options: [
+    { text: '认真记笔记，积极互动', score: 0 },
+    { text: '刷着手机，每隔五分钟抬头假装思考', score: 2 },
+    { text: '盯着PPT上的公式，感觉它们也在盯着你', score: 4 },
+    { text: '在想「我到底为什么要学这个专业」', score: 5 },
+  ]},
+  { dim: 'social', title: '第四关 · 社交', question: '室友问周末要不要一起出去吃饭，你——', options: [
+    { text: '好啊！去哪吃？', score: 0 },
+    { text: '嘴上答应，其实已经在想借口推掉了', score: 3 },
+    { text: '说不去了，然后在宿舍独自点外卖刷B站', score: 4 },
+    { text: '说不去了，理由是「我要写作业」，但其实只是在床上躺着', score: 5 },
+  ]},
+  { dim: 'procrastination', title: '第五关 · 自习', question: '你终于来到图书馆/自习室，坐下后的第一件事是——', options: [
+    { text: '打开书本，开始学习', score: 0 },
+    { text: '先把手机掏出来刷十分钟再说', score: 2 },
+    { text: '摆好所有学习用品，拍张照，然后开始玩手机', score: 4 },
+    { text: '在自习室睡了一觉，醒来发现该吃饭了', score: 5 },
+  ]},
+  { dim: 'night', title: '第六关 · 深夜', question: '凌晨一点，你躺在床上，脑海中反复回荡的是？', options: [
+    { text: '明天要交的作业还没写', score: 1 },
+    { text: '大二了还没谈过恋爱，是不是要孤独终老', score: 3 },
+    { text: '高考完以为解放了，结果发现人生才刚入狱', score: 4 },
+    { text: '以上全部，轮番播放，直到凌晨三点', score: 5 },
+  ]},
+  { dim: 'groupchat', title: '第七关 · 群聊', question: '班级群/年级群里突然99+消息，你——', options: [
+    { text: '马上点进去看发生了什么', score: 0 },
+    { text: '设置免打扰，但偶尔还是会偷偷看一下', score: 2 },
+    { text: '从不看群消息，反正跟自己没关系', score: 4 },
+    { text: '群聊已折叠，看到红点就焦虑但还是不打开', score: 5 },
+  ]},
+  { dim: 'future', title: '第八关 · 未来', question: '想到「未来」两个字，你的第一反应是？', options: [
+    { text: '充满期待，已经在做规划了', score: 0 },
+    { text: '考研、出国、工作，每条路都看不清', score: 3 },
+    { text: '算了，先把这个学期的课苟过去再说', score: 4 },
+    { text: '脑子里一片空白，像华科冬天的梧桐树', score: 5 },
+  ]},
+  { dim: 'weekend', title: '第九关 · 周末', question: '周六下午两点，你在做什么？', options: [
+    { text: '参加社团活动 / 和朋友出去玩', score: 0 },
+    { text: '在宿舍打游戏 / 看剧', score: 2 },
+    { text: '刚醒，不记得昨天怎么睡着的', score: 4 },
+    { text: '醒了但没下床，窗帘拉死，分不清白天黑夜', score: 5 },
+  ]},
+  { dim: 'emotional', title: '第十关 · 终极', question: '如果现在有人对你说「你好像不太开心」，你会？', options: [
+    { text: '笑着说「没有啊，我挺好的」', score: 1 },
+    { text: '愣住了，因为很久没人这么问过了', score: 3 },
+    { text: '眼眶突然有点酸，但还是说了句「没事」', score: 5 },
+    { text: '沉默很久，然后说「习惯了」', score: 5 },
+  ]},
+];
+
+// ===== 维度定义 =====
+const DIMS = [
+  { key: 'morning', name: '起床困难度', color: '#3fb950', emoji: '🌅' },
+  { key: 'canteen', name: '食堂哲学度', color: '#d29922', emoji: '🍚' },
+  { key: 'class', name: '课堂虚无度', color: '#da3633', emoji: '📖' },
+  { key: 'social', name: '社交逃避度', color: '#a371f7', emoji: '🚪' },
+  { key: 'procrastination', name: '自习拖延度', color: '#f778ba', emoji: '📱' },
+  { key: 'night', name: '深夜内耗度', color: '#58a6ff', emoji: '🌙' },
+  { key: 'groupchat', name: '群聊潜水度', color: '#f0883e', emoji: '💬' },
+  { key: 'future', name: '未来迷茫度', color: '#db61a2', emoji: '🔮' },
+  { key: 'weekend', name: '周末颓废度', color: '#768390', emoji: '🛏️' },
+  { key: 'emotional', name: '情感封闭度', color: '#7ee787', emoji: '💧' },
+];
+
+// ===== 忧郁类型 =====
+const ARCHETYPES = [
+  { id: 'existential', label: '存在主义型忧郁', icon: '🔮',
+    test: (d) => d.future >= 4 && d.class >= 4,
+    portrait: '<strong>🔮 1037号森林的哲学家</strong><br><br>你总是在想「这一切到底有什么意义」。课堂上的公式、食堂的饭菜、夜晚的星空——在你眼中都是存在主义命题。你不是最丧的，但一定是最爱追问的那一个。在别人卷绩点的时候，你在思考为什么要卷。在别人刷实习的时候，你在质疑工作的本质。你看穿了太多，所以快乐很难。',
+    quote: '"人生没有意义，但好在死亡会终结一切。"', from: '—— 华科哲学系不存在的某位教授' },
+  { id: 'hermit', label: '社交退隐型忧郁', icon: '🚪',
+    test: (d) => d.social >= 4 && d.groupchat >= 3 && d.weekend >= 4,
+    portrait: '<strong>🚪 紫菘公寓的隐士</strong><br><br>你是宿舍的守护神，外卖APP的VIP用户。你能精确计算从宿舍到教学楼的最短路线，以最小化遇见熟人的概率。群消息设为免打扰已经成为了肌肉记忆。你不讨厌人，你只是一个人待着更舒服——至少你是这么告诉自己的。',
+    quote: '"社交是一种消耗，独处是一种充电。可惜电池好像充不进去。"', from: '—— 1037号隐士语录' },
+  { id: 'insomniac', label: '深夜内耗型忧郁', icon: '🌙',
+    test: (d) => d.night >= 4 && d.morning >= 4,
+    portrait: '<strong>🌙 凌晨两点的守望者</strong><br><br>你的生物钟已经不属于北京时间。深夜是你的主场，白天是你的刑场。你会在凌晨两点突然想起高三某次月考的失误，然后为此懊悔两小时。你知道早八的课应该睡，但你的大脑不同意。华科的日出你见过太多次了——因为还没睡。',
+    quote: '"夜晚是思考的温床，也是快乐的坟墓。"', from: '—— 凌晨三点未眠者联盟' },
+  { id: 'numb', label: '日常疏离型忧郁', icon: '🥱',
+    test: (d) => d.emotional >= 4 && d.canteen >= 3,
+    portrait: '<strong>🥱 面无表情的食堂排队者</strong><br><br>你不是特别悲伤，也不是特别愤怒。你只是——没什么感觉。阿姨打多少菜都行，老师点不点名都行，群聊99+也行。你不是麻木，你只是把所有情绪都调成了省电模式。那句「习惯了」是你最真实的回答，也恰恰是最让人心疼的一句。',
+    quote: '"没事，习惯了，都行。"', from: '—— 华科三字真言' },
+  { id: 'supreme', label: '全能型忧郁 · 真·华科之王', icon: '👑',
+    test: (d) => Object.values(d).filter(v => v >= 4).length >= 6,
+    portrait: '<strong>👑 1037号森林的忧郁之王</strong><br><br>起床困难、课堂走神、社交回避、深夜emo、未来迷茫、情感封闭……你是忧郁的六边形战士。你精通华科人每一个不快乐的姿势。你是韵苑夜空的乌云，是青年园池水的暗流，是梧桐树下最沉默的影子。你就是这座森林里最深沉的叹息。但请记住——你并不孤单，这座学校有一万个人和你有同样的感受。',
+    quote: '"忧郁不是弱点，是你看这个世界的另一种焦距。"', from: '—— 华科心理咨询中心（真的，去看看吧）' },
 ];
 
 // ===== 状态 =====
 let currentStage = -1;
 let answers = [];
-let direction = 1; // 1=前进, -1=后退
-
+let direction = 1;
 const app = document.getElementById('app');
 
-// ===== 工具函数 =====
-function haptic() {
-  if (navigator.vibrate) navigator.vibrate(10);
+function haptic() { if (navigator.vibrate) navigator.vibrate(10); }
+
+// ===== 维度得分计算 =====
+function getDimScores() {
+  const scores = {};
+  DIMS.forEach(d => { scores[d.key] = 0; });
+  answers.forEach((ans, i) => {
+    if (ans === undefined) return;
+    scores[STAGES[i].dim] = STAGES[i].options[ans].score;
+  });
+  return scores;
 }
 
 // ===== 封面 =====
@@ -434,11 +294,9 @@ function renderCover() {
       <h1>华科最忧郁的人</h1>
       <p class="subtitle">闯关评测</p>
       <div class="tag-row">
-        <span class="tag">7 道关卡</span>
-        <span class="tag">7 个维度</span>
-        <span class="tag">1037 号森林认证</span>
+        <span class="tag">10 道关卡</span><span class="tag">10 个维度</span><span class="tag">5 种忧郁人格</span><span class="tag">1037 号森林认证</span>
       </div>
-      <p class="hint">测测你的忧郁浓度，看看谁才是华科最忧郁的人</p>
+      <p class="hint">从清晨到深夜，从食堂到自习室——全方位检测你的华科式忧郁</p>
     </div>
     <button class="btn btn-primary" id="startBtn">开始评测</button>
   `;
@@ -448,101 +306,94 @@ function renderCover() {
 function renderProgress() {
   const done = currentStage < 0 ? 0 : currentStage;
   const pct = Math.round((done / STAGES.length) * 100);
-  return `
-    <div class="progress-wrap">
-      <div class="progress-track">
-        <div class="progress-fill" style="width:${pct}%"></div>
-      </div>
-      <div class="progress-num">${done}/${STAGES.length}</div>
-    </div>
-  `;
+  return `<div class="progress-wrap"><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div><div class="progress-num">${done}/${STAGES.length}</div></div>`;
 }
 
 // ===== 关卡 =====
 function renderStage() {
   const s = STAGES[currentStage];
-  const selected = answers[currentStage];
-  const cls = direction > 0 ? 'slide-in' : 'slide-out';
+  const sel = answers[currentStage];
   return `
     ${renderProgress()}
-    <div class="card ${cls}" id="stageCard">
+    <div class="card slide-in" id="stageCard">
       <div class="stage-label">${s.title}</div>
       <div class="question">${s.question}</div>
       <div class="options">
-        ${s.options.map((o, i) => `
-          <button class="option stagger-in${selected === i ? ' selected' : ''}"
-            data-index="${i}" style="animation-delay:${i * 0.06}s">
-            <span class="dot"></span>${o.text}
-          </button>
-        `).join('')}
+        ${s.options.map((o, i) => `<button class="option stagger-in${sel===i?' selected':''}" data-index="${i}" style="animation-delay:${i*0.06}s"><span class="dot"></span>${o.text}</button>`).join('')}
       </div>
     </div>
-    <button class="btn btn-primary" id="nextBtn" ${selected === undefined ? 'disabled' : ''}>
-      ${currentStage === STAGES.length - 1 ? '🔮 揭晓结果' : '下一关 →'}
-    </button>
-    ${currentStage > 0 ? `<button class="btn btn-secondary" id="prevBtn">← 返回上一关</button>` : ''}
+    <button class="btn btn-primary" id="nextBtn" ${sel===undefined?'disabled':''}>${currentStage===STAGES.length-1?'🔮 揭晓结果':'下一关 →'}</button>
+    ${currentStage>0?`<button class="btn btn-secondary" id="prevBtn">← 返回上一关</button>`:''}
   `;
 }
 
 // ===== 结果页 =====
 function renderResult() {
-  const total = answers.reduce((sum, idx, i) => sum + STAGES[i].options[idx].score, 0);
+  const total = answers.reduce((s, idx, i) => s + STAGES[i].options[idx].score, 0);
   const max = STAGES.reduce((s, st) => s + Math.max(...st.options.map(o => o.score)), 0);
   const pct = Math.round((total / max) * 100);
+  const dimScores = getDimScores();
 
+  // 等级
   const tiers = [
-    { icon: '☀️', title: '你不是华科人吧？', sub: '精神面貌太过积极向上，严重不符合华科气质。建议去隔壁珞珈山，那里更适合你。', min: 0 },
-    { icon: '⛅', title: '华科轻度忧郁路人', sub: '偶尔emo，但总体阳光。在华科这个内卷丛林中保持这样的心态实属不易——你不是最忧郁的人，你是最让人羡慕的人。', min: 20 },
-    { icon: '🌥️', title: '华科普通忧郁居民', sub: '有忧郁的时刻，但也知道怎么调节。你是1037号森林里最正常的那类人——不算快乐，但还撑得住。', min: 45 },
-    { icon: '☁️', title: '华科重度忧郁选手', sub: '离「最忧郁」只差一步。你常在深夜思考人生意义，但白天还能勉强笑着活下去。继续努力（不是）。', min: 70 },
-    { icon: '🌧️', title: '🏆 你就是华科最忧郁的人！', sub: '忧郁深邃如青年园的池水，绵长如梧桐大道。你把华科人的内耗、迷茫与沉默演绎到了极致。这不是失败，这是一种境界。', min: 90 },
+    { icon:'☀️', title:'你不是华科人吧？', sub:'精神面貌太过积极向上。建议去隔壁珞珈山，那里更适合你。', min:0 },
+    { icon:'⛅', title:'华科轻度忧郁路人', sub:'偶尔emo但总体阳光。在华科内卷丛林中保持这样的心态实属不易——你不是最忧郁的人，你是最让人羡慕的人。', min:20 },
+    { icon:'🌥️', title:'华科普通忧郁居民', sub:'有忧郁的时刻，但也知道怎么调节。你是1037号森林里最正常的那类人——不算快乐，但还撑得住。', min:45 },
+    { icon:'☁️', title:'华科重度忧郁选手', sub:'离「最忧郁」只差一步。常在深夜思考人生意义，但白天还能勉强笑着活下去。', min:70 },
+    { icon:'🌧️', title:'🏆 你就是华科最忧郁的人！', sub:'忧郁深邃如青年园池水，绵长如梧桐大道。你将内耗、迷茫与沉默演绎到了极致。这不是失败，这是一种境界。', min:90 },
   ];
-  const tier = tiers.reverse().find(t => pct >= t.min) || tiers[0];
+  const tier = [...tiers].reverse().find(t => pct >= t.min) || tiers[0];
 
-  const dims = [
-    { name: '起床困难度', stages: [0], color: '#3fb950' },
-    { name: '食堂哲学度', stages: [1], color: '#d29922' },
-    { name: '课堂虚无度', stages: [2], color: '#da3633' },
-    { name: '社交逃避度', stages: [3], color: '#a371f7' },
-    { name: '深夜内耗度', stages: [4], color: '#58a6ff' },
-    { name: '未来迷茫度', stages: [5], color: '#f778ba' },
-    { name: '情感封闭度', stages: [6], color: '#7ee787' },
+  // 类型
+  let archetype = ARCHETYPES[ARCHETYPES.length - 1]; // 默认全能型
+  for (const a of ARCHETYPES) { if (a.test(dimScores)) { archetype = a; break; } }
+
+  // 名人堂 (根据 highest dim)
+  const sortedDims = DIMS.map(d => ({ ...d, score: dimScores[d.key] })).sort((a, b) => b.score - a.score);
+  const hallOfFame = [
+    { label: '最忧郁维度', value: `${sortedDims[0].emoji} ${sortedDims[0].name}` },
+    { label: '忧郁人格', value: `${archetype.icon} ${archetype.label}` },
+    { label: '排名', value: pct >= 90 ? '🥇 华科前 1%' : pct >= 70 ? '🥈 华科前 15%' : pct >= 45 ? '🥉 华科前 40%' : '华科垫底' },
   ];
 
   return `
     ${renderProgress()}
     <div class="card result-page">
-      <div class="result-emoji" id="resultEmoji">${tier.icon}</div>
+      <div class="result-emoji">${tier.icon}</div>
       <div class="result-title">${tier.title}</div>
+
       <div class="gauge-wrap">
         <div class="gauge-label"><span>阳光开朗</span><span>极致忧郁</span></div>
-        <div class="gauge-track">
-          <div class="gauge-fill" id="gaugeFill" style="width:0%"></div>
-        </div>
+        <div class="gauge-track"><div class="gauge-fill" id="gaugeFill" style="width:0%"></div></div>
         <div class="gauge-value" id="gaugeValue">0%</div>
       </div>
+
+      <div class="type-badge">${archetype.icon} ${archetype.label}</div>
+      <div class="type-portrait">${archetype.portrait}</div>
+
+      <div class="quote-card">
+        <div class="quote-text">${archetype.quote}</div>
+        <div class="quote-from">${archetype.from}</div>
+      </div>
+
       <div class="result-sub">${tier.sub}</div>
       <hr>
+      <div class="section-head">📊 维度雷达</div>
       <div class="breakdown">
-        ${dims.map(d => {
-          const dimScore = d.stages.reduce((s, si) => s + STAGES[si].options[answers[si]].score, 0);
-          const dimMax = d.stages.reduce((s, si) => s + Math.max(...STAGES[si].options.map(o => o.score)), 0);
-          return `
-            <div class="dim-row">
-              <span class="dim-name">${d.name}</span>
-              <div class="dim-bar-wrap">
-                <div class="dim-bar-fill" data-pct="${Math.round((dimScore/dimMax)*100)}"
-                  style="background:${d.color}"></div>
-              </div>
-              <span class="dim-score">${dimScore}/${dimMax}</span>
-            </div>
-          `;
+        ${sortedDims.map(d => {
+          const dPct = Math.round((d.score / 5) * 100);
+          return `<div class="dim-row"><span class="dim-name">${d.emoji} ${d.name}</span><div class="dim-bar-wrap"><div class="dim-bar-fill" data-pct="${dPct}" style="background:${d.color}"></div></div><span class="dim-score">${d.score}/5</span></div>`;
         }).join('')}
       </div>
+
+      <hr>
+      <div class="section-head">🏆 华科忧郁名人堂</div>
+      ${hallOfFame.map((h, i) => `<div class="hall-card"><span class="hall-rank">${['🥇','🥈','🥉'][i]||'📋'}</span><span class="hall-info"><span class="hall-name">${h.label}</span><br><span class="hall-desc">${h.value}</span></span></div>`).join('')}
     </div>
+
     <button class="btn btn-primary" id="restartBtn">再来一次</button>
     <button class="btn btn-share" id="shareBtn">📤 分享结果</button>
-    <div style="display:none" id="resultData" data-pct="${pct}" data-total="${total}" data-max="${max}"></div>
+    <div style="display:none" id="resultData" data-pct="${pct}" data-archetype="${archetype.label}"></div>
   `;
 }
 
@@ -550,36 +401,17 @@ function renderResult() {
 function render() {
   if (currentStage < 0) {
     app.innerHTML = renderCover();
-    document.getElementById('startBtn').onclick = () => {
-      haptic();
-      currentStage = 0; direction = 1;
-      render();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    document.getElementById('startBtn').onclick = () => { haptic(); currentStage = 0; direction = 1; render(); window.scrollTo({ top:0, behavior:'smooth' }); };
   } else if (currentStage >= STAGES.length) {
     app.innerHTML = renderResult();
-    // 动画：仪表填充
     requestAnimationFrame(() => {
       const pct = parseInt(document.getElementById('resultData').dataset.pct);
       const fill = document.getElementById('gaugeFill');
       const val = document.getElementById('gaugeValue');
-      // 数值滚动
-      let c = 0;
-      const dur = 1000; const step = 16;
-      const inc = pct / (dur / step);
-      const timer = setInterval(() => {
-        c = Math.min(c + inc, pct);
-        val.textContent = Math.round(c) + '%';
-        if (c >= pct) clearInterval(timer);
-      }, step);
-      // 仪表条
+      let c = 0; const step = 16; const inc = pct / (1000 / step);
+      const timer = setInterval(() => { c = Math.min(c + inc, pct); val.textContent = Math.round(c) + '%'; if (c >= pct) clearInterval(timer); }, step);
       setTimeout(() => { fill.style.width = pct + '%'; }, 200);
-      // 维度条
-      setTimeout(() => {
-        document.querySelectorAll('.dim-bar-fill').forEach(el => {
-          el.style.width = el.dataset.pct + '%';
-        });
-      }, 500);
+      setTimeout(() => { document.querySelectorAll('.dim-bar-fill').forEach(el => { el.style.width = el.dataset.pct + '%'; }); }, 500);
     });
     document.getElementById('restartBtn').onclick = restart;
     document.getElementById('shareBtn').onclick = shareResult;
@@ -592,83 +424,40 @@ function render() {
 // ===== 关卡事件 =====
 function bindStageEvents() {
   const card = document.getElementById('stageCard');
-
   document.querySelectorAll('.option').forEach(btn => {
     btn.onclick = function () {
       haptic();
       answers[currentStage] = parseInt(this.dataset.index);
-      // 即时高亮不用整页重绘
       document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
       this.classList.add('selected');
       const nextBtn = document.getElementById('nextBtn');
       if (nextBtn) nextBtn.disabled = false;
     };
   });
-
   const nextBtn = document.getElementById('nextBtn');
-  if (nextBtn) {
-    nextBtn.onclick = () => {
-      if (answers[currentStage] === undefined) {
-        card.classList.add('shake');
-        if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
-        setTimeout(() => card.classList.remove('shake'), 500);
-        return;
-      }
-      haptic();
-      direction = 1;
-      if (currentStage < STAGES.length - 1) {
-        currentStage++;
-        render();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        currentStage = STAGES.length;
-        render();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    };
-  }
-
+  if (nextBtn) { nextBtn.onclick = () => {
+    if (answers[currentStage] === undefined) { card.classList.add('shake'); if (navigator.vibrate) navigator.vibrate([30, 50, 30]); setTimeout(() => card.classList.remove('shake'), 500); return; }
+    haptic(); direction = 1;
+    currentStage < STAGES.length - 1 ? (currentStage++, render()) : (currentStage = STAGES.length, render());
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };}
   const prevBtn = document.getElementById('prevBtn');
-  if (prevBtn) {
-    prevBtn.onclick = () => {
-      haptic();
-      direction = -1;
-      currentStage--;
-      render();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-  }
+  if (prevBtn) { prevBtn.onclick = () => { haptic(); direction = -1; currentStage--; render(); window.scrollTo({ top:0, behavior:'smooth' }); }; }
 }
 
 // ===== 分享 =====
 function shareResult() {
   const pct = document.getElementById('resultData').dataset.pct;
+  const archetype = document.getElementById('resultData').dataset.archetype;
   const tiers = ['☀️ 你不是华科人吧？','⛅ 轻度忧郁路人','🌥️ 普通忧郁居民','☁️ 重度忧郁选手','🌧️ 华科最忧郁的人！'];
   const i = pct >= 90 ? 4 : pct >= 70 ? 3 : pct >= 45 ? 2 : pct >= 20 ? 1 : 0;
-  const text = `【华科最忧郁的人·闯关评测】\n${tiers[i]}\n忧郁指数：${pct}%\n你也来测测 👇`;
-
-  if (navigator.share) {
-    navigator.share({ title: '华科最忧郁的人·闯关评测', text, url: location.href }).catch(() => {});
-  } else {
-    navigator.clipboard.writeText(text + ' ' + location.href).then(() => {
-      const btn = document.getElementById('shareBtn');
-      btn.textContent = '✅ 已复制链接！';
-      btn.style.background = 'linear-gradient(135deg, #238636, #2ea043)';
-      setTimeout(() => {
-        btn.textContent = '📤 分享结果';
-        btn.style.background = 'linear-gradient(135deg, #1f6feb, #388bfd)';
-      }, 2000);
-    }).catch(() => {});
-  }
+  const text = `【华科最忧郁的人·闯关评测】\n${tiers[i]}\n类型：${archetype}\n忧郁指数：${pct}%\n你也来测测 👇`;
+  if (navigator.share) { navigator.share({ title: '华科最忧郁的人·闯关评测', text, url: location.href }).catch(() => {}); }
+  else { navigator.clipboard.writeText(text + ' ' + location.href).then(() => { const btn = document.getElementById('shareBtn'); btn.textContent = '✅ 已复制链接！'; btn.style.background = 'linear-gradient(135deg,#238636,#2ea043)'; setTimeout(() => { btn.textContent = '📤 分享结果'; btn.style.background = 'linear-gradient(135deg,#1f6feb,#388bfd)'; }, 2000); }).catch(() => {}); }
 }
 
-function restart() {
-  currentStage = -1; answers = []; direction = 1;
-  render();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+function restart() { currentStage = -1; answers = []; direction = 1; render(); window.scrollTo({ top:0, behavior:'smooth' }); }
 
-// 启动
 render();
 </script>
 </body>
