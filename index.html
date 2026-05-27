@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d1117">
+<title>华科最忧郁的人 · 闯关评测</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    overscroll-behavior: none;
+  }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .container {
+    width: 100%;
+    max-width: 520px;
+    padding: 16px;
+  }
+  /* ---- 封面 ---- */
+  .cover { text-align: center; }
+  .cover .mascot {
+    font-size: 5rem;
+    margin-bottom: 12px;
+    animation: float 3s ease-in-out infinite;
+  }
+  .cover h1 {
+    font-size: 1.6rem;
+    color: #58a6ff;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+    line-height: 1.4;
+  }
+  .cover .subtitle {
+    font-size: 0.9rem;
+    color: #8b949e;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .cover .hint {
+    font-size: 0.8rem;
+    color: #484f58;
+    margin-bottom: 32px;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  /* ---- 关卡条 ---- */
+  .progress-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .progress-dot {
+    flex: 1; height: 4px;
+    border-radius: 2px;
+    background: #21262d;
+    transition: background 0.4s;
+  }
+  .progress-dot.done { background: #3fb950; }
+  .progress-dot.current { background: #58a6ff; animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  /* ---- 卡片 ---- */
+  .card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 28px 24px 24px;
+    margin-bottom: 16px;
+  }
+  .stage-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #8b949e;
+    margin-bottom: 8px;
+  }
+  .question {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #f0f6fc;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 1rem;
+    color: #c9d1d9;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+  }
+  .option:active { transform: scale(0.98); background: #13233a; border-color: #58a6ff; }
+  .option.selected { border-color: #58a6ff; background: #13233a; box-shadow: 0 0 0 2px #58a6ff33; }
+
+  @media (hover: hover) {
+    .option:hover { border-color: #58a6ff; background: #1c2533; }
+  }
+  /* ---- 按钮 ---- */
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 52px;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: #238636; color: #fff; }
+  .btn-primary:disabled { background: #21262d; color: #484f58; cursor: not-allowed; }
+  .btn-primary:disabled:active { transform: none; }
+  .btn-secondary { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; }
+  .btn-share { background: #1f6feb; color: #fff; margin-top: 8px; }
+
+  @media (hover: hover) {
+    .btn-primary:hover { background: #2ea043; }
+    .btn-primary:disabled:hover { background: #21262d; }
+    .btn-secondary:hover { background: #30363d; }
+    .btn-share:hover { background: #388bfd; }
+  }
+  /* ---- 结果页 ---- */
+  .result-page { text-align: center; }
+  .result-icon { font-size: 6rem; margin-bottom: 16px; }
+  .result-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .result-sub {
+    font-size: 0.95rem;
+    color: #8b949e;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .score-badge {
+    display: inline-block;
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 0.85rem;
+    color: #8b949e;
+    margin-bottom: 20px;
+  }
+  .breakdown {
+    text-align: left;
+    background: #0d1117;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: #8b949e;
+  }
+  .breakdown span { color: #f0f6fc; }
+  /* ---- 打字机 ---- */
+  .typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 1.5s steps(20, end);
+  }
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  /* ---- 粒子 ---- */
+  .rain {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: -1;
+  }
+  .drop {
+    position: absolute;
+    width: 1px;
+    background: linear-gradient(transparent, #58a6ff33);
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    to { transform: translateY(100vh); opacity: 0; }
+  }
+  .fade-in { animation: fadeIn 0.5s ease-out; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  hr { border: none; border-top: 1px solid #21262d; margin: 24px 0; }
+
+  @media (max-width: 380px) {
+    .cover h1 { font-size: 1.35rem; }
+    .cover .mascot { font-size: 4rem; }
+    .question { font-size: 1.05rem; }
+    .option { padding: 14px 16px; font-size: 0.95rem; }
+    .card { padding: 20px 16px; }
+    .result-icon { font-size: 4.5rem; }
+    .result-title { font-size: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 忧郁の雨 -->
+<div class="rain" id="rain"></div>
+
+<div class="container" id="app"></div>
+
+<script>
+// ---------- 关卡数据 ----------
+const STAGES = [
+  {
+    title: '第一关 · 清晨',
+    question: '早上八点的课，你睁开眼看到手机时间是 7:58，你的反应是？',
+    options: [
+      { text: '翻身继续睡，反正去了也听不懂', score: 4 },
+      { text: '以最快速度洗漱冲出宿舍，跑向教室', score: 0 },
+      { text: '打开雨课堂，发现老师还没开直播', score: 2 },
+      { text: '醒了但不想动，盯着天花板发呆十分钟', score: 5 },
+    ]
+  },
+  {
+    title: '第二关 · 食堂',
+    question: '你在韵苑食堂打饭，阿姨给你舀了一勺菜，你看着那勺菜，心里想的是？',
+    options: [
+      { text: '谢谢阿姨！', score: 0 },
+      { text: '这勺菜的分量和人生的希望差不多', score: 5 },
+      { text: '默默拍张照发朋友圈：「这就是985的伙食吗」', score: 2 },
+      { text: '低头吃完，一句话不说，像完成某种仪式', score: 4 },
+    ]
+  },
+  {
+    title: '第三关 · 课堂',
+    question: '老师在讲台上激情四射，你在台下——',
+    options: [
+      { text: '认真记笔记，积极互动', score: 0 },
+      { text: '刷着手机，每隔五分钟抬头假装思考', score: 2 },
+      { text: '盯着PPT上的公式，感觉它们也在盯着你', score: 4 },
+      { text: '在想「我到底为什么要学这个专业」', score: 5 },
+    ]
+  },
+  {
+    title: '第四关 · 社交',
+    question: '室友问你周末要不要一起出去吃饭，你——',
+    options: [
+      { text: '好啊！去哪吃？', score: 0 },
+      { text: '嘴上答应，其实已经在想借口推掉了', score: 3 },
+      { text: '说不去了，然后在宿舍独自点外卖刷B站', score: 4 },
+      { text: '说不去了，理由是「我要写作业」，但其实只是在床上躺着', score: 5 },
+    ]
+  },
+  {
+    title: '第五关 · 深夜',
+    question: '凌晨一点，你躺在床上，脑海中反复回荡的是？',
+    options: [
+      { text: '明天要交的作业还没写', score: 1 },
+      { text: '大二了还没谈过恋爱，是不是要孤独终老', score: 3 },
+      { text: '高考完以为解放了，结果发现人生才刚入狱', score: 4 },
+      { text: '以上全部，轮番播放，直到凌晨三点', score: 5 },
+    ]
+  },
+  {
+    title: '第六关 · 未来',
+    question: '想到「未来」两个字，你的第一反应是？',
+    options: [
+      { text: '充满期待，已经在做规划了', score: 0 },
+      { text: '考研、出国、工作，每条路都看不清', score: 3 },
+      { text: '算了，先把这个学期的课苟过去再说', score: 4 },
+      { text: '脑子里一片空白，像华科冬天的梧桐树', score: 5 },
+    ]
+  },
+  {
+    title: '第七关 · 终极',
+    question: '如果现在有人对你说「你好像不太开心」，你会？',
+    options: [
+      { text: '笑着说「没有啊，我挺好的」', score: 1 },
+      { text: '愣住了，因为很久没人这么问过了', score: 3 },
+      { text: '眼眶突然有点酸，但还是说了句「没事」', score: 5 },
+      { text: '沉默很久，然后说「习惯了」', score: 5 },
+    ]
+  },
+];
+
+// ---------- 状态 ----------
+let currentStage = -1;  // -1 = 封面
+let answers = [];
+
+// ---------- 渲染 ----------
+const app = document.getElementById('app');
+const rainEl = document.getElementById('rain');
+
+// 下雨粒子
+function spawnRain() {
+  rainEl.innerHTML = '';
+  for (let i = 0; i < 50; i++) {
+    const drop = document.createElement('div');
+    drop.className = 'drop';
+    drop.style.left = Math.random() * 100 + '%';
+    drop.style.animationDuration = (0.5 + Math.random() * 1.5) + 's';
+    drop.style.animationDelay = Math.random() * 2 + 's';
+    drop.style.top = -(Math.random() * 100) + 'px';
+    rainEl.appendChild(drop);
+  }
+}
+spawnRain();
+
+// 进度条
+function renderProgress() {
+  return STAGES.map((_, i) => {
+    let cls = 'progress-dot';
+    if (currentStage < 0) return `<div class="${cls}"></div>`;
+    if (i < currentStage) cls += ' done';
+    else if (i === currentStage) cls += ' current';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+}
+
+// 封面
+function renderCover() {
+  return `
+    <div class="cover fade-in">
+      <div class="mascot">🌧️</div>
+      <h1>华科最忧郁的人</h1>
+      <p class="subtitle">闯关评测</p>
+      <p class="hint">7 道关卡 · 测测你的忧郁浓度</p>
+    </div>
+    <button class="btn btn-primary" id="startBtn">开始评测</button>
+  `;
+}
+
+// 关卡卡片
+function renderStage() {
+  const s = STAGES[currentStage];
+  const selected = answers[currentStage];
+  return `
+    <div class="progress-bar">${renderProgress()}</div>
+    <div class="card fade-in">
+      <div class="stage-label">${s.title}（${currentStage + 1}/${STAGES.length}）</div>
+      <div class="question">${s.question}</div>
+      <div class="options">
+        ${s.options.map((o, i) => `
+          <button class="option${selected === i ? ' selected' : ''}" data-index="${i}">
+            ${o.text}
+          </button>
+        `).join('')}
+      </div>
+    </div>
+    <button class="btn btn-primary" id="nextBtn" ${selected === undefined ? 'disabled' : ''}>
+      ${currentStage === STAGES.length - 1 ? '提交评测' : '下一关 →'}
+    </button>
+    ${currentStage > 0 ? `<button class="btn btn-secondary" id="prevBtn" style="margin-top:8px;">← 返回上一关</button>` : ''}
+  `;
+}
+
+// 结果页
+function renderResult() {
+  const total = answers.reduce((sum, idx, i) => sum + STAGES[i].options[idx].score, 0);
+  const max = STAGES.reduce((s, st) => s + Math.max(...st.options.map(o => o.score)), 0);
+  const pct = Math.round((total / max) * 100);
+
+  let icon, title, sub;
+  if (pct >= 90) {
+    icon = '🌧️';
+    title = '🏆 恭喜你，你就是华科最忧郁的人！';
+    sub = '你的忧郁深邃如青年园的池水，绵长如1037号森林的梧桐大道。你把华科人的内耗、迷茫与沉默演绎到了极致。这不是失败，这是一种境界。';
+  } else if (pct >= 70) {
+    icon = '☁️';
+    title = '华科重度忧郁选手';
+    sub = '你离「最忧郁」只差一步之遥。你常常在深夜思考人生的意义，但白天还是能勉强笑着活下去。继续努力（不是）。';
+  } else if (pct >= 45) {
+    icon = '🌥️';
+    title = '华科普通忧郁居民';
+    sub = '你有忧郁的时刻，但也知道怎么调节。你是1037号森林里最正常的那类人——不算快乐，但还撑得住。';
+  } else if (pct >= 20) {
+    icon = '⛅';
+    title = '华科轻度忧郁路人';
+    sub = '你偶尔emo，但总体阳光。在华科这个内卷丛林中，你能保持这样的心态实属不易。你不是最忧郁的人，你是最让人羡慕的人。';
+  } else {
+    icon = '☀️';
+    title = '你不是华科人吧？';
+    sub = '你的精神面貌太过积极向上，严重不符合华科气质。建议去隔壁珞珈山参观一下，那里可能更适合你。';
+  }
+
+  // 维度分析
+  const dims = [
+    { name: '起床困难度', stages: [0] },
+    { name: '食堂哲学度', stages: [1] },
+    { name: '课堂虚无度', stages: [2] },
+    { name: '社交逃避度', stages: [3] },
+    { name: '深夜内耗度', stages: [4] },
+    { name: '未来迷茫度', stages: [5] },
+    { name: '情感封闭度', stages: [6] },
+  ];
+  const breakdown = dims.map(d => {
+    const dimScore = d.stages.reduce((s, si) => s + STAGES[si].options[answers[si]].score, 0);
+    const dimMax = d.stages.reduce((s, si) => s + Math.max(...STAGES[si].options.map(o => o.score)), 0);
+    const bar = '█'.repeat(Math.round((dimScore / dimMax) * 10));
+    return `${d.name}：<span>${bar || '▏'} ${dimScore}/${dimMax}</span>`;
+  }).join('<br>');
+
+  return `
+    <div class="progress-bar">${renderProgress()}</div>
+    <div class="card fade-in result-page">
+      <div class="result-icon">${icon}</div>
+      <div class="result-title">${title}</div>
+      <div class="score-badge">忧郁指数 ${pct}% · 得分 ${total}/${max}</div>
+      <div class="result-sub">${sub}</div>
+      <hr>
+      <div class="breakdown">${breakdown}</div>
+    </div>
+    <button class="btn btn-primary" id="restartBtn">再来一次</button>
+    <button class="btn btn-share" id="shareBtn">分享结果</button>
+  `;
+}
+
+function render() {
+  if (currentStage < 0) {
+    app.innerHTML = renderCover();
+    document.getElementById('startBtn').onclick = () => {
+      currentStage = 0;
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  } else if (currentStage >= STAGES.length) {
+    app.innerHTML = renderResult();
+    document.getElementById('restartBtn').onclick = restart;
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) shareBtn.onclick = shareResult;
+  } else {
+    app.innerHTML = renderStage();
+    bindStageEvents();
+  }
+}
+
+function shareResult() {
+  const total = answers.reduce((sum, idx, i) => sum + STAGES[i].options[idx].score, 0);
+  const max = STAGES.reduce((s, st) => s + Math.max(...st.options.map(o => o.score)), 0);
+  const pct = Math.round((total / max) * 100);
+
+  const tiers = ['☀️ 你不是华科人吧？', '⛅ 华科轻度忧郁路人', '🌥️ 华科普通忧郁居民', '☁️ 华科重度忧郁选手', '🌧️ 华科最忧郁的人！'];
+  const tier = pct >= 90 ? tiers[4] : pct >= 70 ? tiers[3] : pct >= 45 ? tiers[2] : pct >= 20 ? tiers[1] : tiers[0];
+  const text = `【华科最忧郁的人·闯关评测】\n${tier}\n忧郁指数：${pct}%\n来测测你是华科多忧郁的人 👉`;
+
+  if (navigator.share) {
+    navigator.share({ title: '华科最忧郁的人·闯关评测', text, url: location.href })
+      .catch(() => {});
+  } else {
+    navigator.clipboard.writeText(text + ' ' + location.href).then(() => {
+      const btn = document.getElementById('shareBtn');
+      const orig = btn.textContent;
+      btn.textContent = '已复制链接！';
+      btn.style.background = '#238636';
+      setTimeout(() => { btn.textContent = orig; btn.style.background = '#1f6feb'; }, 2000);
+    }).catch(() => {});
+  }
+}
+
+function bindStageEvents() {
+  // 选项点击
+  document.querySelectorAll('.option').forEach(btn => {
+    btn.onclick = function () {
+      answers[currentStage] = parseInt(this.dataset.index);
+      render();
+    };
+  });
+
+  // 下一关
+  const nextBtn = document.getElementById('nextBtn');
+  if (nextBtn) {
+    nextBtn.onclick = () => {
+      if (answers[currentStage] !== undefined) {
+        currentStage++;
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+  }
+
+  // 上一关
+  const prevBtn = document.getElementById('prevBtn');
+  if (prevBtn) {
+    prevBtn.onclick = () => {
+      currentStage--;
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  }
+}
+
+function restart() {
+  currentStage = -1;
+  answers = [];
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 启动
+render();
+</script>
+</body>
+</html>
