@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华科计院找爱情</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  display: flex; justify-content: center; align-items: center;
+  min-height: 100vh; background: #0a0a14;
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif;
+  user-select: none; overflow-x: hidden;
+}
+
+/* Particle Background */
+#particles {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+
+/* Main Container */
+#app {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 720px; min-height: 100vh;
+  padding: 12px;
+}
+
+/* Cards */
+.card {
+  background: rgba(22, 22, 42, 0.92); backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+  padding: 20px 24px; margin-bottom: 10px;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes typewriter { from { width: 0; } to { width: 100%; } }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes glow { 0%,100% { box-shadow: 0 0 5px rgba(233,69,96,0.3); } 50% { box-shadow: 0 0 20px rgba(233,69,96,0.6); } }
+
+/* Title */
+.game-title {
+  text-align: center; font-size: 1.8rem; font-weight: 900;
+  background: linear-gradient(135deg, #e94560, #ff6b8a, #e94560);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; letter-spacing: 4px; margin-bottom: 4px;
+}
+.subtitle { text-align: center; color: #888; font-size: 0.85rem; margin-bottom: 12px; }
+
+/* Top Bar */
+.top-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+}
+.top-tag {
+  background: #0f3460; color: #8ec8ff; padding: 4px 12px;
+  border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+}
+.top-stat {
+  color: #ccc; font-size: 0.85rem;
+}
+.top-stat span { color: #e94560; font-weight: 700; }
+
+/* Stat Bars */
+.stat-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px;
+}
+.stat-item { margin: 2px 0; }
+.stat-label {
+  display: flex; justify-content: space-between;
+  color: #aaa; font-size: 0.75rem; margin-bottom: 2px;
+}
+.stat-label span:last-child { color: #e94560; font-weight: 600; }
+.stat-bar-bg {
+  height: 6px; background: #1a1a3a; border-radius: 3px; overflow: hidden;
+}
+.stat-bar-fill {
+  height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.fill-coding { background: linear-gradient(90deg, #0f3460, #4fc3f7); }
+.fill-social { background: linear-gradient(90deg, #1b5e20, #66bb6a); }
+.fill-appearance { background: linear-gradient(90deg, #880e4f, #f06292); }
+.fill-romance { background: linear-gradient(90deg, #b71c1c, #ef5350); }
+.fill-gpa { background: linear-gradient(90deg, #4a148c, #ba68c8); }
+
+/* Character Affection */
+.char-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.char-tag {
+  flex: 1; min-width: 120px; background: #1a1a3a; border-radius: 10px;
+  padding: 8px 12px; border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.3s;
+}
+.char-tag.locked { opacity: 0.4; }
+.char-name { color: #ddd; font-size: 0.8rem; font-weight: 600; }
+.char-stage { color: #888; font-size: 0.7rem; }
+.char-hearts { color: #e94560; font-size: 0.75rem; margin-top: 2px; }
+.char-bar-bg { height: 3px; background: #252545; border-radius: 2px; margin-top: 3px; }
+.char-bar-fill {
+  height: 100%; background: #e94560; border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* Narrative */
+.narrative {
+  min-height: 100px; max-height: 250px; overflow-y: auto;
+  color: #ccc; font-size: 0.9rem; line-height: 1.7;
+  padding: 8px 0;
+}
+.narrative .highlight { color: #e94560; font-weight: 600; }
+.narrative .name-tag { color: #8ec8ff; }
+.narrative::-webkit-scrollbar { width: 4px; }
+.narrative::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+/* Action Buttons */
+.actions-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+}
+.btn {
+  padding: 10px 8px; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; background: #1a1a3a; color: #ccc;
+  font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+  text-align: center; font-family: inherit;
+}
+.btn:hover { background: #252550; border-color: #e94560; color: #fff; transform: translateY(-1px); }
+.btn:active { transform: scale(0.97); }
+.btn.primary { background: #e94560; color: #fff; border-color: #e94560; font-weight: 700; }
+.btn.primary:hover { background: #ff6b8a; }
+.btn.danger { background: #3a1a1a; border-color: #e94560; color: #e94560; }
+.btn.small { padding: 6px 10px; font-size: 0.7rem; }
+
+/* Overlay */
+.overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7); z-index: 100;
+  display: flex; justify-content: center; align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+.overlay-card {
+  background: #16162a; border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px; padding: 24px; max-width: 500px; width: 90%;
+  max-height: 80vh; overflow-y: auto;
+}
+.overlay-title {
+  font-size: 1.3rem; font-weight: 700; color: #e94560;
+  text-align: center; margin-bottom: 16px;
+}
+.overlay-text { color: #ccc; font-size: 0.9rem; line-height: 1.7; margin-bottom: 16px; }
+.choice-btn {
+  display: block; width: 100%; padding: 12px 16px; margin: 6px 0;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+  background: #1a1a3a; color: #ccc; font-size: 0.85rem;
+  cursor: pointer; transition: all 0.2s; text-align: left; font-family: inherit;
+}
+.choice-btn:hover { background: #252550; border-color: #e94560; color: #fff; }
+
+/* Mini-game */
+.minigame-area { text-align: center; padding: 16px; }
+.minigame-timer { color: #e94560; font-size: 1.2rem; font-weight: 700; }
+.minigame-target {
+  background: #1a1a3a; border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px; padding: 12px; margin: 8px 0; color: #8ec8ff;
+  font-size: 0.9rem; font-family: 'Courier New', monospace;
+}
+.bug-btn {
+  display: inline-block; padding: 8px 20px; margin: 4px;
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+  background: #1a1a3a; color: #ff6b6b; cursor: pointer;
+  font-size: 0.85rem; font-family: 'Courier New', monospace;
+  transition: all 0.2s;
+}
+.bug-btn:hover { background: #3a1a1a; border-color: #e94560; }
+.bug-btn.correct { background: #1a3a1a; color: #66bb6a; border-color: #66bb6a; }
+
+/* Ending */
+.ending-card { text-align: center; }
+.ending-icon { font-size: 4rem; margin: 16px 0; }
+.ending-title { font-size: 1.4rem; font-weight: 700; color: #e94560; margin: 8px 0; }
+.ending-desc { color: #ccc; font-size: 0.9rem; line-height: 1.7; margin: 12px 0; }
+.ending-stats { color: #888; font-size: 0.8rem; margin: 12px 0; }
+
+/* Achievements */
+.ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+.ach-item {
+  background: #1a1a3a; border-radius: 8px; padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.05); font-size: 0.75rem;
+  color: #aaa; display: flex; align-items: center; gap: 6px;
+}
+.ach-item.unlocked { color: #ffd54f; border-color: rgba(255,213,79,0.3); }
+.ach-icon { font-size: 1.2rem; }
+
+/* Title screen */
+.title-screen { text-align: center; padding: 40px 20px; }
+.title-screen .game-title { font-size: 2.2rem; margin-bottom: 8px; }
+.title-btns { display: flex; flex-direction: column; gap: 8px; max-width: 280px; margin: 24px auto; }
+.title-btns .btn { padding: 14px; font-size: 0.95rem; }
+
+/* Responsive */
+@media (max-width: 500px) {
+  .game-title { font-size: 1.4rem; }
+  .actions-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-row { grid-template-columns: 1fr; }
+  .char-tag { min-width: 100%; }
+}
+
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div id="app"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// PARTICLE BACKGROUND
+// ═══════════════════════════════════════════
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+for (let i = 0; i < 60; i++) {
+  particles.push({
+    x: Math.random() * W, y: Math.random() * H,
+    r: Math.random() * 1.5 + 0.5,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4,
+    o: Math.random() * 0.5 + 0.2
+  });
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, W, H);
+  for (const p of particles) {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(233,69,96,${p.o})`;
+    ctx.fill();
+  }
+  // Lines
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 100) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(233,69,96,${0.06 * (1 - dist / 100)})`;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ═══════════════════════════════════════════
+// GAME DATA
+// ═══════════════════════════════════════════
+const SEMESTERS = ['大一上', '大一下', '大二上', '大二下', '大三上', '大三下', '大四上'];
+const SEM_EVENTS = [
+  '新生军训 · 百团大战', '樱花季 · 期中轰炸', '黑客松 · ACM选拔',
+  '大创申报 · 歌手大赛', '实习面试 · CTF国赛', '保研夏令营 · 春招',
+  '秋招大战 · 考研冲刺'
+];
+
+const CHARACTERS = {
+  lin: { name: '林学姐', full: '林知夏', emoji: '🔬', title: '实验室大佬',
+    desc: '大二学姐，ACM金牌，表面冷淡内心温柔。总在深夜的实验室独自debug。',
+    events: {
+      meet: { sem: 0, text: '你在南一楼实验室第一次见到林学姐。她头也不抬，盯着屏幕上的core dump，手指在键盘上飞舞。窗外月光洒在她侧脸上——你愣了一下。' },
+      key1: { sem: 2, need: 25, text: '林学姐的代码在比赛前夜崩了，凌晨两点发消息问你能不能帮忙看看。你赶到实验室，两个人通宵debug。天亮时她递给你一罐咖啡，说了句「谢谢」。' },
+      key2: { sem: 4, need: 50, text: 'CTF国赛上，你和林学姐组队拿下华中区二等奖。颁奖时她转头看你，眼里带着笑意。回学校的车上，她靠在你的肩膀上睡着了。' },
+      key3: { sem: 6, need: 70, text: '毕业设计答辩前，林学姐帮你看了一遍论文，在致谢那一页，你看到了自己的名字。' },
+    },
+    endings: {
+      love: '毕业后你们一起去了字节跳动。深夜加班的时候，她还是会递给你一罐咖啡——就像三年前那个凌晨的实验室一样。',
+      ambiguous: '毕业聚餐上，林学姐多喝了两杯，说了一句「其实你挺好的」。你没敢接话。后来她在北京，你在深圳，偶尔朋友圈点赞。',
+      miss: '答辩完那天你在南一楼门口遇到她，想说点什么，最终还是只说了句「学姐再见」。有些话，错过了就是一辈子。',
+    }
+  },
+  su: { name: '苏同学', full: '苏念念', emoji: '📚', title: '同班卷王',
+    desc: '你同班同学，坐你旁边。一起抄作业、一起挂科、一起卷。',
+    events: {
+      meet: { sem: 0, text: '开学第一天，苏念念坐在你旁边。「同学，你也是被调剂来的吗？」她小声问。你们相视一笑——都是被第二志愿录进来的倒霉蛋。' },
+      key1: { sem: 1, need: 25, text: '期末前一周，你和苏念念在东九楼通宵。她把自己的笔记推过来给你：「笨死了，这个都不会。」凌晨四点，她趴在桌上睡着了，你把外套披在她身上。' },
+      key2: { sem: 3, need: 50, text: '大创项目答辩前，你们紧张得手心冒汗。她突然握住你的手：「怕什么，咱们一起上的。」答辩结束后，你们在绝望坡上笑了一路。' },
+      key3: { sem: 5, need: 70, text: '暑期实习的夏天，你们分别去了不同的城市。每天晚上她准时发消息：「今天又被mentor怼了😭」你回复：「我也是😭」。隔着屏幕，你们一起度过了那个漫长的夏天。' },
+    },
+    endings: {
+      love: '你们一起保研本校。她还是坐在你旁边，只不过这次——你敢牵她的手了。',
+      ambiguous: '毕业后她去了杭州。微信聊天记录停在「下次有空聚聚」。你们都知道，「下次」可能永远不会来了。',
+      miss: '散伙饭那天，她喝多了说「其实大一我就注意到你了」。你笑着打哈哈糊弄过去。后来你才明白，那是她最勇敢的一次。',
+    }
+  },
+  lu: { name: '小鹿', full: '鹿小棠', emoji: '🎨', title: '动漫社学妹',
+    desc: '大一跨院系，动漫社的元气担当。喜欢cosplay、奶茶和一切可爱的东西。',
+    events: {
+      meet: { sem: 0, text: '百团大战上，一个cos成初音未来的女生蹦到你面前：「同学！加个动漫社吧！我们缺程序员做网站！」你看着她手里的一大袋奶茶，鬼使神差地填了报名表。' },
+      key1: { sem: 2, need: 25, text: '动漫社的网站项目，小鹿是你的PM。她给你发了一堆她自己画的UI稿，全是粉色系。「可爱吗？」她眨眨眼睛。你嘴上说「太粉了吧」，手上已经开始写CSS了。' },
+      key2: { sem: 4, need: 50, text: '漫展前一天，小鹿翻出一件格子衫让你穿上：「完美！标准程序员cos！」你在漫展上尴尬得要死，但看到她开心的样子，又觉得值了。' },
+      key3: { sem: 6, need: 70, text: '秋招最焦虑的时候，小鹿拉你去光谷喝奶茶。「学长，你不要太拼啦，你已经很厉害了！」她从包里翻出一张自己画的贺卡——上面是你和她，还有动漫社的大家。' },
+    },
+    endings: {
+      love: '你去了武汉的游戏公司，小鹿在隔壁美院读研。每个周末她都会来找你，带着两杯奶茶，还有一堆新画的同人本给你看。',
+      ambiguous: '毕业后小鹿留在武汉，你去了深圳。偶尔她还是会给你发她画的画，只是画里的人越来越少，直到有一天，只剩下她自己。',
+      miss: '大四上学期结束前，小鹿在动漫社的换届会上哭了。你当时觉得是舍不得社团。很久以后你才反应过来——她舍不得的是你。',
+    }
+  },
+  ye: { name: '叶学姐', full: '叶清辞', emoji: '📖', title: '外院英语系',
+    desc: '大一届英文系，文静知性。在一群格子衫里，她像是个美丽的意外。',
+    events: {
+      meet: { sem: 1, text: '选修课《西方文学导读》上，你旁边坐了一个气质完全不像计院的女生。「我是英文系的，来蹭课。」她微微一笑，你心跳漏了一拍。' },
+      key1: { sem: 3, need: 30, text: '叶学姐的电脑中了病毒，找你帮忙。「我只会Word和PPT…」她不好意思地说。你折腾了一下午帮她搞定了，她请你喝咖啡。那家咖啡馆后来成了你们的老地方。' },
+      key2: { sem: 5, need: 55, text: '期末周你焦头烂额的时候，收到一条微信——是她分享的一首英文歌The Paper Kites的「Bloom」。附了一句话：「累了就歇歇，代码明天也能跑。」' },
+      key3: { sem: 6, need: 75, text: '毕业前，叶学姐在你桌上放了一封信。打开是一首手写的英文诗，关于一个写代码的男孩。字迹清秀，和她说中文时的声音一样温柔。' },
+    },
+    endings: {
+      love: '你拿到了上海的offer，她恰好也去上海读研。你们在陌生的城市里成了彼此的港湾。有时候你写了一天代码，她给你读一首叶芝的诗。',
+      ambiguous: '毕业那天她送了你一本书。扉页上只写了一句话：「Thanks for fixing my computer. And my heart.」你读到第三遍才明白过来。但那时候，她已经飞去了英国。',
+      miss: '你太专注于代码的世界，忘了回她的消息。后来她毕业了，朋友圈里发了一张机场的照片。你才想起，你们连一张合影都没有。',
+    }
+  }
+};
+
+const BASE_ACTIONS = [
+  { id: 'study', name: '认真上课', icon: '📖', desc: '坐第一排，认真听讲。', eff: { gpa: 0.12 }, cost: { energy: 20 }, cat: 'study' },
+  { id: 'leetcode', name: '刷 LeetCode', icon: '💻', desc: '每日一题，卷起来。', eff: { coding: 7 }, cost: { energy: 25 }, cat: 'coding' },
+  { id: 'lab', name: '去实验室', icon: '🔬', desc: '搬砖科研，可能遇到学姐。', eff: { coding: 5 }, cost: { energy: 20 }, cat: 'coding', char: 'lin' },
+  { id: 'library', name: '去图书馆', icon: '📚', desc: '安静自习，可能遇到同学。', eff: { gpa: 0.08 }, cost: { energy: 15 }, cat: 'study', char: 'su' },
+  { id: 'club', name: '参加社团', icon: '🎉', desc: '动漫社活动，可能遇到学妹。', eff: { social: 7 }, cost: { energy: 20, money: 30 }, cat: 'social', char: 'lu' },
+  { id: 'gym', name: '健身变帅', icon: '💪', desc: '收拾自己，提升颜值。', eff: { appearance: 5 }, cost: { energy: 25, money: 50 }, cat: 'appearance' },
+  { id: 'date', name: '约人出去', icon: '💕', desc: '主动一点，爱情不会自己来。', eff: { romance: 6 }, cost: { energy: 15, money: 80 }, cat: 'romance' },
+  { id: 'rest', name: '休息打游戏', icon: '🎮', desc: '回血回精力。', eff: { energy: 40 }, cost: {}, cat: 'rest' },
+  { id: 'job', name: '做兼职', icon: '💰', desc: '赚点零花钱。', eff: { money: 180 }, cost: { energy: 30 }, cat: 'money' },
+  { id: 'cafe', name: '去咖啡馆', icon: '☕', desc: '换个环境学习，可能遇到外院学姐。', eff: { romance: 3, gpa: 0.04 }, cost: { energy: 15, money: 35 }, cat: 'social', char: 'ye' },
+];
+
+const ITEMS = [
+  { id: 'redbull', name: '红牛', desc: '精力+30', emoji: '🥤', effect: { energy: 30 }, price: 15 },
+  { id: 'milktea', name: '奶茶', desc: '精力+15 颜值+3', emoji: '🧋', effect: { energy: 15, appearance: 3 }, price: 18 },
+  { id: 'mask', name: '面膜', desc: '颜值+8', emoji: '✨', effect: { appearance: 8 }, price: 35 },
+  { id: 'course', name: '网课会员', desc: '编程力×1.5(1回合)', emoji: '🎓', effect: { codingBoost: true }, price: 50 },
+  { id: 'ticket', name: '电影票', desc: '约会好感额外+8', emoji: '🎬', effect: { dateBoost: true }, price: 60 },
+  { id: 'charm', name: '幸运符', desc: '下次随机事件必正面', emoji: '🍀', effect: { lucky: true }, price: 40 },
+];
+
+const ACHIEVEMENTS = [
+  { id: 'codegod', name: '卷王之王', emoji: '🏅', desc: '编程力达到95', check: s => s.coding >= 95 },
+  { id: 'socialgod', name: '社牛本牛', emoji: '🦋', desc: '社交力达到95', check: s => s.social >= 95 },
+  { id: 'bikegod', name: '绝望坡车神', emoji: '🚴', desc: '连续3回合选择健身', check: s => s.gymStreak >= 3 },
+  { id: 'goodcard', name: '好人卡收藏家', emoji: '💌', desc: '表白被拒3次', check: s => s.rejected >= 3 },
+  { id: 'failall', name: '全栈全挂', emoji: '💀', desc: '同时挂两门以上', check: s => s.failedExams >= 2 },
+  { id: 'seaking', name: '海王本王', emoji: '🐟', desc: '同时3人好感度≥60', check: s => Object.values(s.chars).filter(c => c.affection >= 60).length >= 3 },
+  { id: 'foodie', name: '沁苑美食家', emoji: '🍜', desc: '所有食堂事件集齐', check: s => s.canteenEvents >= 4 },
+  { id: 'timemaster', name: '时间管理大师', emoji: '⏰', desc: '同一天约两个人', check: s => s.timeMaster },
+  { id: 'rich', name: '钞能力', emoji: '💸', desc: '金钱达到2000', check: s => s.money >= 2000 },
+  { id: 'lazy', name: '躺平先锋', emoji: '🛌', desc: '连续5回合选择休息', check: s => s.restStreak >= 5 },
+  { id: 'beauty', name: '梦中情人', emoji: '💅', desc: '颜值达到95', check: s => s.appearance >= 95 },
+  { id: 'foreveralone', name: '注孤生', emoji: '🧑‍💻', desc: '大四时所有好感度<20', check: s => s.semester >= 6 && Object.values(s.chars).every(c => c.affection < 20) },
+];
+
+// Random events pool
+const RANDOM_EVENTS = [
+  { id: 'r1', text: '沁苑食堂今天出了新菜品——螺蛳粉味的热干面。你吃完之后，社交力大幅下降。', eff: { social: -5 }, cond: s => true, flavor: 'bad' },
+  { id: 'r2', text: '在绝望坡上骑车的时候链条断了，你摔了一跤。路过的同学帮你扶了起来——是隔壁班的。社交力+3。', eff: { social: 3 }, cond: s => true, flavor: 'good' },
+  { id: 'r3', text: '实验室的服务器崩了，需要紧急debug！', eff: { coding: 5 }, cond: s => s.coding >= 30, flavor: 'good', minigame: 'debug' },
+  { id: 'r4', text: '熬夜赶ddl到凌晨三点，第二天上课睡着了。被老师点名回答问题，你什么也答不出来。GPA-0.08。', eff: { gpa: -0.08 }, cond: s => s.energy < 30, flavor: 'bad' },
+  { id: 'r5', text: '社团联谊活动！来玩个配对游戏吧！', eff: { social: 4 }, cond: s => true, flavor: 'good', minigame: 'match' },
+  { id: 'r6', text: '你在二手群淘到了一个学姐的旧键盘，上面贴着可爱的贴纸。用起来意外的顺手，编程力+3。', eff: { coding: 3 }, cond: s => true, flavor: 'good' },
+  { id: 'r7', text: '被室友拉去吃烧烤，吃到凌晨一点。第二天头疼欲裂，精力-15。', eff: { energy: -15 }, cond: s => s.social >= 25, flavor: 'bad' },
+  { id: 'r8', text: '在东九楼教室捡到一本笔记本，上面全是精美的手写笔记。你物归原主，对方请你喝了杯奶茶。社交力+5，金钱+20。', eff: { social: 5, money: 20 }, cond: s => true, flavor: 'good' },
+  { id: 'r9', text: '武汉的夏天太热了！你中暑了，躺在寝室躺了一整天。精力-20。', eff: { energy: -20 }, cond: s => [1, 3, 5].includes(s.semester), flavor: 'bad' },
+  { id: 'r10', text: '你在B站上传了一个编程教程，意外火了！弹幕都说「大佬带带我」。编程力+3，社交力+3。', eff: { coding: 3, social: 3 }, cond: s => s.coding >= 50, flavor: 'good' },
+  { id: 'r11', text: '室友脱单了，请全寝室吃饭。你边吃边想「我怎么还单着」。浪漫值-3，但金钱+50。', eff: { romance: -3, money: 50 }, cond: s => true, flavor: 'neutral' },
+  { id: 'r12', text: '第一次约会！紧张得手心冒汗，但还是要保持微笑。', eff: { social: 4, appearance: 2 }, cond: s => s.appearance >= 30, flavor: 'good', minigame: 'typing' },
+  { id: 'r13', text: '代码跑了一天都没出结果，原来是少了一个分号。你砸了键盘。编程力-3。', eff: { coding: -3 }, cond: s => true, flavor: 'bad' },
+  { id: 'r14', text: '华科的银杏黄了！你在西十二楼前拍照，照片意外好看。颜值+4。', eff: { appearance: 4 }, cond: s => [2, 3, 6].includes(s.semester), flavor: 'good' },
+  { id: 'r15', text: '参加了一场技术分享会，被大佬的演讲震撼到了。你决心更加努力，编程力+4。', eff: { coding: 4 }, cond: s => s.coding < 70, flavor: 'good' },
+  { id: 'r16', text: '被导师叫去谈话：「你这个进度有点慢啊…」压力山大，但接下来的编程力增长翻倍。编程力+6，精力-15。', eff: { coding: 6, energy: -15 }, cond: s => s.semester >= 4, flavor: 'neutral' },
+  { id: 'r17', text: '樱花开了，你和朋友去武大看樱花。人山人海中拍了一张还不错的照片。浪漫值+5。', eff: { romance: 5 }, cond: s => s.semester === 1, flavor: 'good' },
+  { id: 'r18', text: '在停车场被人把车挂倒了。你花了50块修车。金钱-50。', eff: { money: -50 }, cond: s => true, flavor: 'bad' },
+  { id: 'r19', text: '知乎上你随手写的回答「在华中科技大学就读是怎样一番体验」获得了千赞。社交力+6。', eff: { social: 6 }, cond: s => s.social >= 40, flavor: 'good' },
+  { id: 'r20', text: '和室友开黑打LOL打到凌晨，连输五把。精力-20，但是你收获了快乐。', eff: { energy: -20 }, cond: s => true, flavor: 'neutral' },
+  { id: 'r21', text: '食堂阿姨今天手没抖！你吃到了本学期最丰盛的一顿饭。精力+10。', eff: { energy: 10 }, cond: s => true, flavor: 'good' },
+  { id: 'r22', text: '下雨天没带伞，在图书馆门口躲雨。旁边的人递过来一把伞，是隔壁院的同学。社交力+3。', eff: { social: 3 }, cond: s => true, flavor: 'good' },
+  { id: 'r23', text: '你的电脑蓝屏了！项目代码没保存。编程力-5，心力交瘁精力-10。', eff: { coding: -5, energy: -10 }, cond: s => true, flavor: 'bad' },
+  { id: 'r24', text: '在光谷逛街的时候遇到了一个星探，说你可以做平面模特。颜值+8！不过你没有去。', eff: { appearance: 8 }, cond: s => s.appearance >= 50, flavor: 'good' },
+  { id: 'r25', text: '被拉去当了一场技术沙龙的主持人，虽然紧张但完成得不错。社交力+5，编程力+2。', eff: { social: 5, coding: 2 }, cond: s => s.social >= 35, flavor: 'good' },
+];
+
+// Situational choice events
+const CHOICE_EVENTS = [
+  { id: 'c1', char: 'lin', need: 20, semMin: 1,
+    title: '深夜求助',
+    text: '凌晨1点，林学姐发来消息：「我的模型跑崩了，明天ddl…你能来实验室帮我看一下吗？」外面下着大雨。',
+    choices: [
+      { text: '「马上到！」披上衣服冲出寝室。', eff: { coding: 5, energy: -25 }, affection: { lin: 10 } },
+      { text: '「明天一早帮你看，先歇歇吧。」', eff: { social: 3, energy: -5 }, affection: { lin: 4 } },
+      { text: '假装睡着了，明早再回。', eff: {}, affection: { lin: -3 } },
+    ]
+  },
+  { id: 'c2', char: 'su', need: 20, semMin: 1,
+    title: '期末互助',
+    text: '考试前一天，苏念念发消息：「我笔记整理好了，要不要一起复习？」她总是这样，嘴上嫌弃你，笔记却整理得比谁都认真。',
+    choices: [
+      { text: '立刻收拾书包去图书馆找她。', eff: { gpa: 0.1, energy: -15 }, affection: { su: 10 } },
+      { text: '「发我一份笔记吧，我自己看~」', eff: { gpa: 0.06 }, affection: { su: 3 } },
+      { text: '「不用了，我自己能行。」', eff: { gpa: 0.03 }, affection: { su: -2 } },
+    ]
+  },
+  { id: 'c3', char: 'lu', need: 20, semMin: 2,
+    title: '漫展邀约',
+    text: '小鹿发来消息：「学长！这周末光谷有漫展，我多了一张票！你要不要一起来？」她发了一个期待的表情包。',
+    choices: [
+      { text: '当然去！买好奶茶在门口等她。', eff: { romance: 5, social: 5, money: -60 }, affection: { lu: 10 } },
+      { text: '「好啊，不过我只能待半天。」', eff: { social: 3, money: -30 }, affection: { lu: 5 } },
+      { text: '「周末要赶项目…下次吧。」', eff: { coding: 3 }, affection: { lu: -5 } },
+    ]
+  },
+  { id: 'c4', char: 'ye', need: 20, semMin: 3,
+    title: '咖啡馆偶遇',
+    text: '你在咖啡馆写代码，抬头看到叶学姐坐在窗边看书。阳光透过窗户洒在她身上。她似乎也看到了你，微微笑了笑。',
+    choices: [
+      { text: '端着自己的咖啡走过去：「学姐，可以坐这里吗？」', eff: { romance: 4, social: 4, money: -30 }, affection: { ye: 10 } },
+      { text: '对她挥手打个招呼，继续写代码。', eff: {}, affection: { ye: 3 } },
+      { text: '低头假装没看到，专注屏幕上。', eff: { coding: 2 }, affection: { ye: -5 } },
+    ]
+  },
+  { id: 'c5', char: 'lin', need: 45, semMin: 4,
+    title: '实习选择',
+    text: '林学姐拿到了北京字节的实习offer，她问你要不要也投一下试试。你注意到她说话时，手指不自觉地绞在一起——她希望你去。',
+    choices: [
+      { text: '「好！我们一起准备面试！」', eff: { coding: 5, social: 3 }, affection: { lin: 15 } },
+      { text: '「我再想想，可能去深圳那边。」', eff: { coding: 3 }, affection: { lin: -5 } },
+      { text: '「保研本校吧，留在武汉。」', eff: { gpa: 0.05 }, affection: { lin: 8 } },
+    ]
+  },
+  { id: 'c6', char: 'su', need: 45, semMin: 4,
+    title: '保研抉择',
+    text: '苏念念在保研名单上看到了你的名字——就在她下面一行。她转头看你，眼里亮晶晶的：「以后还是同学哦？」',
+    choices: [
+      { text: '「是啊，又可以一起上课了。」', eff: { gpa: 0.05, social: 3 }, affection: { su: 15 } },
+      { text: '「我在纠结要不要去工作…」', eff: { coding: 3 }, affection: { su: -5 } },
+      { text: '「还没想好，走一步看一步。」', eff: {}, affection: { su: 3 } },
+    ]
+  },
+  { id: 'c7', char: 'lu', need: 45, semMin: 5,
+    title: '生日惊喜',
+    text: '小鹿不知道从哪里知道了你的生日，在你寝室楼下等你，手里提着蛋糕。「学长！生日快乐！」她笑得比蛋糕上的蜡烛还亮。',
+    choices: [
+      { text: '感动得说不出话，给了她一个拥抱。', eff: { romance: 6 }, affection: { lu: 15 } },
+      { text: '「谢谢！你怎么知道的！」开心地接过蛋糕。', eff: { social: 3, romance: 3 }, affection: { lu: 8 } },
+      { text: '有点不好意思：「不用这么麻烦的…」', eff: {}, affection: { lu: 0 } },
+    ]
+  },
+  { id: 'c8', char: 'ye', need: 50, semMin: 5,
+    title: '远方的信',
+    text: '叶学姐出国交换了半年。某天你收到一封航空信，里面是一张伦敦的明信片，背面用英文写着：「Wish you were here.」',
+    choices: [
+      { text: '立刻给她回了一封长信。', eff: { romance: 6, social: 3 }, affection: { ye: 15 } },
+      { text: '拍了张华科的照片发给她，说「这里也想你」。', eff: { romance: 4 }, affection: { ye: 8 } },
+      { text: '把明信片夹在书里，没回。不知道该说什么。', eff: {}, affection: { ye: -5 } },
+    ]
+  },
+];
+
+// ═══════════════════════════════════════════
+// GAME STATE
+// ═══════════════════════════════════════════
+const DEFAULT_STATE = {
+  semester: 0, week: 0,
+  coding: 10, social: 15, appearance: 20, romance: 5, gpa: 2.0, energy: 80, money: 500,
+  chars: {
+    lin: { affection: 0, stage: 'stranger', met: false },
+    su: { affection: 0, stage: 'stranger', met: false },
+    lu: { affection: 0, stage: 'stranger', met: false },
+    ye: { affection: 0, stage: 'stranger', met: false },
+  },
+  inventory: [], itemsUsed: {},
+  achievements: [],
+  gymStreak: 0, restStreak: 0, rejected: 0, failedExams: 0,
+  canteenEvents: 0, timeMaster: false,
+  narrative: [], currentEvent: null,
+  phase: 'title', // title, playing, event, choice, minigame, ending
+  examResults: [],
+  dateCount: 0, confessedTo: [],
+  lastAction: null, nextMinigame: null,
+};
+
+let S = JSON.parse(JSON.stringify(DEFAULT_STATE));
+S.chars.lin.met = false; S.chars.su.met = false; S.chars.lu.met = false; S.chars.ye.met = false;
+
+// ═══════════════════════════════════════════
+// GAME ENGINE
+// ═══════════════════════════════════════════
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+function randInt(n) { return Math.floor(Math.random() * n); }
+function pick(arr) { return arr[randInt(arr.length)]; }
+function gpaText(v) { return v.toFixed(2); }
+
+function getStage(aff) {
+  if (aff >= 80) return '恋人';
+  if (aff >= 50) return '暧昧';
+  if (aff >= 30) return '朋友';
+  if (aff >= 15) return '认识';
+  return '陌生人';
+}
+
+function applyEffects(eff, affTarget) {
+  if (!eff) return;
+  if (eff.coding) S.coding = clamp(S.coding + eff.coding, 0, 100);
+  if (eff.social) S.social = clamp(S.social + eff.social, 0, 100);
+  if (eff.appearance) S.appearance = clamp(S.appearance + eff.appearance, 0, 100);
+  if (eff.romance) S.romance = clamp(S.romance + eff.romance, 0, 100);
+  if (eff.gpa) S.gpa = clamp(S.gpa + eff.gpa, 0, 4.0);
+  if (eff.energy) S.energy = clamp(S.energy + eff.energy, 0, 100);
+  if (eff.money) S.money = Math.max(0, S.money + eff.money);
+  if (affTarget) {
+    for (const [cid, val] of Object.entries(affTarget)) {
+      if (S.chars[cid]) {
+        S.chars[cid].affection = clamp(S.chars[cid].affection + val, 0, 100);
+        S.chars[cid].stage = getStage(S.chars[cid].affection);
+      }
+    }
+  }
+}
+
+function hasItem(id) { return S.inventory.includes(id); }
+function useItem(id) {
+  const idx = S.inventory.indexOf(id);
+  if (idx === -1) return false;
+  S.inventory.splice(idx, 1);
+  const item = ITEMS.find(i => i.id === id);
+  if (item) {
+    if (item.effect.codingBoost) S.itemsUsed.codingBoost = true;
+    if (item.effect.dateBoost) S.itemsUsed.dateBoost = true;
+    if (item.effect.lucky) S.itemsUsed.lucky = true;
+    applyEffects(item.effect);
+  }
+  return true;
+}
+
+function checkAchievements() {
+  for (const ach of ACHIEVEMENTS) {
+    if (!S.achievements.includes(ach.id) && ach.check(S)) {
+      S.achievements.push(ach.id);
+      const a = ACHIEVEMENTS.find(x => x.id === ach.id);
+      S.narrative.push({ type: 'achievement', text: `🏆 成就解锁：${a.emoji} ${a.name} —— ${a.desc}` });
+    }
+  }
+}
+
+function startNewGame() {
+  S = JSON.parse(JSON.stringify(DEFAULT_STATE));
+  S.chars = {
+    lin: { affection: 0, stage: 'stranger', met: false },
+    su: { affection: 0, stage: 'stranger', met: false },
+    lu: { affection: 0, stage: 'stranger', met: false },
+    ye: { affection: 0, stage: 'stranger', met: false },
+  };
+  S.phase = 'playing';
+  S.narrative = [{ type: 'system', text: '🌅 九月的武汉，热得像蒸笼。你拖着一个行李箱，站在华科南大门前。你是华中科技大学计算机学院的一名新生。接下来的四年，会发生什么呢？' }];
+  S.narrative.push({ type: 'system', text: `📅 ${SEMESTERS[S.semester]} 开始了！主题：${SEM_EVENTS[S.semester]}` });
+  renderGame();
+}
+
+function doAction(actionId) {
+  if (S.phase !== 'playing') return;
+  const action = BASE_ACTIONS.find(a => a.id === actionId);
+  if (!action) return;
+
+  // Check costs
+  if (action.cost.energy && S.energy < action.cost.energy) {
+    S.narrative.push({ type: 'error', text: '⚡ 精力不足！你需要休息一下。' });
+    renderGame();
+    return;
+  }
+  if (action.cost.money && S.money < action.cost.money) {
+    S.narrative.push({ type: 'error', text: '💰 钱不够了！可以考虑做兼职或者省着点花。' });
+    renderGame();
+    return;
+  }
+
+  // Apply costs
+  if (action.cost.energy) S.energy -= action.cost.energy;
+  if (action.cost.money) S.money -= action.cost.money;
+
+  // Apply boosts
+  let eff = { ...action.eff };
+  if (S.itemsUsed.codingBoost && action.cat === 'coding') {
+    eff.coding = Math.floor((eff.coding || 0) * 1.5);
+    S.itemsUsed.codingBoost = false;
+    S.narrative.push({ type: 'system', text: '🎓 网课会员生效！编程力增长×1.5！' });
+  }
+  if (S.itemsUsed.dateBoost && action.cat === 'romance') {
+    S.itemsUsed.dateBoost = false;
+    S.narrative.push({ type: 'system', text: '🎬 电影票已使用！本次约会好感度+8！' });
+  }
+
+  applyEffects(eff);
+
+  // Track streaks
+  if (actionId === 'gym') S.gymStreak++; else S.gymStreak = 0;
+  if (actionId === 'rest') S.restStreak++; else S.restStreak = 0;
+  if (actionId === 'date') S.dateCount++;
+  S.lastAction = actionId;
+
+  // Character encounter
+  if (action.char) {
+    const c = S.chars[action.char];
+    if (!c.met && S.semester >= 0) {
+      c.met = true;
+      c.affection = clamp(c.affection + 5, 0, 100);
+      c.stage = getStage(c.affection);
+      const cd = CHARACTERS[action.char];
+      S.narrative.push({ type: 'event', text: cd.events.meet.text, char: action.char });
+    } else if (c.met) {
+      c.affection = clamp(c.affection + 3, 0, 100);
+      c.stage = getStage(c.affection);
+      if (Math.random() < 0.3) {
+        const cd = CHARACTERS[action.char];
+        S.narrative.push({ type: 'event', text: `你${action.name}时遇到了${cd.name}。她对你笑了笑。好感度+3。`, char: action.char });
+      }
+    }
+  }
+
+  // Narrative
+  S.narrative.push({ type: 'action', text: `▶ 你选择了「${action.name}」——${action.desc}` });
+
+  // Random mini-game trigger from actions
+  if (actionId === 'date' && Math.random() < 0.3 && S.dateCount <= 2) {
+    S.nextMinigame = 'typing';
+  } else if (actionId === 'club' && Math.random() < 0.3) {
+    S.nextMinigame = 'match';
+  } else if (actionId === 'lab' && Math.random() < 0.25) {
+    S.nextMinigame = 'debug';
+  }
+
+  // Advance week
+  S.week++;
+  if (S.week >= 4) {
+    endSemester();
+    return;
+  }
+
+  // Weekend random event
+  triggerRandomEvent();
+  if (S.nextMinigame) {
+    const mg = S.nextMinigame;
+    S.nextMinigame = null;
+    startMinigame(mg);
+    return;
+  }
+  checkAchievements();
+  renderGame();
+}
+
+function triggerRandomEvent() {
+  if (S.itemsUsed.lucky) {
+    S.itemsUsed.lucky = false;
+    const goodEvents = RANDOM_EVENTS.filter(e => e.flavor === 'good' && e.cond(S));
+    if (goodEvents.length > 0) {
+      const ev = pick(goodEvents);
+      S.narrative.push({ type: 'event', text: '🍀 幸运符生效！' + ev.text });
+      applyEffects(ev.eff);
+      if (ev.minigame) { S.nextMinigame = ev.minigame; }
+      if (ev.id === 'r25') S.canteenEvents++;
+      return;
+    }
+  }
+
+  const eligible = RANDOM_EVENTS.filter(e => e.cond(S));
+  if (eligible.length === 0) return;
+  const ev = pick(eligible);
+  S.narrative.push({ type: 'event', text: ev.text });
+  applyEffects(ev.eff);
+  if (ev.id === 'r1') S.canteenEvents++;
+  if (ev.minigame) { S.nextMinigame = ev.minigame; }
+}
+
+function endSemester() {
+  // Exam
+  const examScore = S.coding * 0.3 + S.gpa * 25 + randInt(30);
+  let examText = '';
+  if (examScore > 80) {
+    examText = '📝 期末考试：你考得很好！GPA稳中有升。';
+    S.gpa = clamp(S.gpa + 0.15, 0, 4.0);
+  } else if (examScore > 50) {
+    examText = '📝 期末考试：马马虎虎，及格万岁。';
+    S.gpa = clamp(S.gpa + 0.05, 0, 4.0);
+  } else {
+    examText = '📝 期末考试：你挂了一科…GPA大幅下滑。';
+    S.gpa = clamp(S.gpa - 0.3, 0, 4.0);
+    S.failedExams++;
+  }
+  S.narrative.push({ type: 'exam', text: examText });
+
+  // Semester-specific event
+  const semEventText = SEM_EVENTS[S.semester];
+  S.narrative.push({ type: 'system', text: `🎯 本学期大事件：${semEventText}` });
+
+  // Trigger character key events
+  for (const [cid, cdata] of Object.entries(CHARACTERS)) {
+    const char = S.chars[cid];
+    if (!char.met) continue;
+    for (const [ekey, edata] of Object.entries(cdata.events)) {
+      if (ekey === 'meet') continue;
+      if (edata.sem === S.semester && char.affection >= edata.need && !S[`event_${cid}_${ekey}`]) {
+        S[`event_${cid}_${ekey}`] = true;
+        S.narrative.push({ type: 'keyevent', text: `⭐ ${cdata.name}关键事件：${edata.text}`, char: cid });
+        char.affection = clamp(char.affection + 8, 0, 100);
+        char.stage = getStage(char.affection);
+      }
+    }
+  }
+
+  // Trigger choice events
+  for (const ce of CHOICE_EVENTS) {
+    const char = S.chars[ce.char];
+    if (!char || !char.met) continue;
+    if (S.semester >= ce.semMin && char.affection >= ce.need && !S[`choice_${ce.id}`]) {
+      S[`choice_${ce.id}`] = true;
+      S.currentEvent = ce;
+      S.phase = 'choice';
+      renderChoice();
+      return;
+    }
+  }
+
+  // Next semester
+  S.semester++;
+  S.week = 0;
+  S.energy = clamp(S.energy + 30, 0, 100);
+
+  if (S.semester >= 7) {
+    calculateEnding();
+    return;
+  }
+
+  S.narrative.push({ type: 'system', text: `📅 ${SEMESTERS[S.semester]} 开始了！主题：${SEM_EVENTS[S.semester]}` });
+  S.narrative.push({ type: 'system', text: '💡 新学期新气象。你想做点什么？' });
+
+  // Trigger meet events for new semester
+  if (S.semester === 1 && !S.chars.ye.met) {
+    S.chars.ye.met = true;
+    S.chars.ye.affection = 5;
+    S.chars.ye.stage = getStage(S.chars.ye.affection);
+    S.narrative.push({ type: 'event', text: CHARACTERS.ye.events.meet.text, char: 'ye' });
+  }
+
+  checkAchievements();
+  renderGame();
+}
+
+function resolveChoice(choiceIdx) {
+  const ce = S.currentEvent;
+  if (!ce) return;
+  const choice = ce.choices[choiceIdx];
+  applyEffects(choice.eff, choice.affection || null);
+  S.narrative.push({ type: 'choice', text: `💬 你选择了：「${choice.text}」` });
+
+  // Check time master achievement
+  if (S.dateCount >= 2 && S.week <= 3) S.timeMaster = true;
+
+  S.currentEvent = null;
+  S.phase = 'playing';
+
+  // Continue semester progression
+  S.semester++;
+  S.week = 0;
+  S.energy = clamp(S.energy + 30, 0, 100);
+
+  if (S.semester >= 7) {
+    calculateEnding();
+    return;
+  }
+
+  S.narrative.push({ type: 'system', text: `📅 ${SEMESTERS[S.semester]} 开始了！主题：${SEM_EVENTS[S.semester]}` });
+  checkAchievements();
+  renderGame();
+}
+
+function confess(characterId) {
+  if (S.phase !== 'playing') return;
+  const char = S.chars[characterId];
+  if (!char || !char.met) { S.narrative.push({ type: 'error', text: '你还不认识这个人。' }); renderGame(); return; }
+  if (char.stage === '恋人') { S.narrative.push({ type: 'error', text: '你们已经是恋人了！' }); renderGame(); return; }
+  if (S.confessedTo.includes(characterId)) { S.narrative.push({ type: 'error', text: '你已经表白过了，再表白就成骚扰了…' }); renderGame(); return; }
+
+  S.confessedTo.push(characterId);
+  const successChance = char.affection / 100 * 0.7 + S.romance / 100 * 0.2 + S.appearance / 100 * 0.1;
+
+  if (char.stage === '暧昧' && successChance > 0.5) {
+    char.affection = clamp(char.affection + 20, 0, 100);
+    char.stage = '恋人';
+    S.narrative.push({ type: 'confession', text: `💕 表白成功！${CHARACTERS[characterId].name}脸红了：「…我也喜欢你。」你们在一起了！`, char: characterId });
+  } else if (char.stage === '朋友' && successChance > 0.65) {
+    char.affection = clamp(char.affection + 15, 0, 100);
+    char.stage = getStage(char.affection);
+    S.narrative.push({ type: 'confession', text: `💕 表白成功！${CHARACTERS[characterId].name}有些惊讶，但还是点了点头。`, char: characterId });
+  } else {
+    S.rejected++;
+    S.narrative.push({ type: 'confession', text: `💔 被发好人卡了…「你很好，但是…」${CHARACTERS[characterId].name}委婉地拒绝了你。`, char: characterId });
+    char.affection = clamp(char.affection - 10, 0, 100);
+    char.stage = getStage(char.affection);
+  }
+  checkAchievements();
+  renderGame();
+}
+
+function calculateEnding() {
+  S.phase = 'ending';
+  // Career ending
+  let careerEnding;
+  if (S.coding >= 90 && S.gpa >= 3.5) careerEnding = { id: 'bytedance', text: '🏆 字节跳动 SSP offer！', desc: '你在秋招中大杀四方，拿下了字节跳动的Special Offer。年薪让全班同学都酸了。' };
+  else if (S.coding >= 60) careerEnding = { id: 'midjob', text: '💼 中厂offer', desc: '你找到了一份不错的工作，虽然比不上大厂，但也能在光谷过得滋润。' };
+  else if (S.gpa >= 3.8 && S.coding >= 70) careerEnding = { id: 'tsinghua', text: '🎓 保研清华！', desc: '你的GPA一路领跑，成功拿到了清华的保研名额。整个学院都在传你的名字。' };
+  else if (S.gpa >= 3.0) careerEnding = { id: 'hustmaster', text: '🎓 保研本校', desc: '你选择留在华科继续读研。熟悉的环境，熟悉的人，也是一种幸福。' };
+  else if (S.money >= 3000 && S.coding >= 60 && S.gpa < 2.5) careerEnding = { id: 'startup', text: '🚀 休学创业', desc: '你拉了几个同学在光谷租了个办公室，开始创业。投资人是个华科校友——他说他当年也在南一楼写过代码。' };
+  else if (S.coding < 50 && S.gpa >= 2.5 && S.gpa <= 3.5 && S.social >= 60) careerEnding = { id: 'civil', text: '📜 考公上岸', desc: '你考上了公务员，过上了朝九晚五的生活。偶尔在朋友圈看到前同事的加班动态，你微微一笑。' };
+  else if (S.gpa >= 3.5 && S.money >= 1500) careerEnding = { id: 'abroad', text: '🌍 出国留学', desc: '你申请到了美国CS名校的offer。在机场告别家人的时候，你发了一条朋友圈：「出发了，四年后再见。」' };
+  else if (S.coding >= 85 && S.social < 30 && S.romance < 20) careerEnding = { id: 'indie', text: '👨‍💻 独立开发者', desc: '你成了一个独立开发者，做了一个小有名气的开源项目。GitHub上star数破了万，但你的微信置顶永远是技术群。' };
+  else if (S.gpa < 1.8 && S.coding < 40) careerEnding = { id: 'delay', text: '💀 延毕', desc: '学分不够，你延毕了一年。但这一年里，你想清楚了很多事情——比如人生的意义不只有GPA。' };
+  else careerEnding = { id: 'normal', text: '💼 普通offer', desc: '你找到了一份普通的工作。没什么特别的，但也没什么不好的。大多数人的故事，就是这样。' };
+
+  // Love ending
+  let loveEndings = [];
+  for (const [cid, cdata] of Object.entries(CHARACTERS)) {
+    const char = S.chars[cid];
+    if (char.stage === '恋人') {
+      loveEndings.push({ cid, name: cdata.name, emoji: cdata.emoji, text: cdata.endings.love, tier: 'love' });
+    } else if (char.affection >= 50) {
+      loveEndings.push({ cid, name: cdata.name, emoji: cdata.emoji, text: cdata.endings.ambiguous, tier: 'ambiguous' });
+    } else if (char.affection >= 20) {
+      loveEndings.push({ cid, name: cdata.name, emoji: cdata.emoji, text: cdata.endings.miss, tier: 'miss' });
+    }
+  }
+
+  // Special endings
+  const allLow = Object.values(S.chars).every(c => c.affection < 20);
+  const allHigh = Object.values(S.chars).filter(c => c.affection >= 60).length >= 3;
+  const loveCount = loveEndings.filter(l => l.tier === 'love').length;
+  const codeLove = S.coding >= 95 && S.dateCount === 0 && allLow;
+
+  S.ending = { career: careerEnding, love: loveEndings, allLow, allHigh, loveCount, codeLove };
+  checkAchievements();
+  renderEnding();
+}
+
+// ═══════════════════════════════════════════
+// RENDERER
+// ═══════════════════════════════════════════
+const app = document.getElementById('app');
+
+function html(strings, ...vals) { return strings.reduce((a, s, i) => a + s + (vals[i] ?? ''), ''); }
+
+function renderTitle() {
+  app.innerHTML = html`
+    <div class="card title-screen">
+      <div class="game-title">华科计院找爱情</div>
+      <div class="subtitle">HUST CS · Love Simulator</div>
+      <p style="color:#888;font-size:0.85rem;margin:16px 0;line-height:1.6;">
+        你是华中科技大学计算机学院的一名新生。<br>
+        四年时间，1440天——<br>
+        你能在代码和ddl的夹缝中找到爱情吗？
+      </p>
+      <div class="title-btns">
+        <button class="btn primary" onclick="startNewGame()">🎮 开始新游戏</button>
+        <button class="btn" onclick="loadGame()">💾 继续游戏</button>
+        <button class="btn" onclick="showAchievements()">🏆 成就收藏</button>
+      </div>
+      <p style="color:#555;font-size:0.7rem;margin-top:20px;">含大量华科梗 · CS梗 · 请勿在考试周过度沉迷</p>
+    </div>
+  `;
+}
+
+function renderGame() {
+  S.phase = 'playing';
+  const sem = SEMESTERS[S.semester];
+  const semEvent = SEM_EVENTS[S.semester];
+
+  // Build narrative HTML
+  const recentNarr = S.narrative.slice(-8);
+  let narrHTML = recentNarr.map(n => {
+    let cls = '';
+    if (n.type === 'error') cls = 'highlight';
+    if (n.type === 'achievement') cls = 'name-tag';
+    if (n.type === 'confession') cls = 'highlight';
+    if (n.type === 'keyevent') cls = 'name-tag';
+    return `<p class="${cls}">${n.text}</p>`;
+  }).join('');
+
+  // Stat bars
+  const stats = [
+    { label: '编程力', val: S.coding, cls: 'fill-coding' },
+    { label: '社交力', val: S.social, cls: 'fill-social' },
+    { label: '颜值',   val: S.appearance, cls: 'fill-appearance' },
+    { label: '浪漫值', val: S.romance, cls: 'fill-romance' },
+    { label: 'GPA',    val: S.gpa, cls: 'fill-gpa', fmt: v => gpaText(v), max: 4.0 },
+  ];
+  let statsHTML = stats.map(s => {
+    const pct = s.max ? (s.val / s.max * 100) : s.val;
+    const display = s.fmt ? s.fmt(s.val) : Math.floor(s.val);
+    return html`
+      <div class="stat-item">
+        <div class="stat-label"><span>${s.label}</span><span>${display}</span></div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill ${s.cls}" style="width:${pct}%"></div></div>
+      </div>
+    `;
+  }).join('');
+
+  // Character tags
+  let charsHTML = Object.entries(CHARACTERS).map(([cid, cd]) => {
+    const c = S.chars[cid];
+    const pct = c.affection;
+    return html`
+      <div class="char-tag${c.met ? '' : ' locked'}">
+        <div class="char-name">${cd.emoji} ${cd.name} <span class="char-stage">· ${c.met ? c.stage : '???'}</span></div>
+        <div class="char-hearts">${c.met ? '💕'.repeat(Math.floor(c.affection / 20) + 1) : '🔒'}</div>
+        <div class="char-bar-bg"><div class="char-bar-fill" style="width:${c.met ? pct : 0}%"></div></div>
+      </div>
+    `;
+  }).join('');
+
+  // Actions
+  let actionsHTML = BASE_ACTIONS.map(a => {
+    return html`<button class="btn" onclick="doAction('${a.id}')" title="${a.desc}">${a.icon} ${a.name}</button>`;
+  }).join('');
+
+  // Confess buttons
+  let confessHTML = Object.entries(CHARACTERS).map(([cid, cd]) => {
+    const c = S.chars[cid];
+    if (!c.met || c.stage === '恋人') return '';
+    return html`<button class="btn small" onclick="confess('${cid}')" ${S.confessedTo.includes(cid) ? 'disabled' : ''}>💌 向${cd.name}表白</button>`;
+  }).filter(Boolean).join('');
+
+  // Items
+  let inventoryHTML = '';
+  if (S.inventory.length > 0) {
+    inventoryHTML = '<div style="margin-top:6px;font-size:0.7rem;color:#888;">🎒 背包：';
+    S.inventory.forEach(id => {
+      const item = ITEMS.find(i => i.id === id);
+      inventoryHTML += ` <span style="cursor:pointer;color:#8ec8ff;" onclick="useItem('${id}');renderGame();" title="${item.desc}">${item.emoji}${item.name}</span>`;
+    });
+    inventoryHTML += '</div>';
+  }
+
+  // Shop
+  let shopHTML = '<div style="margin-top:4px;font-size:0.7rem;color:#888;">🛒 ';
+  ITEMS.forEach(item => {
+    shopHTML += `<span style="cursor:pointer;color:#66bb6a;margin-right:8px;" onclick="if(S.money>=${item.price}){S.money-=${item.price};S.inventory.push('${item.id}');renderGame();}" title="${item.desc}">${item.emoji}¥${item.price}</span>`;
+  });
+  shopHTML += `</div>`;
+
+  app.innerHTML = html`
+    <div class="card">
+      <div class="game-title" style="font-size:1.4rem;">华科计院找爱情</div>
+      <div class="top-bar">
+        <span class="top-tag">📅 ${sem} · 第${S.week + 1}周</span>
+        <span class="top-tag" style="background:#1a3a1a;color:#66bb6a;">🎯 ${semEvent}</span>
+        <span class="top-stat">⚡ <span>${S.energy}</span></span>
+        <span class="top-stat">💰 <span>¥${S.money}</span></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="narrative" id="narrativeBox">${narrHTML || '<p style="color:#888;">新学期开始了，选择你的行动吧！</p>'}</div>
+    </div>
+
+    <div class="card">
+      <div class="stat-row">${statsHTML}</div>
+    </div>
+
+    <div class="card">
+      <div class="char-row">${charsHTML}</div>
+      ${inventoryHTML}
+      ${shopHTML}
+    </div>
+
+    <div class="card">
+      <div style="color:#aaa;font-size:0.75rem;margin-bottom:6px;">🎯 选择行动</div>
+      <div class="actions-grid">${actionsHTML}</div>
+      ${confessHTML ? `<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">${confessHTML}</div>` : ''}
+      <div style="margin-top:8px;text-align:center;">
+        <button class="btn small" onclick="saveGame()">💾 保存</button>
+        <button class="btn small danger" onclick="if(confirm('确定要重新开始吗？当前进度将丢失。'))startNewGame()">🔄 重新开始</button>
+      </div>
+    </div>
+  `;
+  // Auto-scroll narrative
+  setTimeout(() => {
+    const box = document.getElementById('narrativeBox');
+    if (box) box.scrollTop = box.scrollHeight;
+  }, 50);
+}
+
+function renderChoice() {
+  const ce = S.currentEvent;
+  if (!ce) { S.phase = 'playing'; renderGame(); return; }
+
+  let choicesHTML = ce.choices.map((c, i) => {
+    return html`<button class="choice-btn" onclick="resolveChoice(${i})">${c.text}</button>`;
+  }).join('');
+
+  app.innerHTML = html`
+    <div class="overlay">
+      <div class="overlay-card">
+        <div class="overlay-title">⚡ ${ce.title}</div>
+        <div class="overlay-text">${ce.text}</div>
+        ${choicesHTML}
+      </div>
+    </div>
+  `;
+}
+
+function renderEnding() {
+  const e = S.ending;
+  if (!e) return;
+
+  let loveHTML = '';
+  if (e.codeLove) {
+    loveHTML = html`
+      <div class="ending-icon">🤖</div>
+      <div class="ending-title">隐藏结局：和代码结婚</div>
+      <div class="ending-desc">
+        你的编程力达到了巅峰。你的GitHub贡献图一片绿。你的键盘被磨得发亮。你的微信里除了技术群什么都没有。<br><br>
+        毕业那天你看着空荡荡的聊天列表，打开了LeetCode。<br>
+        「Runtime: 0ms, faster than 100%」<br>
+        你想：至少代码从不会拒绝你。<br><br>
+        <span style="color:#888;">——恭喜你成为华科最会写代码的单身汉。</span>
+      </div>
+    `;
+  } else if (e.allHigh && e.loveCount >= 2) {
+    loveHTML = html`
+      <div class="ending-icon">🔥</div>
+      <div class="ending-title">修罗场结局</div>
+      <div class="ending-desc">
+        你太受欢迎了！多个人对你的好感度都到了顶峰。<br>
+        毕业聚餐上，她们同时坐到了你对面。<br>
+        空气凝固了。<br><br>
+        <span style="color:#888;">——海王最终会淹死在自己的鱼塘里。</span>
+      </div>
+    `;
+  } else if (e.love.length > 0) {
+    const best = e.love.find(l => l.tier === 'love') || e.love[0];
+    loveHTML = html`
+      <div class="ending-icon">${best.emoji}</div>
+      <div class="ending-title">${best.tier === 'love' ? '💕 甜蜜结局' : best.tier === 'ambiguous' ? '💛 暧昧未满' : '💔 遗憾错过'}</div>
+      <div class="ending-desc">${best.text}</div>
+      ${e.love.filter(l => l !== best).map(l => html`
+        <div class="ending-desc" style="font-size:0.8rem;color:#888;margin-top:8px;">${l.emoji} ${l.name}：${l.text}</div>
+      `).join('')}
+    `;
+  } else if (e.allLow) {
+    loveHTML = html`
+      <div class="ending-icon">🧑‍💻</div>
+      <div class="ending-title">华科最孤独的人</div>
+      <div class="ending-desc">
+        四年过去了。你修了152个学分，写了十几万行代码，拿过两次奖学金。<br>
+        但你的微信聊天记录里，置顶的全部是课程群。<br>
+        你不禁想起入学那天——<br>
+        如果当时选了另一个选项，故事会不一样吗？
+      </div>
+    `;
+  } else {
+    loveHTML = html`
+      <div class="ending-icon">📖</div>
+      <div class="ending-title">平静的毕业</div>
+      <div class="ending-desc">
+        你没有谈成恋爱，但也没有特别遗憾。<br>
+        大学四年，你收获了一些友情、一些知识、一些回忆。<br>
+        或许爱情只是大学生活的一个选项，不是必答题。
+      </div>
+    `;
+  }
+
+  let achHTML = '';
+  if (S.achievements.length > 0) {
+    achHTML = '<div style="margin-top:12px;color:#ffd54f;font-size:0.8rem;">🏆 本周目解锁成就：';
+    achHTML += S.achievements.map(id => {
+      const a = ACHIEVEMENTS.find(x => x.id === id);
+      return a ? `${a.emoji}${a.name}` : '';
+    }).filter(Boolean).join(' · ');
+    achHTML += '</div>';
+  }
+
+  // Stats summary
+  const charsSummary = Object.entries(CHARACTERS).map(([cid, cd]) => {
+    const c = S.chars[cid];
+    return `${cd.emoji}${cd.name}：好感${Math.floor(c.affection)} (${c.stage})`;
+  }).join(' | ');
+
+  app.innerHTML = html`
+    <div class="card ending-card">
+      <div class="game-title">华科计院找爱情</div>
+      <div class="subtitle">—— 全剧终 ——</div>
+
+      <div style="margin:20px 0;padding:16px;background:#1a1a3a;border-radius:12px;">
+        <div style="font-size:1.1rem;font-weight:700;color:#8ec8ff;">${e.career.text}</div>
+        <div style="color:#ccc;font-size:0.85rem;margin-top:6px;">${e.career.desc}</div>
+      </div>
+
+      ${loveHTML}
+
+      <div class="ending-stats">
+        <p>编程力 ${Math.floor(S.coding)} | 社交力 ${Math.floor(S.social)} | 颜值 ${Math.floor(S.appearance)} | 浪漫值 ${Math.floor(S.romance)} | GPA ${gpaText(S.gpa)}</p>
+        <p style="margin-top:8px;">${charsSummary}</p>
+      </div>
+
+      ${achHTML}
+
+      <div style="margin-top:20px;">
+        <button class="btn primary" onclick="startNewGame()">🔄 再来一周目</button>
+        <button class="btn" onclick="showAchievements()">🏆 全部成就</button>
+        <button class="btn" onclick="S.phase='title';renderTitle()">🏠 主菜单</button>
+      </div>
+    </div>
+  `;
+}
+
+function showAchievements() {
+  let gridHTML = ACHIEVEMENTS.map(a => {
+    const unlocked = S.achievements.includes(a.id);
+    return html`<div class="ach-item${unlocked ? ' unlocked' : ''}">
+      <span class="ach-icon">${unlocked ? a.emoji : '🔒'}</span>
+      <div><div style="font-weight:600;">${a.name}</div><div style="font-size:0.7rem;">${a.desc}</div></div>
+    </div>`;
+  }).join('');
+
+  app.innerHTML = html`
+    <div class="overlay">
+      <div class="overlay-card">
+        <div class="overlay-title">🏆 成就收藏</div>
+        <div style="color:#888;font-size:0.8rem;margin-bottom:12px;">已解锁：${S.achievements.length} / ${ACHIEVEMENTS.length}</div>
+        <div class="ach-grid">${gridHTML}</div>
+        <div style="text-align:center;margin-top:16px;">
+          <button class="btn primary" onclick="if(S.phase==='title')renderTitle();else if(S.phase==='ending')renderEnding();else renderGame();">返回</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════
+// MINI GAMES (extra, triggered by events)
+// ═══════════════════════════════════════════
+function startMinigame(type) {
+  if (type === 'debug') startDebugGame();
+  else if (type === 'typing') startTypingGame();
+  else if (type === 'match') startMatchGame();
+}
+
+function startDebugGame() {
+  S.phase = 'minigame';
+  const bugs = [
+    { code: 'for(int i=0; i<n; i++);', line: 1, bug: 1, hint: '多余的分号' },
+    { code: 'if (x = 5)', line: 2, bug: 2, hint: '赋值当判断' },
+    { code: 'console.log("hello)', line: 3, bug: 3, hint: '缺少引号' },
+  ];
+  const target = pick(bugs);
+
+  app.innerHTML = html`
+    <div class="overlay">
+      <div class="overlay-card">
+        <div class="overlay-title">🔧 Debug速修</div>
+        <div style="color:#ccc;font-size:0.85rem;margin-bottom:12px;">找出代码中的bug！30秒倒计时</div>
+        <div class="minigame-timer" id="debugTimer">⏱ 30s</div>
+        <div style="margin:12px 0;">
+          ${bugs.map((b, i) => html`
+            <div class="minigame-target bug-btn" onclick="resolveDebug(${b.bug === target.bug})" id="bug${i}">
+              ${b.code}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  let time = 30;
+  window._debugInterval = setInterval(() => {
+    time--;
+    const timerEl = document.getElementById('debugTimer');
+    if (timerEl) timerEl.textContent = `⏱ ${time}s`;
+    if (time <= 0) { clearInterval(window._debugInterval); resolveDebug(false); }
+  }, 1000);
+  window._debugTarget = target;
+}
+
+function resolveDebug(success) {
+  clearInterval(window._debugInterval);
+  if (success) {
+    S.coding = clamp(S.coding + 8, 0, 100);
+    S.narrative.push({ type: 'event', text: '✅ Debug成功！你精准地找到了bug。编程力+8！' });
+  } else {
+    S.narrative.push({ type: 'event', text: '❌ Debug失败…但没关系，bug就是程序员最好的老师。' });
+  }
+  S.phase = 'playing';
+  checkAchievements();
+  renderGame();
+}
+
+function startTypingGame() {
+  S.phase = 'minigame';
+  const phrases = ['hello world', 'i love code', 'debug me', 'git push', '404 not found', 'while true', 'return 0'];
+  const target = pick(phrases);
+  window._typingTarget = target;
+
+  app.innerHTML = html`
+    <div class="overlay">
+      <div class="overlay-card">
+        <div class="overlay-title">⌨️ 心动打字</div>
+        <div style="color:#ccc;font-size:0.85rem;margin-bottom:12px;">快速打出下面的文字！</div>
+        <div class="minigame-timer" id="typeTimer">⏱ 20s</div>
+        <div class="minigame-target" style="font-size:1.4rem;text-align:center;letter-spacing:2px;">${target}</div>
+        <input id="typeInput" style="width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#0a0a14;color:#fff;font-size:1rem;text-align:center;margin-top:12px;font-family:inherit;" autofocus>
+      </div>
+    </div>
+  `;
+
+  let time = 20;
+  window._typeInterval = setInterval(() => {
+    time--;
+    const timerEl = document.getElementById('typeTimer');
+    if (timerEl) timerEl.textContent = `⏱ ${time}s`;
+    if (time <= 0) { clearInterval(window._typeInterval); resolveTyping(false); }
+  }, 1000);
+
+  setTimeout(() => {
+    const inp = document.getElementById('typeInput');
+    if (inp) {
+      inp.addEventListener('input', function() {
+        if (this.value.toLowerCase().trim() === window._typingTarget) {
+          resolveTyping(true);
+        }
+      });
+      inp.focus();
+    }
+  }, 100);
+}
+
+function resolveTyping(success) {
+  clearInterval(window._typeInterval);
+  if (success) {
+    S.romance = clamp(S.romance + 8, 0, 100);
+    S.narrative.push({ type: 'event', text: '⌨️ 打字飞起！你的手速让对方印象深刻。浪漫值+8！' });
+  } else {
+    S.narrative.push({ type: 'event', text: '⌨️ 打字超时…下次约会前记得多练练。' });
+  }
+  S.phase = 'playing';
+  checkAchievements();
+  renderGame();
+}
+
+function startMatchGame() {
+  S.phase = 'minigame';
+  const emojis = ['💻', '☕', '📚', '💕', '🎮', '🍜'];
+  const cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+  window._matchCards = cards;
+  window._matchFlipped = [];
+  window._matchMatched = [];
+  window._matchLocked = false;
+
+  let cardsHTML = cards.map((e, i) => html`
+    <div class="bug-btn" id="card${i}" onclick="flipCard(${i})" style="width:50px;height:50px;display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;">❓</div>
+  `).join('');
+
+  app.innerHTML = html`
+    <div class="overlay">
+      <div class="overlay-card">
+        <div class="overlay-title">🃏 缘分匹配</div>
+        <div style="color:#ccc;font-size:0.85rem;margin-bottom:12px;">翻牌配对，全部配对成功即可！</div>
+        <div class="minigame-timer" id="matchTimer">⏱ 25s</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:260px;margin:12px auto;">${cardsHTML}</div>
+      </div>
+    </div>
+  `;
+
+  let time = 25;
+  window._matchInterval = setInterval(() => {
+    time--;
+    const timerEl = document.getElementById('matchTimer');
+    if (timerEl) timerEl.textContent = `⏱ ${time}s`;
+    if (time <= 0) { clearInterval(window._matchInterval); resolveMatch(false); }
+  }, 1000);
+}
+
+function flipCard(idx) {
+  if (window._matchLocked) return;
+  if (window._matchFlipped.includes(idx)) return;
+  if (window._matchMatched.includes(idx)) return;
+
+  window._matchFlipped.push(idx);
+  const el = document.getElementById('card' + idx);
+  if (el) el.textContent = window._matchCards[idx];
+
+  if (window._matchFlipped.length === 2) {
+    window._matchLocked = true;
+    const [a, b] = window._matchFlipped;
+    if (window._matchCards[a] === window._matchCards[b]) {
+      window._matchMatched.push(a, b);
+      window._matchFlipped = [];
+      window._matchLocked = false;
+      if (window._matchMatched.length === window._matchCards.length) {
+        resolveMatch(true);
+      }
+    } else {
+      setTimeout(() => {
+        document.getElementById('card' + a).textContent = '❓';
+        document.getElementById('card' + b).textContent = '❓';
+        window._matchFlipped = [];
+        window._matchLocked = false;
+      }, 500);
+    }
+  }
+}
+
+function resolveMatch(success) {
+  clearInterval(window._matchInterval);
+  if (success) {
+    S.social = clamp(S.social + 8, 0, 100);
+    S.narrative.push({ type: 'event', text: '🃏 全部配对成功！你在联谊活动上大放异彩。社交力+8！' });
+  } else {
+    S.narrative.push({ type: 'event', text: '🃏 配对失败…联谊活动上你有点紧张。' });
+  }
+  S.phase = 'playing';
+  checkAchievements();
+  renderGame();
+}
+
+// ═══════════════════════════════════════════
+// SAVE / LOAD
+// ═══════════════════════════════════════════
+function saveGame() {
+  const saveData = {
+    ...S,
+    currentEvent: null, // Don't save event reference
+  };
+  try {
+    localStorage.setItem('hust_cs_love_save', JSON.stringify(saveData));
+    S.narrative.push({ type: 'system', text: '💾 游戏已保存！' });
+  } catch(e) {
+    S.narrative.push({ type: 'error', text: '保存失败…' });
+  }
+  renderGame();
+}
+
+function loadGame() {
+  try {
+    const raw = localStorage.getItem('hust_cs_love_save');
+    if (!raw) { alert('没有找到存档。'); return; }
+    const data = JSON.parse(raw);
+    S = data;
+    // Restore character methods
+    for (const cid of Object.keys(CHARACTERS)) {
+      if (!S.chars[cid]) S.chars[cid] = { affection: 0, stage: 'stranger', met: false };
+    }
+    S.currentEvent = null;
+    S.nextMinigame = null;
+    S.itemsUsed = S.itemsUsed || {};
+    if (S.phase === 'choice') S.phase = 'playing';
+    S.narrative.push({ type: 'system', text: '💾 存档已加载。欢迎回来！' });
+    if (S.phase === 'ending') renderEnding();
+    else renderGame();
+  } catch(e) {
+    alert('存档损坏，无法读取。');
+  }
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+renderTitle();
+</script>
+</body>
+</html>
