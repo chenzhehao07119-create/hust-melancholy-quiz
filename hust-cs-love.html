@@ -448,6 +448,113 @@ body {
 .narr-su { border-left: 3px solid #ff6f00; padding-left: 10px; }
 .narr-lu { border-left: 3px solid #e91e63; padding-left: 10px; }
 .narr-ye { border-left: 3px solid #26a69a; padding-left: 10px; }
+
+/* ── Personality Badges ── */
+.personality-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+.personality-badge {
+  padding: 3px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 500;
+  background: rgba(255,255,255,0.6); border: 1px solid rgba(233,30,99,0.15); color: #8d6e63;
+}
+.personality-badge.active { background: linear-gradient(135deg, #fce4ec, #f8bbd0); color: #c2185b; border-color: #e91e63; font-weight: 700; }
+
+/* ── Recap / Review ── */
+.review-header {
+  text-align: center; padding: 20px 0;
+  background: linear-gradient(135deg, #1a0533, #2d1b4e);
+  border-radius: 16px; color: #fff; margin-bottom: 12px;
+}
+.review-score {
+  font-size: 3.5rem; font-weight: 900;
+  background: linear-gradient(135deg, #ffd54f, #ff8f00, #ff6f00);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.review-rank {
+  font-size: 1.2rem; font-weight: 700; color: #ffd54f; margin-top: 4px;
+}
+.review-subtitle { color: rgba(255,255,255,0.6); font-size: 0.8rem; margin-top: 4px; }
+
+.timeline-container { position: relative; padding-left: 24px; }
+.timeline-container::before {
+  content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+  width: 3px; background: linear-gradient(180deg, #e91e63, #ff6f00, #7c4dff, #26a69a);
+  border-radius: 2px;
+}
+.timeline-item {
+  position: relative; margin-bottom: 14px; padding: 10px 14px;
+  background: rgba(255,255,255,0.75); border-radius: 10px;
+  border: 1px solid rgba(233,30,99,0.1);
+}
+.timeline-item::before {
+  content: ''; position: absolute; left: -20px; top: 14px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #e91e63; border: 2px solid #fff; box-shadow: 0 0 6px rgba(233,30,99,0.4);
+}
+.timeline-item.love::before { background: #e91e63; }
+.timeline-item.study::before { background: #7c4dff; }
+.timeline-item.social::before { background: #26a69a; }
+.timeline-item.dilemma::before { background: #ff6f00; }
+.timeline-sem { font-size: 0.7rem; color: #e91e63; font-weight: 700; }
+.timeline-text { font-size: 0.82rem; color: #5d4037; margin-top: 2px; line-height: 1.5; }
+
+.whatif-card {
+  background: linear-gradient(135deg, #fff8e1, #fce4ec);
+  border: 1px solid rgba(255,111,0,0.2); border-radius: 12px;
+  padding: 12px 16px; margin: 8px 0; font-size: 0.82rem; color: #5d4037;
+}
+
+.stats-compare {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0;
+}
+.stats-compare-item {
+  background: rgba(255,255,255,0.7); border-radius: 10px; padding: 10px;
+  text-align: center; border: 1px solid rgba(233,30,99,0.1);
+}
+.stats-compare-val { font-size: 1.5rem; font-weight: 700; color: #e91e63; }
+.stats-compare-label { font-size: 0.7rem; color: #8d6e63; }
+
+/* ── Date Dialogue ── */
+.dialogue-card {
+  background: linear-gradient(135deg, #fff, #fce4ec);
+  border: 2px solid rgba(233,30,99,0.2); border-radius: 16px;
+  padding: 20px; margin: 12px 0; animation: sceneIn 0.5s ease;
+}
+.dialogue-avatar {
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 30px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.dialogue-line { color: #5d4037; font-size: 0.88rem; line-height: 1.7; text-align: center; margin: 8px 0; font-style: italic; }
+.dialogue-speaker { color: #e91e63; font-size: 0.75rem; font-weight: 600; text-align: center; margin-bottom: 4px; }
+.dialogue-choices { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+.dialogue-btn {
+  padding: 10px 16px; border: 1px solid rgba(233,30,99,0.2); border-radius: 12px;
+  background: rgba(255,255,255,0.8); color: #5d4037; font-size: 0.82rem;
+  cursor: pointer; transition: all 0.2s; text-align: left; font-family: inherit;
+}
+.dialogue-btn:hover { background: #fce4ec; border-color: #e91e63; color: #c2185b; transform: translateX(3px); }
+
+/* ── Review Tabs ── */
+.review-tabs { display: flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap; }
+.review-tab {
+  padding: 7px 14px; border-radius: 16px; font-size: 0.75rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; border: 1px solid rgba(233,30,99,0.15);
+  background: rgba(255,255,255,0.6); color: #8d6e63; font-family: inherit;
+}
+.review-tab.active { background: linear-gradient(135deg, #e91e63, #ff6f00); color: #fff; border-color: transparent; }
+
+/* ── Affection trend bars in recap ── */
+.trend-bar-wrap { display: flex; align-items: flex-end; gap: 4px; height: 60px; margin: 8px 0; }
+.trend-bar {
+  flex: 1; border-radius: 3px 3px 0 0; min-width: 8px;
+  transition: height 0.5s ease;
+}
+
+/* ── Pulse dot for active event ── */
+.pulse-dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: #e91e63; animation: pulse 1.5s ease-in-out infinite; margin-right: 4px;
+}
 </style>
 </head>
 <body>
@@ -812,6 +919,22 @@ const RANDOM_EVENTS = [
   { id: 'r38', text: '有人在校内论坛发了一个投票：「谁是计院最帅的程序员？」你被提名了。颜值+5，社交力+3。', eff: { appearance: 5, social: 3 }, cond: s => s.appearance >= 40, flavor: 'good' },
   { id: 'r39', text: '你熬夜写代码到凌晨三点，突然收到一条微信：「早点睡。」——你不知道是谁发的，但心里一暖。精力+10。', eff: { energy: 10, romance: 2 }, cond: s => s.energy < 40, flavor: 'good' },
   { id: 'r40', text: '沁苑门口有个女生在发传单，你接过来一看——是动漫社的招新海报，上面画满了可爱的美少女。小鹿在角落对你眨了眨眼。', eff: { social: 2 }, cond: s => S.chars.lu.met, flavor: 'good', char: 'lu' },
+  // ── 新增事件：更多华科/CS梗 ──
+  { id: 'r41', text: '你写的Python脚本自动抢到了沁苑食堂最难抢的红烧肉！室友们投来羡慕的目光。社交力+3，精力+5。', eff: { social: 3, energy: 5 }, cond: s => s.coding >= 30, flavor: 'good' },
+  { id: 'r42', text: '在西十二楼迷路了20分钟，但意外发现了一个超棒的靠窗自习位。从此这成了你的秘密基地。颜值+2，社交力+2。', eff: { appearance: 2, social: 2 }, cond: s => true, flavor: 'good' },
+  { id: 'r43', text: '你帮室友重装了系统，室友感动得不行，请你吃了顿大餐。社交力+4，金钱+30。', eff: { social: 4, money: 30 }, cond: s => s.coding >= 25, flavor: 'good' },
+  { id: 'r44', text: '深夜写代码时突然灵感爆发，一口气写完了整个模块！第二天提交的时候连老师都惊呆了。编程力+6，GPA+0.06。', eff: { coding: 6, gpa: 0.06 }, cond: s => s.coding >= 45, flavor: 'good' },
+  { id: 'r45', text: '光谷新开了家猫咖，你路过时被猫猫碰瓷了——一只橘猫趴在你脚上不肯走。只能进去消费了。金钱-50，但心情好了。精力+15，浪漫值+3。', eff: { energy: 15, romance: 3, money: -50 }, cond: s => s.money >= 50, flavor: 'good' },
+  { id: 'r46', text: '你的GitHub仓库被华科校友星标了100次！受宠若惊，决定更加努力。编程力+3，社交力+2。', eff: { coding: 3, social: 2 }, cond: s => s.coding >= 50, flavor: 'good' },
+  { id: 'r47', text: '和室友一起在韵苑楼下吃热干面，讨论到凌晨两点的「人生理想」。社交力+5，精力-10。', eff: { social: 5, energy: -10 }, cond: s => s.social >= 20, flavor: 'good' },
+  { id: 'r48', text: '你被抽中去听了一场人文讲座，主题是「爱情与算法」。全程在刷手机，但结尾那句「爱不是最优解，是唯一解」莫名戳中了你。浪漫值+6。', eff: { romance: 6 }, cond: s => true, flavor: 'good' },
+  { id: 'r49', text: '华科的梧桐树掉毛毛了！你过敏了，在寝室躺了一整天。精力-15。', eff: { energy: -15 }, cond: s => [2, 3].includes(s.semester), flavor: 'bad' },
+  { id: 'r50', text: '你的机械键盘被室友投诉「太吵了」。无奈换回了薄膜键盘，手感全无。编程力-3。', eff: { coding: -3 }, cond: s => s.coding >= 40, flavor: 'bad' },
+  { id: 'r51', text: '在绝望坡上骑车下坡的时候放飞双手——结果摔了。校医院的护士姐姐说「这个月第三个了」。颜值-5，精力-10。', eff: { appearance: -5, energy: -10 }, cond: s => true, flavor: 'bad' },
+  { id: 'r52', text: '林学姐发了条朋友圈：「debug到了凌晨三点，终于找到了那个死锁。」你默默点了个赞。没过多久她私聊你：「你也没睡？」精力-10，好感+3。', eff: { energy: -10 }, cond: s => S.chars.lin.met && S.chars.lin.affection >= 25, flavor: 'good', char: 'lin', charEff: { lin: 3 } },
+  { id: 'r53', text: '苏念念在课上偷偷传了张纸条给你，上面画了一只生气的猫：「你又没做作业是吧！下午图书馆308，别迟到。」GPA+0.04。', eff: { gpa: 0.04 }, cond: s => S.chars.su.met && S.chars.su.affection >= 20, flavor: 'good', char: 'su', charEff: { su: 3 } },
+  { id: 'r54', text: '小鹿发了一段语音，是她翻唱的《有点甜》。虽然跑调了，但莫名可爱。浪漫值+4。', eff: { romance: 4 }, cond: s => S.chars.lu.met && S.chars.lu.affection >= 15, flavor: 'good', char: 'lu', charEff: { lu: 3 } },
+  { id: 'r55', text: '叶学姐在咖啡馆看书时旁边有人搭讪，她礼貌地拒绝了。你刚好看到这一幕，她冲你无奈地笑了笑。浪漫值+3。', eff: { romance: 3 }, cond: s => S.chars.ye.met && S.chars.ye.affection >= 20, flavor: 'good', char: 'ye', charEff: { ye: 3 } },
 ];
 
 // Situational choice events
@@ -943,6 +1066,190 @@ const CHOICE_EVENTS = [
       { text: '什么都没说。和她干了一杯，然后看别人哭。', eff: {}, affection: { lin: -5, su: -5, lu: -5, ye: -5 } },
     ]
   },
+  // ── 新增抉择事件：更戏剧性的两难 ──
+  { id: 'c15', char: 'lin', need: 35, semMin: 3,
+    title: '比赛还是约会',
+    text: 'ACM校赛和动漫社的社团节在同一天。林学姐作为队长点名要你参加——你说过要帮她拿金牌。但你之前也答应了小鹿去社团节帮忙。两边都等着你的答复。',
+    choices: [
+      { text: '去ACM比赛，给林学姐发消息解释。', eff: { coding: 8, social: -3 }, affection: { lin: 15, lu: -8 } },
+      { text: '去社团节，跟林学姐说下次一定。', eff: { social: 8, coding: -2 }, affection: { lu: 15, lin: -8 } },
+      { text: '上午比赛下午社团节——累死也值了。', eff: { coding: 4, social: 4, energy: -35 }, affection: { lin: 6, lu: 6 } },
+    ]
+  },
+  { id: 'c16', char: 'su', need: 35, semMin: 2,
+    title: '考试作弊风波',
+    text: '期末考场上你发现苏念念旁边的同学在传小抄。考完后她悄悄跟你说：「我看到了，但我不敢说…如果举报的话，那个同学会被开除的。」她看起来很困扰。',
+    choices: [
+      { text: '「一起去跟老师说吧。这种事情不能纵容。」', eff: { social: 5 }, affection: { su: 12 } },
+      { text: '「你就当没看到吧，别给自己找麻烦。」', eff: {}, affection: { su: 4 } },
+      { text: '「你先别管了，我帮你去问问辅导员意见。」', eff: { social: 3, energy: -10 }, affection: { su: 10 } },
+    ]
+  },
+  { id: 'c17', char: 'lu', need: 40, semMin: 3,
+    title: '动漫社危机',
+    text: '动漫社因为经费不足面临解散。小鹿急得团团转：「学长…你是程序员，能不能帮我们做个众筹网站？」你知道这要花至少两周时间，而期中考试就在下周。',
+    choices: [
+      { text: '通宵帮她做网站！社团不能散。', eff: { coding: 10, social: 5, gpa: -0.1, energy: -30 }, affection: { lu: 20 } },
+      { text: '帮她设计个简单方案，教她自己维护。', eff: { coding: 4, social: 4 }, affection: { lu: 10 } },
+      { text: '建议她去拉企业赞助，给几个联系方式。', eff: { social: 5 }, affection: { lu: 4 } },
+    ]
+  },
+  { id: 'c18', char: 'ye', need: 40, semMin: 4,
+    title: '留学机会',
+    text: '叶学姐拿到了英国爱丁堡大学的交换名额。她很犹豫要不要去：「一年…说长不长，说短不短。」她看着你，似乎在等你说什么。',
+    choices: [
+      { text: '「去啊！别因为我耽误了你。」给她最大的支持。', eff: { romance: 5 }, affection: { ye: 18 } },
+      { text: '「我会想你的。但这是你的决定。」', eff: { romance: 4 }, affection: { ye: 10 } },
+      { text: '「能不能不去？」声音越来越小。', eff: { romance: 8 }, affection: { ye: 12 } },
+    ]
+  },
+  { id: 'c19', char: null, need: 40, semMin: 4,
+    title: '室友的三角恋',
+    text: '你的室友喜欢上了苏念念，但他不知道你和苏念念关系很好。某天他兴冲冲地跟你说：「我想追咱们班那个苏念念！你帮我要个微信呗？」你手里的筷子掉在了地上。',
+    choices: [
+      { text: '「她…好像有喜欢的人了。」委婉地暗示。', eff: { social: -3 }, affection: { su: 5 } },
+      { text: '「好啊，我帮你问问。」心里很不是滋味。', eff: { social: 5 }, affection: { su: -5 } },
+      { text: '「说出来你可能不信——我也喜欢她。」坦白了。', eff: { social: -8, romance: 8 }, affection: { su: 12 } },
+    ]
+  },
+  { id: 'c20', char: 'lin', need: 60, semMin: 5,
+    title: '导师的选择',
+    text: '你做的一个AI项目引起了字节跳动一位技术总监的注意。对方发来邀请——提前批面试，直接给offer。但林学姐说这个方向和她正在做的研究高度重合。「如果你去了，我们就是竞争对手了。」她半开玩笑地说。',
+    choices: [
+      { text: '「那就做对手吧——晚上回家还是可以一起debug的。」', eff: { coding: 8, romance: 6, money: 100 }, affection: { lin: 15 } },
+      { text: '放弃这个机会，和林学姐一起做学术。', eff: { coding: 3, gpa: 0.1 }, affection: { lin: 20 } },
+      { text: '各做各的，互不干涉。', eff: { coding: 5, money: 50 }, affection: { lin: 2 } },
+    ]
+  },
+  { id: 'c21', char: 'su', need: 55, semMin: 5,
+    title: '异地offer',
+    text: '苏念念收到了杭州阿里的offer。她兴冲冲地跑来找你：「我被阿里录了！你投了吗？」你知道自己投的是深圳腾讯。「我…投了深圳。」她的笑容僵了一下。',
+    choices: [
+      { text: '「要不我也补投一个阿里试试？」', eff: { coding: 3, money: 50 }, affection: { su: 18 } },
+      { text: '「深圳离杭州也不远…周末可以见的。」', eff: { romance: 4, social: 2 }, affection: { su: 6 } },
+      { text: '「恭喜你！我们各自加油吧。」', eff: { coding: 4 }, affection: { su: -3 } },
+    ]
+  },
+  { id: 'c22', char: 'lu', need: 55, semMin: 5,
+    title: '意外的告白',
+    text: '小鹿在动漫社的活动室里等你。她一反常态地安静，低着头不说话。然后突然抬头：「学长——如果我说，我对你的喜欢，不只是学妹对学长那种…你会不会觉得我很奇怪？」她的脸涨得通红。',
+    choices: [
+      { text: '「不奇怪。」轻轻握住她的手。', eff: { romance: 12 }, affection: { lu: 25 } },
+      { text: '「…让我想想怎么回答你。」认真地看着她。', eff: { romance: 6 }, affection: { lu: 14 } },
+      { text: '「你是个好妹妹…但——」不忍心说下去。', eff: {}, affection: { lu: -15 } },
+    ]
+  },
+  { id: 'c23', char: 'ye', need: 55, semMin: 5,
+    title: '机场送别',
+    text: '叶学姐去英国的日子到了。在天河机场，她穿着一件卡其色风衣，显得格外好看。安检口前排了很长的队。她攥着机票，看向了你：「我有个问题想问你——在我走之前。」',
+    choices: [
+      { text: '不等她问出口，直接吻了她。', eff: { romance: 15, social: 3 }, affection: { ye: 25 } },
+      { text: '「你问吧，我听着。」心跳得很快。', eff: { romance: 6 }, affection: { ye: 12 } },
+      { text: '「一路平安。落地给我发消息。」不敢面对。', eff: {}, affection: { ye: -5 } },
+    ]
+  },
+  { id: 'c24', char: null, need: 50, semMin: 6,
+    title: '最后的选修课',
+    text: '大四最后一节选修课上，老师突然说：「最后十分钟，我想请每位同学说一说——大学四年最遗憾的一件事。」教室里安静下来。轮到你的时候，所有人的目光都集中在你身上。',
+    choices: [
+      { text: '「最遗憾的是——有些话，没来得及说出口。」看向那个人的方向。', eff: { romance: 10, social: 8 }, affection: { lin: 10, su: 10, lu: 10, ye: 10 } },
+      { text: '「没有遗憾。我觉得这四年很完美。」微笑。', eff: { social: 6 }, affection: {} },
+      { text: '「最遗憾的是——我代码写得还不够多。」大家笑了起来。', eff: { coding: 3, social: 4 }, affection: {} },
+    ]
+  },
+];
+
+// ═══════════════════════════════════════════
+// DATE DIALOGUES — 好感度达标后触发的约会对话
+// ═══════════════════════════════════════════
+const DATE_SCENES = [
+  { id: 'd1', location: '光谷步行街',
+    setup: '周末的光谷人来人往。你远远就看到了她——在人群中，她也在朝你这边看。',
+    dialogues: {
+      lin: [
+        { speaker: '林知夏', text: '「我不怎么出来逛…但这家店的抹茶拿铁还不错。」她捧着一杯热饮，难得没有聊代码。', replies: [
+          { text: '「学姐偶尔也该出来透透气。」', react: '她微微点头：「嗯…和你一起的话，出来走走也不错。」好感+10。', aff: 10, trait: 'kind' },
+          { text: '「周末还惦记着代码？」笑着看她。', react: '她愣了一下，然后难得地笑了：「…被你发现了。不过今天不想了。」好感+8。', aff: 8, trait: 'nerdy' },
+        ]},
+      ],
+      su: [
+        { speaker: '苏念念', text: '「你是不是跟踪我！」她手里提着一袋零食，眼睛亮晶晶地看着你。', replies: [
+          { text: '「是啊，专门来偶遇你的。」', react: '她脸微微一红：「少来…不过既然遇到了，帮我拎东西。」把袋子塞到你手里。好感+10。', aff: 10, trait: 'romantic' },
+          { text: '「碰巧路过。你买了什么好吃的？」', react: '她翻出一包薯片：「这个超好吃！…算了分你一包。」好感+7。', aff: 7, trait: 'kind' },
+        ]},
+      ],
+      lu: [
+        { speaker: '小鹿', text: '「学长学长！！」她蹦蹦跳跳地跑过来，手里拿着两个甜筒：「我刚好买了两个！给你一个！」', replies: [
+          { text: '「你怎么知道我喜欢吃甜筒？」接过来。', react: '「因为学长每次路过甜品店都会看很久啊！」她得意地笑了。好感+12。', aff: 12, trait: 'romantic' },
+          { text: '「谢谢小鹿。今天又逃课了是不是？」', react: '她做了个鬼脸：「才没有！…好吧就半节课。不要告诉别人哦！」好感+8。', aff: 8, trait: 'brave' },
+        ]},
+      ],
+      ye: [
+        { speaker: '叶清辞', text: '她靠在书店窗边，手里翻着英文诗集。抬头看到你，微微一笑：「真巧——你也来逛书店？」', replies: [
+          { text: '「在找什么书？」自然地走过去。', react: '「聂鲁达的诗集——想找英文版。」她把书递给你看。你们在书店消磨了整个下午。好感+12。', aff: 12, trait: 'romantic' },
+          { text: '「又碰到学姐了。缘分啊。」', react: '她轻笑：「也许是故意的呢？」好感+8。', aff: 8, trait: 'kind' },
+        ]},
+      ],
+    }
+  },
+  { id: 'd2', location: '东九楼天台',
+    setup: '傍晚的东九楼天台，夕阳把天染成了橘红色。她站在栏杆边，风吹起她的头发。看到你来了，她转过头微笑。',
+    dialogues: {
+      lin: [
+        { speaker: '林知夏', text: '「我以前遇到瓶颈的时候，就喜欢来这里。」她望着远方，声音很轻。', replies: [
+          { text: '「现在有我了——瓶颈可以一起扛。」', react: '她沉默了几秒，轻轻「嗯」了一声。夕阳照在她脸上，你看到她的眼眶有点红。好感+15。', aff: 15, trait: 'romantic' },
+          { text: '「学姐是不是又熬了几个通宵？」', react: '「…被你发现了。」她揉了揉眼睛。「但今天我不想谈代码。陪我看完这场日落吧。」好感+10。', aff: 10, trait: 'kind' },
+        ]},
+      ],
+      su: [
+        { speaker: '苏念念', text: '「喂——你说我们从这里看下去，整个华科都在脚下诶！」她兴奋地指着远处的绝望坡。', replies: [
+          { text: '「还有好多日子。毕业之前都在这儿。」', react: '她点点头：「毕业的时候再来这里拍张照吧——约定好了。」好感+12。', aff: 12, trait: 'kind' },
+          { text: '「你大一的时候是不是也来过？」', react: '「是啊——那时候一个人。现在两个人。」她说得很随意，但你听出了不一样的东西。好感+10。', aff: 10, trait: 'romantic' },
+        ]},
+      ],
+      lu: [
+        { speaker: '小鹿', text: '「学长你知道吗——我大一的时候经常一个人来天台。因为想家。」她抱着膝盖坐在台阶上。', replies: [
+          { text: '「现在不用一个人了。」坐到了她旁边。', react: '她「噗」地笑了：「学长你突然这么温柔好不习惯！」但她把头轻轻靠在了你的肩膀上。好感+15。', aff: 15, trait: 'kind' },
+          { text: '「那以后想家的时候就叫我。」', react: '她认真地伸出手：「拉钩！」你们在夕阳下郑重地拉了钩。好感+12。', aff: 12, trait: 'romantic' },
+        ]},
+      ],
+      ye: [
+        { speaker: '叶清辞', text: '「夕阳比日出更美。」她轻声说，「日出是要出发的，夕阳是告诉你——该回家了。」', replies: [
+          { text: '「那以后一起看很多次日落吧。」', react: '她没有回答。但她的手轻轻地碰到了你的手，没有移开。好感+15。', aff: 15, trait: 'romantic' },
+          { text: '「日出或日落——关键看和谁一起。」', react: '她转头看了你一眼，眼里有夕阳的倒影。「你说得对。」好感+12。', aff: 12, trait: 'brave' },
+        ]},
+      ],
+    }
+  },
+  { id: 'd3', location: '南一楼实验室',
+    setup: '深夜的南一楼实验室，只有键盘和空调的声音。她专注地盯着屏幕，你端着两杯咖啡走了进来。',
+    dialogues: {
+      lin: [
+        { speaker: '林知夏', text: '「你怎么还没回去？」抬头看到你，眼神里有惊喜。接过咖啡，手指碰到了一起。', replies: [
+          { text: '「因为知道这里有个人还在。」', react: '她低头喝了一口咖啡：「…笨蛋。」但你看到她偷偷笑了。好感+15。', aff: 15, trait: 'brave' },
+          { text: '「睡不着，来写会儿代码。需要帮手吗？」', react: '她把屏幕转向你：「这个bug已经耗了我三个小时了…」你们并肩debug到凌晨，效率奇高。好感+10。', aff: 10, trait: 'nerdy' },
+        ]},
+      ],
+      su: [
+        { speaker: '苏念念', text: '「天哪你居然主动来学习！太阳打西边出来了。」她夸张地捂住嘴，然后把一沓资料推过来。', replies: [
+          { text: '「不是你让我多学习的吗——又说风凉话。」', react: '她哼了一声：「嘴皮子变厉害了嘛。不过——谢了。」最后一句说得很轻。好感+12。', aff: 12, trait: 'romantic' },
+          { text: '「一起吧。两个人效率高。」', react: '她满意地点点头。凌晨三点搞定所有资料，她趴在桌上快睡着了，嘴里还念叨着重点。好感+10。', aff: 10, trait: 'nerdy' },
+        ]},
+      ],
+      lu: [
+        { speaker: '小鹿', text: '「我在等你！」她抱着一堆画稿。「社团要印社刊——我想让你当第一个读者！」她把画稿摊开。', replies: [
+          { text: '一张一张认真地看：「都很好——尤其是这张。」指着一张画有你的Q版。', react: '她不好意思地笑了：「这张画了好多遍…因为想把学长画得最好看。」好感+12。', aff: 12, trait: 'kind' },
+          { text: '「小鹿你很有天赋。以后想出画集吗？」', react: '她眼睛亮了：「想！学长你帮我写网站好不好！」然后立刻捂住嘴：「啊我说出来了——」好感+10。', aff: 10, trait: 'romantic' },
+        ]},
+      ],
+      ye: [
+        { speaker: '叶清辞', text: '她坐在窗边，膝上放着一本书。看到你来了，她合上书微微一笑：「我在等一个人。」', replies: [
+          { text: '「这个人是我吗？」在她对面坐下。', react: '「如果是别人，我就已经走了。」她推过来一杯咖啡：「这次换我请。」好感+15。', aff: 15, trait: 'romantic' },
+          { text: '「这么晚还在看书？」好奇地问。', react: '她把封面给你看：《The Art of Loving》。「一本关于爱的书——感觉比代码难懂多了。」好感+10。', aff: 10, trait: 'kind' },
+        ]},
+      ],
+    }
+  },
 ];
 
 // ═══════════════════════════════════════════
@@ -962,10 +1269,14 @@ const DEFAULT_STATE = {
   gymStreak: 0, restStreak: 0, rejected: 0, failedExams: 0,
   canteenEvents: 0, timeMaster: false,
   narrative: [], currentEvent: null,
-  phase: 'title', // title, playing, event, choice, minigame, ending
+  phase: 'title', // title, playing, event, choice, minigame, ending, review, dialogue
   examResults: [],
   dateCount: 0, confessedTo: [],
   lastAction: null, nextMinigame: null,
+  timeline: [], // { sem, week, type, text, char }
+  personality: { brave: 0, kind: 0, nerdy: 0, romantic: 0, lazy: 0 }, // trait scores
+  dateHistory: [], // { char, location, affectionGained }
+  dialogueState: null, // current dialogue session
 };
 
 let S = JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -1032,6 +1343,25 @@ function checkAchievements() {
   }
 }
 
+function addTimeline(type, text, char) {
+  S.timeline.push({ sem: S.semester, week: S.week, type, text, char });
+}
+
+function updatePersonality(trait) {
+  if (trait && S.personality[trait] !== undefined) {
+    S.personality[trait] = Math.min(S.personality[trait] + 1, 10);
+  }
+}
+
+function getDominantTrait() {
+  let best = '', max = 0;
+  const names = { brave: '勇敢', kind: '温柔', nerdy: '学霸', romantic: '浪漫', lazy: '佛系' };
+  for (const [k, v] of Object.entries(S.personality)) {
+    if (v > max) { max = v; best = k; }
+  }
+  return { key: best, name: names[best] || '普通', score: max };
+}
+
 function startNewGame() {
   sfxSuccess();
   S = JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -1042,8 +1372,12 @@ function startNewGame() {
     ye: { affection: 0, stage: 'stranger', met: false },
   };
   S.phase = 'playing';
+  S.timeline = [];
+  S.personality = { brave: 0, kind: 0, nerdy: 0, romantic: 0, lazy: 0 };
+  S.dateHistory = [];
   S.narrative = [{ type: 'system', text: '🌅 九月的武汉，热得像蒸笼。你拖着一个行李箱，站在华科南大门前。你是华中科技大学计算机学院的一名新生。接下来的四年，会发生什么呢？' }];
   S.narrative.push({ type: 'system', text: `📅 ${SEMESTERS[S.semester]} 开始了！主题：${SEM_EVENTS[S.semester]}` });
+  addTimeline('study', '入学华科计院，大学生活正式开始', null);
   renderGame();
 }
 
@@ -1097,6 +1431,7 @@ function doAction(actionId) {
       c.stage = getStage(c.affection);
       const cd = CHARACTERS[action.char];
       S.narrative.push({ type: 'event', text: cd.events.meet.text, char: action.char });
+      addTimeline('social', `第一次遇见${cd.name}`, action.char);
       sfxHeart();
     } else if (c.met) {
       c.affection = clamp(c.affection + 5, 0, 100);
@@ -1111,6 +1446,13 @@ function doAction(actionId) {
 
   // Narrative
   S.narrative.push({ type: 'action', text: `▶ 你选择了「${action.name}」——${action.desc}` });
+
+  // Track timeline for important actions
+  if (actionId === 'date') { addTimeline('love', `主动约会，踏出了勇敢的一步`, action.char || null); S.personality.brave = Math.min(S.personality.brave + 1, 10); }
+  if (actionId === 'study') { S.personality.nerdy = Math.min(S.personality.nerdy + 1, 10); }
+  if (actionId === 'leetcode') { S.personality.nerdy = Math.min(S.personality.nerdy + 1, 10); }
+  if (actionId === 'rest') { S.personality.lazy = Math.min(S.personality.lazy + 1, 10); }
+  if (actionId === 'gym') { S.personality.brave = Math.min(S.personality.brave + 1, 10); }
 
   // Random mini-game trigger from actions
   if (actionId === 'date' && Math.random() < 0.3 && S.dateCount <= 2) {
@@ -1198,6 +1540,7 @@ function endSemester() {
         char.affection = clamp(char.affection + 12, 0, 100);
         char.stage = getStage(char.affection);
         sfxHeart();
+        addTimeline('love', `⭐ ${cdata.name}关键事件`, cid);
       }
     }
   }
@@ -1241,6 +1584,7 @@ function endSemester() {
     return;
   }
 
+  addTimeline('study', `${SEMESTERS[S.semester]} 开学`, null);
   S.narrative.push({ type: 'system', text: `📅 ${SEMESTERS[S.semester]} 开始了！主题：${SEM_EVENTS[S.semester]}` });
   S.narrative.push({ type: 'system', text: '💡 新学期新气象。你想做点什么？' });
 
@@ -1250,6 +1594,25 @@ function endSemester() {
     S.chars.ye.affection = 5;
     S.chars.ye.stage = getStage(S.chars.ye.affection);
     S.narrative.push({ type: 'event', text: CHARACTERS.ye.events.meet.text, char: 'ye' });
+    addTimeline('social', `认识了${CHARACTERS.ye.name}`, 'ye');
+  }
+
+  // Try to trigger date dialogue
+  if (S.dateCount >= 1) {
+    for (const scene of DATE_SCENES) {
+      if (S[`date_${scene.id}`]) continue;
+      if (!scene.trigger(S)) continue;
+      S[`date_${scene.id}`] = true;
+      // Find a character with high enough affection
+      for (const [cid, c] of Object.entries(S.chars)) {
+        if (!c.met || c.affection < 30) continue;
+        if (!scene.dialogues[cid]) continue;
+        S.dialogueState = { scene, charId: cid, step: 0 };
+        S.phase = 'dialogue';
+        renderDialogue();
+        return;
+      }
+    }
   }
 
   checkAchievements();
@@ -1262,6 +1625,12 @@ function resolveChoice(choiceIdx) {
   const choice = ce.choices[choiceIdx];
   applyEffects(choice.eff, choice.affection || null);
   S.narrative.push({ type: 'choice', text: `💬 你选择了：「${choice.text}」` });
+
+  // Track timeline and personality
+  addTimeline('dilemma', `${ce.title}：${choice.text.slice(0, 20)}…`, ce.char);
+  // Infer personality from choice
+  if (choiceIdx === 0) S.personality.brave = Math.min(S.personality.brave + 1, 10);
+  if (choiceIdx === 1) S.personality.kind = Math.min(S.personality.kind + 1, 10);
 
   // Check time master achievement
   if (S.dateCount >= 2 && S.week <= 3) S.timeMaster = true;
@@ -1279,6 +1648,7 @@ function resolveChoice(choiceIdx) {
     return;
   }
 
+  addTimeline('study', `${SEMESTERS[S.semester]} 开学`, null);
   S.narrative.push({ type: 'system', text: `📅 ${SEMESTERS[S.semester]} 开始了！主题：${SEM_EVENTS[S.semester]}` });
   checkAchievements();
   renderGame();
@@ -1300,12 +1670,16 @@ function confess(characterId) {
     S.narrative.push({ type: 'confession', text: `💕 表白成功！${CHARACTERS[characterId].name}脸红了：「…我也喜欢你。」你们在一起了！`, char: characterId });
     sfxConfession();
     spawnHeartRain();
+    addTimeline('love', `💕 向${CHARACTERS[characterId].name}表白成功！`, characterId);
+    S.personality.brave = Math.min(S.personality.brave + 2, 10);
   } else if (char.stage === '朋友' && successChance > 0.4) {
     char.affection = clamp(char.affection + 20, 0, 100);
     char.stage = getStage(char.affection);
     S.narrative.push({ type: 'confession', text: `💕 表白成功！${CHARACTERS[characterId].name}有些惊讶，但还是点了点头。`, char: characterId });
     sfxConfession();
     spawnHeartRain();
+    addTimeline('love', `💕 向${CHARACTERS[characterId].name}表白成功！`, characterId);
+    S.personality.brave = Math.min(S.personality.brave + 2, 10);
   } else {
     S.rejected++;
     S.narrative.push({ type: 'confession', text: `💔 被发好人卡了…「你很好，但是…」${CHARACTERS[characterId].name}委婉地拒绝了你。`, char: characterId });
@@ -1351,7 +1725,23 @@ function calculateEnding() {
   const loveCount = loveEndings.filter(l => l.tier === 'love').length;
   const codeLove = S.coding >= 95 && S.dateCount === 0 && allLow;
 
-  S.ending = { career: careerEnding, love: loveEndings, allLow, allHigh, loveCount, codeLove };
+  // Calculate score
+  let score = 0;
+  score += Math.floor(S.coding / 10); // 0-10
+  score += Math.floor(S.social / 10); // 0-10
+  score += Math.floor(S.appearance / 10); // 0-10
+  score += Math.floor(S.romance / 10); // 0-10
+  score += Math.floor(S.gpa * 20); // 0-80 → 0-8 range
+  score += (Object.values(S.chars).filter(c => c.stage === '恋人').length) * 15;
+  score += (Object.values(S.chars).filter(c => c.affection >= 40).length) * 5;
+  score += S.achievements.length * 3;
+  score -= S.rejected * 2;
+  score -= S.failedExams * 5;
+  score = clamp(score, 0, 100);
+  const rank = score >= 85 ? 'SSS' : score >= 70 ? 'SS' : score >= 55 ? 'S' : score >= 40 ? 'A' : score >= 25 ? 'B' : 'C';
+  const rankTitle = score >= 85 ? '华科情圣' : score >= 70 ? '人生赢家' : score >= 55 ? '校园风云人物' : score >= 40 ? '普通大学生' : score >= 25 ? '平平无奇' : '代码孤狼';
+
+  S.ending = { career: careerEnding, love: loveEndings, allLow, allHigh, loveCount, codeLove, score, rank, rankTitle };
   checkAchievements();
   renderEnding();
 }
@@ -1539,6 +1929,17 @@ function renderGame() {
     </div>
 
     <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <div style="color:#8d6e63;font-size:0.75rem;">🧬 个性</div>
+        <div style="font-size:0.7rem;color:#e91e63;font-weight:600;">${getDominantTrait().name}型</div>
+      </div>
+      <div class="personality-row" style="margin-bottom:8px;">
+        ${['brave','kind','nerdy','romantic','lazy'].map(t => {
+          const names = { brave:'🦁', kind:'🤝', nerdy:'📖', romantic:'💘', lazy:'🛌' };
+          const lvl = S.personality[t] || 0;
+          return `<span class="personality-badge${lvl >= 5 ? ' active' : ''}" title="${t}">${names[t]} Lv.${lvl}</span>`;
+        }).join('')}
+      </div>
       <div style="color:#8d6e63;font-size:0.75rem;margin-bottom:6px;">🎯 选择行动</div>
       <div class="actions-grid">${actionsHTML}</div>
       ${confessHTML ? `<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">${confessHTML}</div>` : ''}
@@ -1677,9 +2078,22 @@ function renderEnding() {
 
       ${achHTML}
 
-      <div style="margin-top:20px;">
+      <div style="margin-top:16px;padding:12px;background:rgba(255,255,255,0.6);border-radius:10px;">
+        <div style="font-size:0.75rem;color:#8d6e63;margin-bottom:4px;">🧬 你的个性特质</div>
+        <div class="personality-row">
+          ${['brave','kind','nerdy','romantic','lazy'].map(t => {
+            const names = { brave:'🦁勇敢', kind:'🤝温柔', nerdy:'📖学霸', romantic:'💘浪漫', lazy:'🛌佛系' };
+            const lvl = S.personality[t] || 0;
+            return `<span class="personality-badge${lvl >= 5 ? ' active' : ''}">${names[t]} Lv.${lvl}</span>`;
+          }).join('')}
+        </div>
+        <div style="font-size:0.75rem;color:#e91e63;margin-top:4px;font-weight:600;">主导特质：${getDominantTrait().name}</div>
+      </div>
+
+      <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
         <button class="btn primary" onclick="startNewGame()">🔄 再来一周目</button>
-        <button class="btn" onclick="showAchievements()">🏆 全部成就</button>
+        <button class="btn" onclick="renderReview()" style="background:linear-gradient(135deg,#7c4dff,#b388ff);color:#fff;border:none;font-weight:700;">📊 复盘回顾</button>
+        <button class="btn" onclick="showAchievements()">🏆 成就</button>
         <button class="btn" onclick="S.phase='title';renderTitle()">🏠 主菜单</button>
       </div>
     </div>
@@ -1707,6 +2121,208 @@ function showAchievements() {
       </div>
     </div>
   `;
+}
+
+// ═══════════════════════════════════════════
+// DATE DIALOGUE SYSTEM
+// ═══════════════════════════════════════════
+function renderDialogue() {
+  const ds = S.dialogueState;
+  if (!ds) { S.phase = 'playing'; renderGame(); return; }
+
+  const scene = ds.scene;
+  const cid = ds.charId;
+  const cdata = CHARACTERS[cid];
+  const dialogues = scene.dialogues[cid];
+  const step = Math.min(ds.step, dialogues.length - 1);
+  const d = dialogues[step];
+
+  const charColors = { lin: '#7c4dff', su: '#ff6f00', lu: '#e91e63', ye: '#26a69a' };
+
+  app.innerHTML = html`
+    <div class="overlay">
+      <div class="overlay-card" style="max-width:480px;">
+        <div style="text-align:center;margin-bottom:8px;font-size:0.75rem;color:#8d6e63;">
+          📍 ${scene.location}
+        </div>
+        <div class="dialogue-avatar" style="background:${charColors[cid] || '#e91e63'};">
+          ${cdata.emoji}
+        </div>
+        <div style="text-align:center;color:#e91e63;font-size:0.8rem;font-weight:600;">
+          📅 约会事件
+        </div>
+        <div style="color:#5d4037;font-size:0.82rem;text-align:center;margin:10px 0;line-height:1.7;">
+          ${scene.setup}
+        </div>
+        <div class="dialogue-speaker">${d.speaker}</div>
+        <div class="dialogue-line">${d.text}</div>
+        <div class="dialogue-choices">
+          ${d.replies.map((r, i) => html`
+            <button class="dialogue-btn" onclick="sfxClick();resolveDialogue(${i})">💬 ${r.text}</button>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function resolveDialogue(replyIdx) {
+  const ds = S.dialogueState;
+  if (!ds) return;
+  const scene = ds.scene;
+  const cid = ds.charId;
+  const dialogues = scene.dialogues[cid];
+  const step = ds.step;
+  const d = dialogues[step];
+  const reply = d.replies[replyIdx];
+
+  // Apply affection
+  if (reply.aff) {
+    S.chars[cid].affection = clamp(S.chars[cid].affection + reply.aff, 0, 100);
+    S.chars[cid].stage = getStage(S.chars[cid].affection);
+  }
+  if (reply.trait) updatePersonality(reply.trait);
+
+  S.narrative.push({ type: 'event', text: `💕 ${CHARACTERS[cid].name}约会：${reply.react}`, char: cid });
+  addTimeline('love', `${CHARACTERS[cid].name} · ${scene.location}约会`, cid);
+  S.dateHistory.push({ char: cid, location: scene.location, affectionGained: reply.aff || 0 });
+  sfxHeart();
+
+  // Check if more dialogue steps
+  if (step + 1 < dialogues.length) {
+    ds.step = step + 1;
+    renderDialogue();
+  } else {
+    S.dialogueState = null;
+    S.phase = 'playing';
+    checkAchievements();
+    renderGame();
+  }
+}
+
+// ═══════════════════════════════════════════
+// POST-GAME REVIEW / 复盘系统
+// ═══════════════════════════════════════════
+function renderReview() {
+  const e = S.ending;
+  const trait = getDominantTrait();
+  const loveChar = Object.entries(S.chars).sort((a, b) => b[1].affection - a[1].affection)[0];
+  const loveCdata = loveChar ? CHARACTERS[loveChar[0]] : null;
+
+  // Timeline
+  let timelineHTML = S.timeline.slice(0, 30).map(t => {
+    const semName = SEMESTERS[t.sem] || '';
+    return html`
+      <div class="timeline-item ${t.type}">
+        <div class="timeline-sem">📅 ${semName} · 第${t.week + 1}周</div>
+        <div class="timeline-text">${t.text}</div>
+      </div>
+    `;
+  }).join('');
+
+  // What-if scenarios
+  let whatifHTML = '';
+  if (e.codeLove) {
+    whatifHTML = `<div class="whatif-card">💡 <b>假设场景：</b>如果你的浪漫值哪怕只多10点，可能就有人能在你心里留下印记。但代码的世界也很精彩——每个人都有自己的路。</div>`;
+  } else if (e.allLow) {
+    whatifHTML = `<div class="whatif-card">💡 <b>假设场景：</b>如果你在大二的时候多参加几次社团活动，或者在图书馆多待几个下午——故事可能会完全不同。但没关系，人生还长。</div>`;
+  } else if (e.loveCount >= 1) {
+    whatifHTML = `<div class="whatif-card">💡 <b>假设场景：</b>如果你在大三那次抉择中选了另一个选项——也许你现在牵的是另一个人的手。但你不后悔，因为每一个选择都让你成为了现在的自己。</div>`;
+  } else {
+    whatifHTML = `<div class="whatif-card">💡 <b>假设场景：</b>如果在关键时刻你更勇敢一点，结局可能会改写。但大学生活不只是恋爱——你还有代码、朋友和无数个通宵的夜晚。</div>`;
+  }
+
+  // Affection trend chart
+  let trendHTML = Object.entries(CHARACTERS).map(([cid, cd]) => {
+    const c = S.chars[cid];
+    const pct = c.affection;
+    const color = { lin: '#7c4dff', su: '#ff6f00', lu: '#e91e63', ye: '#26a69a' }[cid];
+    return html`
+      <div style="display:flex;align-items:center;gap:8px;margin:6px 0;">
+        <span style="font-size:0.8rem;width:60px;">${cd.emoji} ${cd.name}</span>
+        <div style="flex:1;height:14px;background:rgba(233,30,99,0.06);border-radius:7px;overflow:hidden;">
+          <div style="height:100%;width:${pct}%;background:${color};border-radius:7px;transition:width 1s ease;box-shadow:0 0 8px ${color};"></div>
+        </div>
+        <span style="font-size:0.75rem;color:#8d6e63;width:40px;">${Math.floor(pct)}</span>
+      </div>
+    `;
+  }).join('');
+
+  // Stats comparison
+  let statsHTML = html`
+    <div class="stats-compare">
+      <div class="stats-compare-item">
+        <div class="stats-compare-val">${Math.floor(S.coding)}</div>
+        <div class="stats-compare-label">编程力</div>
+      </div>
+      <div class="stats-compare-item">
+        <div class="stats-compare-val">${gpaText(S.gpa)}</div>
+        <div class="stats-compare-label">GPA</div>
+      </div>
+      <div class="stats-compare-item">
+        <div class="stats-compare-val">${Math.floor(S.social)}</div>
+        <div class="stats-compare-label">社交力</div>
+      </div>
+      <div class="stats-compare-item">
+        <div class="stats-compare-val">${Math.floor(S.romance)}</div>
+        <div class="stats-compare-label">浪漫值</div>
+      </div>
+    </div>
+  `;
+
+  app.innerHTML = html`
+    <div class="card" style="margin-bottom:16px;">
+      <div class="review-header">
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);">🎓 华科计院四年 · 终局复盘</div>
+        <div class="review-score">${e.score}</div>
+        <div class="review-rank">${e.rank} · ${e.rankTitle}</div>
+        <div class="review-subtitle">综合评分基于：能力值 | 恋爱成就 | 解锁成就 | 考试挂科</div>
+      </div>
+
+      <div style="text-align:center;margin:10px 0;font-size:0.8rem;color:#8d6e63;">
+        🧬 主导个性：<b style="color:#e91e63;">${trait.name}</b> |
+        🏆 成就：<b style="color:#ff6f00;">${S.achievements.length}/${ACHIEVEMENTS.length}</b> |
+        💕 约会：<b style="color:#e91e63;">${S.dateHistory.length}次</b>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700;color:#4e342e;font-size:1rem;margin-bottom:10px;">📈 好感度趋势</div>
+      ${trendHTML}
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700;color:#4e342e;font-size:1rem;margin-bottom:10px;">📊 能力值总览</div>
+      ${statsHTML}
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700;color:#4e342e;font-size:1rem;margin-bottom:10px;">⏳ 大学四年时间线</div>
+      <div class="timeline-container">
+        ${timelineHTML || '<p style="color:#8d6e63;font-size:0.8rem;">时间线上空空如也…也许你该多做一些选择。</p>'}
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700;color:#4e342e;font-size:1rem;margin-bottom:10px;">🔮 如果当时…</div>
+      ${whatifHTML}
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700;color:#4e342e;font-size:1rem;margin-bottom:10px;">💝 约会回忆</div>
+      ${S.dateHistory.length > 0 ? S.dateHistory.map(d => {
+        const cd = CHARACTERS[d.char];
+        return html`<div style="font-size:0.8rem;color:#5d4037;margin:4px 0;">${cd.emoji} ${cd.name} · 📍${d.location} · 好感+${d.affectionGained}</div>`;
+      }).join('') : '<p style="color:#8d6e63;font-size:0.8rem;">还没有约会记录。下次试着多约人出去吧~</p>'}
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;justify-content:center;">
+      <button class="btn primary" onclick="startNewGame()">🔄 再来一周目</button>
+      <button class="btn" onclick="renderEnding()">📜 返回结局</button>
+      <button class="btn" onclick="showAchievements()">🏆 成就</button>
+    </div>
+  `;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ═══════════════════════════════════════════
@@ -1938,8 +2554,12 @@ function loadGame() {
     }
     S.currentEvent = null;
     S.nextMinigame = null;
+    S.dialogueState = null;
     S.itemsUsed = S.itemsUsed || {};
-    if (S.phase === 'choice') S.phase = 'playing';
+    S.timeline = S.timeline || [];
+    S.personality = S.personality || { brave: 0, kind: 0, nerdy: 0, romantic: 0, lazy: 0 };
+    S.dateHistory = S.dateHistory || [];
+    if (S.phase === 'choice' || S.phase === 'dialogue') S.phase = 'playing';
     S.narrative.push({ type: 'system', text: '💾 存档已加载。欢迎回来！' });
     if (S.phase === 'ending') renderEnding();
     else renderGame();
