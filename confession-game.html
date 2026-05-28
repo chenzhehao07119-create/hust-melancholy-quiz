@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>微信</title>
+<style>
+  :root {
+    --wechat-bg: #EDEDED;
+    --wechat-green: #95EC69;
+    --wechat-dark: #191919;
+    --bubble-sent: #95EC69;
+    --bubble-received: #fff;
+    --heart-pink: #FF6B8A;
+    --heart-red: #FF4757;
+    --heart-coral: #FF7979;
+    --gold: #FFD93D;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+
+  .phone-frame {
+    width: 100%;
+    max-width: 430px;
+    height: 100vh;
+    max-height: 932px;
+    background: var(--wechat-bg);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 60px rgba(0,0,0,0.5);
+  }
+
+  @media (min-width: 431px) {
+    .phone-frame {
+      border-radius: 20px;
+      height: 90vh;
+    }
+  }
+
+  /* ── Header ── */
+  .wechat-header {
+    background: #EDEDED;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 0.5px solid #d9d9d9;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  .back-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #000;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .header-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #FF6B8A, #FF4757);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .header-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .header-name {
+    font-size: 17px;
+    font-weight: 500;
+    color: #000;
+  }
+  .header-status {
+    font-size: 12px;
+    color: #999;
+    margin-top: 1px;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 16px;
+    font-size: 20px;
+    color: #000;
+    flex-shrink: 0;
+  }
+
+  /* ── Chat Area ── */
+  .chat-area {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+
+  .chat-area::-webkit-scrollbar { display: none; }
+
+  /* ── Messages ── */
+  .message-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    animation: msgSlideIn 0.35s ease-out both;
+  }
+
+  @keyframes msgSlideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .bubble {
+    max-width: 75%;
+    padding: 10px 14px;
+    font-size: 16px;
+    line-height: 1.5;
+    word-break: break-word;
+    position: relative;
+    border-radius: 4px 8px 8px 4px;
+  }
+
+  .bubble.sent {
+    background: var(--bubble-sent);
+    border-radius: 8px 4px 4px 8px;
+  }
+
+  .bubble.game-bubble {
+    background: #fff;
+    border-radius: 12px;
+    max-width: 90%;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #f0f0f0;
+  }
+
+  /* ── Typing Indicator ── */
+  .typing-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    animation: msgSlideIn 0.3s ease-out both;
+  }
+  .typing-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #FF6B8A, #FF4757);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .typing-dots {
+    background: #fff;
+    padding: 12px 16px;
+    border-radius: 4px 12px 12px 12px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    height: 40px;
+  }
+  .typing-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #bbb;
+    animation: dotPulse 1.4s infinite both;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dotPulse {
+    0%, 60%, 100% { transform: scale(0.7); opacity: 0.4; }
+    30% { transform: scale(1); opacity: 1; }
+  }
+
+  /* ── Game Panel ── */
+  .game-panel {
+    width: 100%;
+    background: linear-gradient(180deg, #1a0533 0%, #0d0d2b 40%, #1a0a2e 100%);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    touch-action: none;
+  }
+
+  .game-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle var(--dur) ease-in-out infinite;
+    animation-delay: var(--delay);
+    opacity: 0;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  .game-heart {
+    position: absolute;
+    font-size: var(--size);
+    animation: floatUp var(--float-dur) linear forwards;
+    pointer-events: auto;
+    cursor: pointer;
+    filter: drop-shadow(0 0 12px rgba(255, 107, 138, 0.6));
+    transition: transform 0.1s;
+    z-index: 5;
+  }
+
+  .game-heart:active {
+    transform: scale(1.3);
+  }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) rotate(0deg) scale(0.3);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+      transform: translateY(-10%) rotate(5deg) scale(1);
+    }
+    90% {
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(-420px) rotate(var(--rotate)) scale(0.2);
+      opacity: 0;
+    }
+  }
+
+  .game-hud {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 20px;
+    pointer-events: none;
+  }
+
+  .heart-inner {
+    display: inline-block;
+    animation: innerWobble 0.6s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes innerWobble {
+    0%, 100% { transform: rotate(-5deg) scale(1); }
+    50% { transform: rotate(5deg) scale(1.1); }
+  }
+
+  .game-title {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  .game-subtitle {
+    color: rgba(255,255,255,0.6);
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .heart-progress {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 280px;
+  }
+
+  .heart-slot {
+    width: 26px;
+    height: 26px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: grayscale(1) opacity(0.3);
+    transform: scale(0.8);
+  }
+
+  .heart-slot.filled {
+    filter: none;
+    transform: scale(1);
+    animation: heartPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes heartPop {
+    0% { transform: scale(0.3); }
+    60% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+
+  .game-counter {
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+
+  /* ── Particle ── */
+  .particle {
+    position: absolute;
+    pointer-events: none;
+    font-size: 20px;
+    animation: particleBurst 0.7s ease-out forwards;
+    z-index: 20;
+  }
+
+  @keyframes particleBurst {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--dx), var(--dy)) scale(0);
+      opacity: 0;
+    }
+  }
+
+  /* ── Confession Overlay ── */
+  .confession-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    animation: fadeIn 0.4s ease-out;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .confession-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px 24px 24px;
+    width: 85%;
+    max-width: 340px;
+    text-align: center;
+    animation: cardBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  @keyframes cardBounce {
+    from { transform: scale(0.7) translateY(40px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .confession-hearts {
+    font-size: 48px;
+    margin-bottom: 16px;
+    animation: heartBeat 0.8s ease-in-out infinite;
+  }
+
+  @keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.15); }
+  }
+
+  .confession-text {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .confession-sub {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  .confession-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-yes {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(135deg, #FF6B8A, #FF4757);
+    color: #fff;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+
+  .btn-yes:active {
+    transform: scale(0.96);
+    opacity: 0.9;
+  }
+
+  .btn-think {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    background: #fff;
+    color: #888;
+    transition: all 0.2s;
+  }
+
+  .btn-think:active {
+    background: #f5f5f5;
+  }
+
+  /* ── Celebration ── */
+  .celebrate-heart {
+    position: absolute;
+    font-size: 30px;
+    pointer-events: none;
+    z-index: 150;
+    animation: celebFloat 2s ease-out forwards;
+  }
+
+  @keyframes celebFloat {
+    0% {
+      transform: translateY(0) scale(0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-60vh) translateX(var(--cdx)) scale(1.5) rotate(var(--cr));
+      opacity: 0;
+    }
+  }
+
+  /* ── Bottom Bar ── */
+  .chat-input-bar {
+    background: #f7f7f7;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-top: 0.5px solid #d9d9d9;
+    flex-shrink: 0;
+  }
+
+  .input-field {
+    flex: 1;
+    height: 36px;
+    background: #fff;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 0 12px;
+    font-size: 15px;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    cursor: not-allowed;
+  }
+
+  .input-emoji, .input-plus {
+    font-size: 22px;
+    color: #666;
+    flex-shrink: 0;
+  }
+
+  /* ── Toast ── */
+  .toast {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    z-index: 200;
+    animation: toastIn 0.3s ease-out, toastOut 0.3s 1.5s ease-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+  @keyframes toastOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  /* ── Hidden ── */
+  .hidden { display: none !important; }
+
+  /* ── Ripple on tap ── */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transform: scale(0);
+    animation: rippleEffect 0.5s ease-out forwards;
+    pointer-events: none;
+    z-index: 25;
+  }
+
+  @keyframes rippleEffect {
+    to { transform: scale(4); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="phone-frame" id="phoneFrame">
+  <!-- Header -->
+  <div class="wechat-header">
+    <div class="back-btn">←</div>
+    <div class="header-avatar">👤</div>
+    <div class="header-info">
+      <div class="header-name">陈喆昊</div>
+    </div>
+    <div class="header-actions">⋯</div>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="chat-area" id="chatArea">
+    <!-- Messages appear here dynamically -->
+  </div>
+
+  <!-- Input Bar -->
+  <div class="chat-input-bar">
+    <div class="input-emoji">😊</div>
+    <div class="input-field">点击爱心收集 ❤️</div>
+    <div class="input-plus">⊕</div>
+  </div>
+
+  <!-- Confession Overlay (hidden initially) -->
+  <div class="confession-overlay hidden" id="confessionOverlay">
+    <div class="confession-card">
+      <div class="confession-hearts" id="confessionIcon">💌</div>
+      <div class="confession-text" id="confessionText"></div>
+      <div class="confession-sub" id="confessionSub"></div>
+      <div class="confession-btns">
+        <button class="btn-yes" id="btnYes">好呀 ❤️</button>
+        <button class="btn-think" id="btnThink">让我想想</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const chatArea = document.getElementById('chatArea');
+  const confessionOverlay = document.getElementById('confessionOverlay');
+  const phoneFrame = document.getElementById('phoneFrame');
+
+  let collectedHearts = 0;
+  const TOTAL_HEARTS = 9;
+  let gameActive = false;
+  let heartSpawnInterval = null;
+  let gamePanelEl = null;
+  let slotEls = [];
+  let counterEl = null;
+
+  // ── Message templates ──
+  function createMessageRow(text, delay) {
+    const row = document.createElement('div');
+    row.className = 'message-row';
+    row.style.animationDelay = delay + 's';
+    row.innerHTML = `<div class="bubble sent">${text}</div>`;
+    return row;
+  }
+
+  function createTypingIndicator(delay) {
+    const row = document.createElement('div');
+    row.className = 'typing-row';
+    row.style.animationDelay = delay + 's';
+    row.innerHTML = `
+      <div class="typing-avatar">👤</div>
+      <div class="typing-dots">
+        <span></span><span></span><span></span>
+      </div>
+    `;
+    return row;
+  }
+
+  // ── Game Panel ──
+  function createGamePanel() {
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble game-bubble';
+    bubble.id = 'gameBubble';
+
+    const panel = document.createElement('div');
+    panel.className = 'game-panel';
+    panel.id = 'gamePanel';
+
+    // Stars
+    const stars = document.createElement('div');
+    stars.className = 'game-stars';
+    for (let i = 0; i < 40; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        width: ${1 + Math.random() * 2.5}px;
+        height: ${1 + Math.random() * 2.5}px;
+        --dur: ${1.5 + Math.random() * 3}s;
+        --delay: ${Math.random() * 3}s;
+      `;
+      stars.appendChild(star);
+    }
+    panel.appendChild(stars);
+
+    // HUD
+    const hud = document.createElement('div');
+    hud.className = 'game-hud';
+    hud.innerHTML = `
+      <div class="game-title">🫧 戳戳爱心</div>
+      <div class="game-subtitle">点满 9 颗心，有惊喜 ✨</div>
+      <div class="heart-progress" id="heartProgress">
+        ${Array.from({length: TOTAL_HEARTS}, () => '<span class="heart-slot">🤍</span>').join('')}
+      </div>
+      <div class="game-counter" id="gameCounter">0 / ${TOTAL_HEARTS}</div>
+    `;
+    panel.appendChild(hud);
+
+    bubble.appendChild(panel);
+    return bubble;
+  }
+
+  // ── Spawn a heart ──
+  function spawnHeart() {
+    if (!gameActive || !gamePanelEl) return;
+
+    const heart = document.createElement('div');
+    heart.className = 'game-heart';
+
+    const emojis = ['❤️', '💖', '💕', '💗', '💝', '🩷'];
+    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+    heart.innerHTML = `<span class="heart-inner">${emoji}</span>`;
+
+    const panelRect = gamePanelEl.getBoundingClientRect();
+    const panelW = panelRect.width;
+    const panelH = panelRect.height;
+
+    const size = 34 + Math.random() * 30;
+    const left = 10 + Math.random() * (panelW - 60);
+    const duration = 2.5 + Math.random() * 3;
+    const rotate = (Math.random() - 0.5) * 60;
+
+    heart.style.cssText = `
+      left: ${left}px;
+      bottom: -40px;
+      --size: ${size}px;
+      --float-dur: ${duration}s;
+      --rotate: ${rotate}deg;
+    `;
+
+    heart.addEventListener('pointerdown', function(e) {
+      e.preventDefault();
+      if (!gameActive) return;
+
+      // Ripple
+      const ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      const hRect = heart.getBoundingClientRect();
+      const cx = e.clientX - hRect.left;
+      const cy = e.clientY - hRect.top;
+      ripple.style.left = cx + 'px';
+      ripple.style.top = cy + 'px';
+      ripple.style.width = '20px';
+      ripple.style.height = '20px';
+      heart.appendChild(ripple);
+
+      // Burst particles
+      for (let i = 0; i < 6; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = ['✨', '💫', '🌟', '💖'][Math.floor(Math.random() * 4)];
+        const angle = (Math.PI * 2 * i) / 6 + Math.random() * 0.5;
+        const dist = 30 + Math.random() * 40;
+        p.style.cssText = `
+          left: ${cx}px;
+          top: ${cy}px;
+          --dx: ${Math.cos(angle) * dist}px;
+          --dy: ${Math.sin(angle) * dist}px;
+        `;
+        heart.appendChild(p);
+      }
+
+      // Collect
+      collectedHearts++;
+      updateSlots();
+      heart.style.transform = 'scale(1.3)';
+      heart.style.opacity = '0';
+      heart.style.transition = 'all 0.2s';
+      heart.style.pointerEvents = 'none';
+
+      setTimeout(() => heart.remove(), 700);
+
+      // Encouragement
+      const encouragements = {
+        3: '不错哦～继续！',
+        5: '过半了！加油 💪',
+        7: '快了快了！',
+        8: '最后一颗！！！'
+      };
+      if (encouragements[collectedHearts]) {
+        showToast(encouragements[collectedHearts]);
+      }
+
+      // Vibration
+      if (navigator.vibrate) {
+        navigator.vibrate(15);
+      }
+
+      // Check win
+      if (collectedHearts >= TOTAL_HEARTS) {
+        showToast('❤️ x9 — 长长久久 ✨');
+        setTimeout(() => triggerConfession(), 800);
+      }
+    });
+
+    heart.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+    }, { passive: false });
+
+    gamePanelEl.appendChild(heart);
+
+    // Auto-remove after animation
+    setTimeout(() => {
+      if (heart.parentNode) heart.remove();
+    }, duration * 1000 + 500);
+  }
+
+  function updateSlots() {
+    for (let i = 0; i < TOTAL_HEARTS; i++) {
+      if (i < collectedHearts) {
+        slotEls[i].textContent = '❤️';
+        slotEls[i].classList.add('filled');
+      }
+    }
+    if (counterEl) {
+      counterEl.textContent = `${collectedHearts} / ${TOTAL_HEARTS}`;
+    }
+  }
+
+  // ── Confession ──
+  function triggerConfession() {
+    gameActive = false;
+    if (heartSpawnInterval) {
+      clearInterval(heartSpawnInterval);
+      heartSpawnInterval = null;
+    }
+
+    // Remove remaining hearts
+    if (gamePanelEl) {
+      const hearts = gamePanelEl.querySelectorAll('.game-heart');
+      hearts.forEach(h => {
+        h.style.opacity = '0';
+        h.style.transition = 'opacity 0.3s';
+        setTimeout(() => h.remove(), 300);
+      });
+    }
+
+    setTimeout(() => {
+      confessionOverlay.classList.remove('hidden');
+
+      // Typewriter effect for confession
+      const textEl = document.getElementById('confessionText');
+      const subEl = document.getElementById('confessionSub');
+      const iconEl = document.getElementById('confessionIcon');
+
+      const mainText = '郭朝芝，我喜欢你 💌';
+      const subText = '从朋友到喜欢，这个秘密藏了很久。\n你愿意和我一起，把故事写下去吗？';
+
+      iconEl.textContent = '💌';
+      textEl.textContent = '';
+      subEl.textContent = '';
+
+      // Animate text
+      let charIdx = 0;
+      const typeMain = setInterval(() => {
+        if (charIdx < mainText.length) {
+          textEl.textContent += mainText[charIdx];
+          charIdx++;
+        } else {
+          clearInterval(typeMain);
+          // Type sub
+          let subIdx = 0;
+          const typeSub = setInterval(() => {
+            if (subIdx < subText.length) {
+              subEl.textContent += subText[subIdx];
+              subIdx++;
+            } else {
+              clearInterval(typeSub);
+            }
+          }, 35);
+        }
+      }, 70);
+
+      // Celebration hearts
+      spawnCelebration();
+    }, 500);
+  }
+
+  function spawnCelebration() {
+    const interval = setInterval(() => {
+      if (confessionOverlay.classList.contains('hidden')) {
+        clearInterval(interval);
+        return;
+      }
+      const heart = document.createElement('div');
+      heart.className = 'celebrate-heart';
+      heart.textContent = ['❤️', '💖', '💕', '💗', '💝', '✨', '💫'][Math.floor(Math.random() * 7)];
+      heart.style.cssText = `
+        left: ${10 + Math.random() * 80}%;
+        bottom: -40px;
+        --cdx: ${(Math.random() - 0.5) * 120}px;
+        --cr: ${(Math.random() - 0.5) * 180}deg;
+      `;
+      phoneFrame.appendChild(heart);
+      setTimeout(() => heart.remove(), 2000);
+    }, 200);
+
+    // Stop after 6 seconds
+    setTimeout(() => clearInterval(interval), 6000);
+  }
+
+  // ── Buttons ──
+  document.getElementById('btnYes').addEventListener('click', function() {
+    confessionOverlay.querySelector('.confession-card').innerHTML = `
+      <div style="font-size:64px;margin-bottom:12px;animation:heartBeat 0.6s ease-in-out infinite;">💖</div>
+      <div style="font-size:20px;font-weight:700;color:#FF4757;margin-bottom:8px;">太好啦！！！</div>
+      <div style="font-size:14px;color:#999;line-height:1.6;">
+        从今天开始<br>陈喆昊 ❤️ 郭朝芝<br><br>
+        <span style="color:#FF6B8A;font-size:16px;">2026.05.28</span>
+      </div>
+    `;
+    // Extra celebration
+    for (let i = 0; i < 20; i++) {
+      setTimeout(() => {
+        const h = document.createElement('div');
+        h.className = 'celebrate-heart';
+        h.textContent = ['❤️', '💖', '💕', '💗', '💝', '✨', '💫', '🎉', '🥳'][Math.floor(Math.random() * 9)];
+        h.style.cssText = `
+          left: ${10 + Math.random() * 80}%;
+          bottom: -40px;
+          --cdx: ${(Math.random() - 0.5) * 200}px;
+          --cr: ${(Math.random() - 0.5) * 360}deg;
+          font-size: ${24 + Math.random() * 30}px;
+        `;
+        phoneFrame.appendChild(h);
+        setTimeout(() => h.remove(), 2500);
+      }, i * 80);
+    }
+    if (navigator.vibrate) {
+      navigator.vibrate([50, 50, 50, 50, 100]);
+    }
+  });
+
+  document.getElementById('btnThink').addEventListener('click', function() {
+    confessionOverlay.querySelector('.confession-card').innerHTML = `
+      <div style="font-size:48px;margin-bottom:12px;">😊</div>
+      <div style="font-size:18px;font-weight:600;color:#333;margin-bottom:8px;">没关系，慢慢来</div>
+      <div style="font-size:14px;color:#999;line-height:1.6;">
+        无论什么时候<br>我都会在这里等你 💗
+      </div>
+      <button class="btn-think" style="margin-top:20px;width:100%;" onclick="document.getElementById('confessionOverlay').classList.add('hidden')">返回聊天</button>
+    `;
+  });
+
+  // ── Chat Sequence ──
+  function showToast(msg) {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    phoneFrame.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+  }
+
+  async function startChatSequence() {
+    const messages = [
+      { text: '在干嘛呢？', delay: 0.4 },
+      { text: '突然想找你聊聊天 ☺️', delay: 1.4 },
+      { text: '最近老是想到一些事情…', delay: 2.4 },
+      { text: '给你发个小游戏玩玩 🎮', delay: 3.6 },
+    ];
+
+    // Show typing then message
+    for (let i = 0; i < messages.length; i++) {
+      const msg = messages[i];
+
+      // Typing indicator (except first message since it's the opener)
+      if (i > 0) {
+        await sleep(msg.delay * 1000 - 600);
+        const typing = createTypingIndicator(0);
+        chatArea.appendChild(typing);
+        scrollToBottom();
+        await sleep(1200 + Math.random() * 600);
+        typing.remove();
+      } else {
+        await sleep(msg.delay * 1000);
+      }
+
+      // Message bubble
+      const row = createMessageRow(msg.text, 0);
+      chatArea.appendChild(row);
+      scrollToBottom();
+    }
+
+    // Insert game
+    await sleep(800);
+    const typing = createTypingIndicator(0);
+    chatArea.appendChild(typing);
+    scrollToBottom();
+    await sleep(1000);
+    typing.remove();
+
+    const gameRow = document.createElement('div');
+    gameRow.className = 'message-row';
+    gameRow.style.animationDelay = '0s';
+    const gameBubble = createGamePanel();
+    gameRow.appendChild(gameBubble);
+    chatArea.appendChild(gameRow);
+    scrollToBottom();
+
+    // Cache game elements
+    gamePanelEl = document.getElementById('gamePanel');
+    slotEls = Array.from(document.querySelectorAll('#heartProgress .heart-slot'));
+    counterEl = document.getElementById('gameCounter');
+
+    // Start game
+    await sleep(600);
+    gameActive = true;
+    showToast('👆 快点击漂浮的爱心！');
+    heartSpawnInterval = setInterval(spawnHeart, 900);
+
+    // Initial hearts
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => spawnHeart(), i * 400);
+    }
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  function scrollToBottom() {
+    requestAnimationFrame(() => {
+      chatArea.scrollTop = chatArea.scrollHeight;
+    });
+  }
+
+  // ── Start ──
+  startChatSequence();
+})();
+</script>
+</body>
+</html>

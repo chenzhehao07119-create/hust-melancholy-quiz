@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>扫雷</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #1a1a2e;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    user-select: none;
+  }
+
+  .game-wrapper {
+    text-align: center;
+  }
+
+  h1 {
+    color: #e94560;
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+    letter-spacing: 6px;
+  }
+
+  .top-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .info {
+    color: #eee;
+    font-size: 1rem;
+    background: #16213e;
+    padding: 6px 18px;
+    border-radius: 8px;
+    border: 1px solid #0f3460;
+  }
+
+  .info span {
+    color: #e94560;
+    font-weight: bold;
+  }
+
+  .top-bar button {
+    background: #e94560;
+    color: #fff;
+    border: none;
+    padding: 8px 22px;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+  }
+
+  .top-bar button:hover { background: #c23152; }
+
+  .top-bar select {
+    background: #16213e;
+    color: #eee;
+    border: 1px solid #0f3460;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  canvas {
+    border: 2px solid #0f3460;
+    border-radius: 4px;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+
+  .result {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    height: 28px;
+    color: #e94560;
+  }
+</style>
+</head>
+<body>
+
+<div class="game-wrapper">
+  <h1>扫 雷</h1>
+
+  <div class="top-bar">
+    <div class="info">💣 <span id="mineCount">10</span></div>
+    <div class="info">⏱ <span id="timer">0</span>s</div>
+    <button id="restartBtn">新游戏</button>
+    <select id="difficulty">
+      <option value="beginner">初级 9×9 (10雷)</option>
+      <option value="intermediate" selected>中级 16×16 (40雷)</option>
+      <option value="expert">高级 30×16 (99雷)</option>
+    </select>
+  </div>
+
+  <canvas id="canvas"></canvas>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const mineCountEl = document.getElementById('mineCount');
+const timerEl = document.getElementById('timer');
+const resultEl = document.getElementById('result');
+const difficultySel = document.getElementById('difficulty');
+
+const configs = {
+  beginner:     { cols: 9,  rows: 9,  mines: 10 },
+  intermediate: { cols: 16, rows: 16, mines: 40 },
+  expert:       { cols: 30, rows: 16, mines: 99 },
+};
+
+let cols, rows, totalMines, cellSize;
+let grid, revealed, flagged, gameOver, firstClick, timerInterval, seconds;
+
+// Colors for numbers
+const numColors = ['', '#00d2ff', '#4cd137', '#e84118', '#9c88ff', '#fbc531', '#00a8ff', '#e94560', '#7f8fa6'];
+
+function setDifficulty(key) {
+  const cfg = configs[key];
+  cols = cfg.cols;
+  rows = cfg.rows;
+  totalMines = cfg.mines;
+  cellSize = cols > 20 ? 28 : 36;
+  canvas.width = cols * cellSize;
+  canvas.height = rows * cellSize;
+}
+
+function init() {
+  setDifficulty(difficultySel.value);
+  grid = Array(rows).fill(null).map(() => Array(cols).fill(0));
+  revealed = Array(rows).fill(null).map(() => Array(cols).fill(false));
+  flagged = Array(rows).fill(null).map(() => Array(cols).fill(false));
+  gameOver = false;
+  firstClick = true;
+  seconds = 0;
+  timerEl.textContent = '0';
+  resultEl.textContent = '';
+  mineCountEl.textContent = totalMines;
+  clearInterval(timerInterval);
+  timerInterval = null;
+  draw();
+}
+
+function placeMines(safeX, safeY) {
+  const positions = [];
+  for (let y = 0; y < rows; y++)
+    for (let x = 0; x < cols; x++)
+      if (Math.abs(x - safeX) > 1 || Math.abs(y - safeY) > 1 || (x === safeX && y === safeY))
+        positions.push({ x, y });
+
+  // Shuffle and pick
+  for (let i = positions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [positions[i], positions[j]] = [positions[j], positions[i]];
+  }
+
+  for (let i = 0; i < totalMines; i++) {
+    grid[positions[i].y][positions[i].x] = -1;
+  }
+
+  // Calculate numbers
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      if (grid[y][x] === -1) continue;
+      let count = 0;
+      for (let dy = -1; dy <= 1; dy++)
+        for (let dx = -1; dx <= 1; dx++)
+          if (neighborsValid(x, y, dx, dy) && grid[y + dy][x + dx] === -1)
+            count++;
+      grid[y][x] = count;
+    }
+  }
+}
+
+function neighborsValid(x, y, dx, dy) {
+  const nx = x + dx, ny = y + dy;
+  return nx >= 0 && nx < cols && ny >= 0 && ny < rows;
+}
+
+function reveal(x, y) {
+  if (x < 0 || x >= cols || y < 0 || y >= rows || revealed[y][x] || flagged[y][x]) return;
+
+  revealed[y][x] = true;
+
+  if (grid[y][x] === 0) {
+    for (let dy = -1; dy <= 1; dy++)
+      for (let dx = -1; dx <= 1; dx++)
+        if (dx !== 0 || dy !== 0)
+          reveal(x + dx, y + dy);
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      const px = x * cellSize, py = y * cellSize;
+
+      if (revealed[y][x]) {
+        ctx.fillStyle = '#0a0a1a';
+        ctx.fillRect(px, py, cellSize, cellSize);
+
+        ctx.strokeStyle = '#1a1a3a';
+        ctx.strokeRect(px + 0.5, py + 0.5, cellSize - 1, cellSize - 1);
+
+        const v = grid[y][x];
+        if (v === -1) {
+          ctx.fillStyle = '#e94560';
+          ctx.font = `bold ${cellSize * 0.6}px "Segoe UI"`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('💣', px + cellSize / 2, py + cellSize / 2);
+        } else if (v > 0) {
+          ctx.fillStyle = numColors[v];
+          ctx.font = `bold ${cellSize * 0.55}px "Segoe UI"`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(v, px + cellSize / 2, py + cellSize / 2);
+        }
+      } else {
+        // Unrevealed cell
+        const isHover = (mouseX === x && mouseY === y);
+        ctx.fillStyle = isHover ? '#1e3a5f' : '#16213e';
+        ctx.fillRect(px, py, cellSize, cellSize);
+
+        ctx.fillStyle = '#0f3460';
+        ctx.fillRect(px, py, cellSize, 1);
+        ctx.fillRect(px, py, 1, cellSize);
+
+        ctx.fillStyle = '#1a1a4e';
+        ctx.fillRect(px + 0.5, py + 0.5, cellSize - 1, cellSize - 1);
+
+        // 3D effect
+        ctx.fillStyle = 'rgba(255,255,255,0.06)';
+        ctx.fillRect(px + 2, py + 2, cellSize - 4, 1);
+        ctx.fillRect(px + 2, py + 2, 1, cellSize - 4);
+        ctx.fillStyle = 'rgba(0,0,0,0.3)';
+        ctx.fillRect(px + 1, py + cellSize - 2, cellSize - 2, 1);
+        ctx.fillRect(px + cellSize - 2, py + 1, 1, cellSize - 2);
+
+        if (flagged[y][x]) {
+          ctx.fillStyle = '#fbc531';
+          ctx.font = `${cellSize * 0.55}px "Segoe UI"`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('🚩', px + cellSize / 2, py + cellSize / 2);
+        }
+      }
+    }
+  }
+}
+
+function checkWin() {
+  let correctFlags = 0;
+  let revealedCount = 0;
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      if (revealed[y][x]) revealedCount++;
+      if (flagged[y][x] && grid[y][x] === -1) correctFlags++;
+    }
+  }
+  return correctFlags === totalMines && revealedCount === rows * cols - totalMines;
+}
+
+function endGame(won) {
+  gameOver = true;
+  clearInterval(timerInterval);
+
+  // Reveal all mines
+  for (let y = 0; y < rows; y++)
+    for (let x = 0; x < cols; x++)
+      if (grid[y][x] === -1) revealed[y][x] = true;
+
+  draw();
+  resultEl.textContent = won ? `🎉 你赢了！用时 ${seconds} 秒` : '💥 踩到雷了！';
+}
+
+// Mouse tracking for hover effect
+let mouseX = -1, mouseY = -1;
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  const nx = Math.floor((e.clientX - rect.left) / cellSize);
+  const ny = Math.floor((e.clientY - rect.top) / cellSize);
+  if (nx !== mouseX || ny !== mouseY) {
+    mouseX = nx; mouseY = ny;
+    if (!gameOver) draw();
+  }
+});
+canvas.addEventListener('mouseleave', () => { mouseX = -1; mouseY = -1; if (!gameOver) draw(); });
+
+canvas.addEventListener('click', e => {
+  if (gameOver) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.floor((e.clientX - rect.left) / cellSize);
+  const y = Math.floor((e.clientY - rect.top) / cellSize);
+  if (x < 0 || x >= cols || y < 0 || y >= rows) return;
+  if (flagged[y][x]) return;
+
+  if (firstClick) {
+    placeMines(x, y);
+    firstClick = false;
+    timerInterval = setInterval(() => {
+      seconds++;
+      timerEl.textContent = seconds;
+    }, 1000);
+  }
+
+  if (grid[y][x] === -1) {
+    endGame(false);
+    return;
+  }
+
+  reveal(x, y);
+  draw();
+
+  if (checkWin()) endGame(true);
+});
+
+canvas.addEventListener('contextmenu', e => {
+  e.preventDefault();
+  if (gameOver || firstClick) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.floor((e.clientX - rect.left) / cellSize);
+  const y = Math.floor((e.clientY - rect.top) / cellSize);
+  if (x < 0 || x >= cols || y < 0 || y >= rows) return;
+  if (revealed[y][x]) return;
+
+  flagged[y][x] = !flagged[y][x];
+  mineCountEl.textContent = totalMines - flagged.flat().filter(Boolean).length;
+  draw();
+
+  if (checkWin()) endGame(true);
+});
+
+difficultySel.addEventListener('change', init);
+document.getElementById('restartBtn').addEventListener('click', init);
+
+init();
+</script>
+</body>
+</html>
