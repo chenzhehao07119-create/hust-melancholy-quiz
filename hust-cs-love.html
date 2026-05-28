@@ -292,6 +292,162 @@ body {
 .text-center { text-align: center; }
 .mt-8 { margin-top: 8px; }
 .mt-16 { margin-top: 16px; }
+
+/* ── Sound Toggle ── */
+.sound-toggle {
+  position: fixed; top: 12px; right: 12px; z-index: 200;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.85); backdrop-filter: blur(8px);
+  border: 1px solid rgba(233,30,99,0.2);
+  font-size: 20px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+}
+.sound-toggle:active { transform: scale(0.9); }
+
+/* ── Character Portrait ── */
+.char-portrait {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px; border-radius: 16px; margin-bottom: 12px;
+  animation: slideUp 0.5s cubic-bezier(0.4,0,0.2,1);
+  border: 2px solid transparent;
+}
+.char-portrait.lin {
+  background: linear-gradient(135deg, #e8eaf6, #ede7f6);
+  border-color: rgba(124,77,255,0.3);
+  box-shadow: 0 4px 20px rgba(124,77,255,0.15);
+}
+.char-portrait.su {
+  background: linear-gradient(135deg, #fff3e0, #fbe9e7);
+  border-color: rgba(255,111,0,0.3);
+  box-shadow: 0 4px 20px rgba(255,111,0,0.15);
+}
+.char-portrait.lu {
+  background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+  border-color: rgba(233,30,99,0.3);
+  box-shadow: 0 4px 20px rgba(233,30,99,0.15);
+}
+.char-portrait.ye {
+  background: linear-gradient(135deg, #e0f2f1, #e8f5e9);
+  border-color: rgba(38,166,154,0.3);
+  box-shadow: 0 4px 20px rgba(38,166,154,0.15);
+}
+.char-portrait-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; flex-shrink: 0;
+  animation: float 3s ease-in-out infinite;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.portrait-lin .char-portrait-avatar { background: linear-gradient(135deg, #7c4dff, #b388ff); }
+.portrait-su .char-portrait-avatar { background: linear-gradient(135deg, #ff6f00, #ffab40); }
+.portrait-lu .char-portrait-avatar { background: linear-gradient(135deg, #e91e63, #f48fb1); }
+.portrait-ye .char-portrait-avatar { background: linear-gradient(135deg, #26a69a, #80cbc4); }
+.char-portrait-info { flex: 1; min-width: 0; }
+.char-portrait-name { font-size: 1rem; font-weight: 700; color: #4e342e; }
+.char-portrait-title { font-size: 0.75rem; color: #8d6e63; margin-top: 2px; }
+.char-portrait-affection {
+  font-size: 0.78rem; color: #e91e63; margin-top: 4px; font-weight: 500;
+}
+
+/* ── Scene Card ── */
+.scene-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(252,228,236,0.6));
+  border: 1px solid rgba(233,30,99,0.15);
+  border-radius: 16px; padding: 20px; margin: 12px 0;
+  animation: sceneIn 0.6s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 8px 30px rgba(233,30,99,0.1);
+}
+@keyframes sceneIn {
+  from { opacity: 0; transform: scale(0.95) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.scene-title {
+  font-size: 1.1rem; font-weight: 700; color: #e91e63;
+  text-align: center; margin-bottom: 12px;
+}
+.scene-text {
+  color: #5d4037; font-size: 0.9rem; line-height: 1.8;
+  text-align: center; margin-bottom: 16px;
+}
+.scene-choices { display: flex; flex-direction: column; gap: 8px; }
+
+/* ── Float Animation for Affection ── */
+.affection-float {
+  position: fixed; pointer-events: none; z-index: 300;
+  font-weight: 700; font-size: 1rem;
+  animation: affectionRise 1.5s ease-out forwards;
+}
+@keyframes affectionRise {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-60px) scale(1.3); }
+}
+
+/* ── Full Screen Hearts ── */
+.heart-rain {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 250;
+}
+.heart-drop {
+  position: absolute;
+  font-size: var(--hs);
+  animation: heartFall var(--hd) linear forwards;
+  animation-delay: var(--hdel);
+  top: -40px;
+}
+@keyframes heartFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  80% { opacity: 0.8; }
+  100% { transform: translateY(105vh) rotate(var(--hr)); opacity: 0; }
+}
+
+/* ── Mini-game Enhance ── */
+.minigame-card {
+  background: linear-gradient(135deg, #fff, #fce4ec);
+  border: 2px solid rgba(233,30,99,0.2);
+  border-radius: 20px; padding: 24px; text-align: center;
+  box-shadow: 0 8px 40px rgba(233,30,99,0.15);
+  animation: sceneIn 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.minigame-heart {
+  display: inline-block; font-size: 3rem;
+  animation: heartBeat 0.6s ease-in-out infinite;
+}
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.2); }
+}
+.minigame-timer-ring {
+  width: 60px; height: 60px; border-radius: 50%;
+  border: 4px solid rgba(233,30,99,0.15);
+  border-top-color: #e91e63;
+  margin: 8px auto;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #e91e63;
+}
+
+/* ── Toast Notification ── */
+.game-toast {
+  position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
+  background: rgba(30,10,20,0.85); color: #fff;
+  padding: 10px 22px; border-radius: 24px;
+  font-size: 0.85rem; font-weight: 500; z-index: 300;
+  pointer-events: none;
+  animation: toastAnim 1.8s ease-out forwards;
+}
+@keyframes toastAnim {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+}
+
+/* ── Narrative highlight per character ── */
+.narr-lin { border-left: 3px solid #7c4dff; padding-left: 10px; }
+.narr-su { border-left: 3px solid #ff6f00; padding-left: 10px; }
+.narr-lu { border-left: 3px solid #e91e63; padding-left: 10px; }
+.narr-ye { border-left: 3px solid #26a69a; padding-left: 10px; }
 </style>
 </head>
 <body>
@@ -300,6 +456,64 @@ body {
 <div id="app"></div>
 
 <script>
+// ═══════════════════════════════════════════
+// AUDIO SYSTEM — Web Audio API, no external files
+// ═══════════════════════════════════════════
+let audioCtx = null;
+let soundEnabled = true;
+
+function initAudio() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function playTone(freq, duration, type, vol) {
+  if (!soundEnabled || !audioCtx) return;
+  try {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(vol || 0.08, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  } catch(e) {}
+}
+
+function sfxClick() { initAudio(); playTone(800, 0.04, 'sine', 0.06); }
+function sfxSuccess() { initAudio(); playTone(523, 0.08, 'sine', 0.07); setTimeout(()=>playTone(659, 0.08, 'sine', 0.07), 80); setTimeout(()=>playTone(784, 0.12, 'sine', 0.08), 160); }
+function sfxHeart() { initAudio(); playTone(440, 0.18, 'sine', 0.06); setTimeout(()=>playTone(554, 0.2, 'sine', 0.06), 120); }
+function sfxFail() { initAudio(); playTone(200, 0.25, 'triangle', 0.05); }
+function sfxEvent() { initAudio(); playTone(660, 0.06, 'sine', 0.05); setTimeout(()=>playTone(880, 0.08, 'sine', 0.05), 60); }
+function sfxConfession() { initAudio(); playTone(392, 0.15, 'sine', 0.06); setTimeout(()=>playTone(523, 0.15, 'sine', 0.06), 150); setTimeout(()=>playTone(659, 0.12, 'sine', 0.06), 300); setTimeout(()=>playTone(784, 0.2, 'sine', 0.07), 450); }
+function sfxAchievement() { initAudio(); playTone(523, 0.1, 'triangle', 0.06); setTimeout(()=>playTone(659, 0.1, 'triangle', 0.06), 100); setTimeout(()=>playTone(784, 0.1, 'triangle', 0.06), 200); setTimeout(()=>playTone(1047, 0.15, 'triangle', 0.07), 300); }
+function sfxMatch() { initAudio(); playTone(600, 0.06, 'sine', 0.05); setTimeout(()=>playTone(900, 0.08, 'sine', 0.05), 60); }
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  const btn = document.getElementById('soundBtn');
+  if (btn) btn.textContent = soundEnabled ? '🔊' : '🔇';
+  if (soundEnabled) sfxClick();
+}
+
+// Add sound toggle button to DOM
+function ensureSoundButton() {
+  if (document.getElementById('soundBtn')) return;
+  const btn = document.createElement('button');
+  btn.id = 'soundBtn';
+  btn.className = 'sound-toggle';
+  btn.textContent = '🔊';
+  btn.onclick = toggleSound;
+  btn.title = '音效开关';
+  document.body.appendChild(btn);
+}
+ensureSoundButton();
+
 // ═══════════════════════════════════════════
 // PARTICLE BACKGROUND — cherry blossoms, hearts, sparkles
 // ═══════════════════════════════════════════
@@ -581,6 +795,23 @@ const RANDOM_EVENTS = [
   { id: 'r23', text: '你的电脑蓝屏了！项目代码没保存。编程力-5，心力交瘁精力-10。', eff: { coding: -5, energy: -10 }, cond: s => true, flavor: 'bad' },
   { id: 'r24', text: '在光谷逛街的时候遇到了一个星探，说你可以做平面模特。颜值+8！不过你没有去。', eff: { appearance: 8 }, cond: s => s.appearance >= 50, flavor: 'good' },
   { id: 'r25', text: '被拉去当了一场技术沙龙的主持人，虽然紧张但完成得不错。社交力+5，编程力+2。', eff: { social: 5, coding: 2 }, cond: s => s.social >= 35, flavor: 'good' },
+  // ── 新增角色相关事件 ──
+  { id: 'r26', text: '深夜实验室，只有你和林学姐两个人。她突然问你：「你谈过恋爱吗？」气氛突然变得微妙。浪漫值+4。', eff: { romance: 4 }, cond: s => S.chars.lin.met && S.chars.lin.affection >= 20, flavor: 'good', char: 'lin' },
+  { id: 'r27', text: '你帮林学姐review了一段代码，她难得地夸了一句「写得不错」。编程力+4，林学姐好感+3。', eff: { coding: 4 }, cond: s => S.chars.lin.met, flavor: 'good', char: 'lin', charEff: { lin: 3 } },
+  { id: 'r28', text: '东九楼自习室里，苏念念递给你一张纸条：「第3题选C。」下面还画了个笑脸。社交力+3。', eff: { social: 3 }, cond: s => S.chars.su.met, flavor: 'good', char: 'su', charEff: { su: 3 } },
+  { id: 'r29', text: '食堂里苏念念帮你占了最后一个位置。「你再不来我就被阿姨赶走了。」她翻了个白眼，但还是把自己的酸奶分了你一半。好感+3。', eff: {}, cond: s => S.chars.su.met && S.chars.su.affection >= 20, flavor: 'good', char: 'su', charEff: { su: 3 } },
+  { id: 'r30', text: '小鹿在动漫社群里发了一张她新画的同人图——竟然是画的你！虽然画成了Q版，但大家都说很像。社交力+4。', eff: { social: 4 }, cond: s => S.chars.lu.met && S.chars.lu.affection >= 25, flavor: 'good', char: 'lu', charEff: { lu: 4 } },
+  { id: 'r31', text: '光谷的奶茶店，你遇到了小鹿。她正在试喝新品，看到你立刻招手：「学长尝尝这个！超好喝！」她把自己的吸管递了过来。浪漫值+5。', eff: { romance: 5 }, cond: s => S.chars.lu.met, flavor: 'good', char: 'lu', charEff: { lu: 3 } },
+  { id: 'r32', text: '图书馆窗边，叶学姐在看一本英文小说。你路过时她抬起头，轻轻对你说：「今天的阳光真好。」浪漫值+3。', eff: { romance: 3 }, cond: s => S.chars.ye.met, flavor: 'good', char: 'ye', charEff: { ye: 3 } },
+  { id: 'r33', text: '叶学姐在朋友圈分享了一首英文歌——她说这首歌让她想起了一个人。你点开听了，评论区有人问是谁，她没有回复。浪漫值+4。', eff: { romance: 4 }, cond: s => S.chars.ye.met && S.chars.ye.affection >= 25, flavor: 'good', char: 'ye', charEff: { ye: 4 } },
+  // ── CS梗 & 华科梗 ──
+  { id: 'r34', text: '你写了一个开源项目，突然在GitHub上被一个神秘大佬star了！点进去一看——是林学姐的账号。编程力+5。', eff: { coding: 5 }, cond: s => S.chars.lin.met && s.coding >= 40, flavor: 'good', char: 'lin' },
+  { id: 'r35', text: '你在绝望坡上骑车的时候摔了一跤，裤子破了个洞。苏念念路过，笑得直不起腰。「你也太惨了吧哈哈哈哈！」但她还是帮你挡着回了寝室。社交力+4。', eff: { social: 4 }, cond: s => S.chars.su.met, flavor: 'good', char: 'su', charEff: { su: 3 } },
+  { id: 'r36', text: '韵苑食堂今天做了一道「Java特辣版」水煮鱼。你吃完之后觉得人生都变成了面向对象。精力+8。', eff: { energy: 8 }, cond: s => true, flavor: 'neutral' },
+  { id: 'r37', text: '西十二教学楼里你迷路了。这栋楼的设计师一定学过函数式编程——每个走廊都是纯函数，但你永远找不到入口。精力-8。', eff: { energy: -8 }, cond: s => s.semester <= 1, flavor: 'bad' },
+  { id: 'r38', text: '有人在校内论坛发了一个投票：「谁是计院最帅的程序员？」你被提名了。颜值+5，社交力+3。', eff: { appearance: 5, social: 3 }, cond: s => s.appearance >= 40, flavor: 'good' },
+  { id: 'r39', text: '你熬夜写代码到凌晨三点，突然收到一条微信：「早点睡。」——你不知道是谁发的，但心里一暖。精力+10。', eff: { energy: 10, romance: 2 }, cond: s => s.energy < 40, flavor: 'good' },
+  { id: 'r40', text: '沁苑门口有个女生在发传单，你接过来一看——是动漫社的招新海报，上面画满了可爱的美少女。小鹿在角落对你眨了眨眼。', eff: { social: 2 }, cond: s => S.chars.lu.met, flavor: 'good', char: 'lu' },
 ];
 
 // Situational choice events
@@ -589,8 +820,8 @@ const CHOICE_EVENTS = [
     title: '深夜求助',
     text: '凌晨1点，林学姐发来消息：「我的模型跑崩了，明天ddl…你能来实验室帮我看一下吗？」外面下着大雨。',
     choices: [
-      { text: '「马上到！」披上衣服冲出寝室。', eff: { coding: 5, energy: -25 }, affection: { lin: 10 } },
-      { text: '「明天一早帮你看，先歇歇吧。」', eff: { social: 3, energy: -5 }, affection: { lin: 4 } },
+      { text: '「马上到！」披上衣服冲出寝室。', eff: { coding: 5, energy: -25 }, affection: { lin: 12 } },
+      { text: '「明天一早帮你看，先歇歇吧。」', eff: { social: 3, energy: -5 }, affection: { lin: 5 } },
       { text: '假装睡着了，明早再回。', eff: {}, affection: { lin: -3 } },
     ]
   },
@@ -598,8 +829,8 @@ const CHOICE_EVENTS = [
     title: '期末互助',
     text: '考试前一天，苏念念发消息：「我笔记整理好了，要不要一起复习？」她总是这样，嘴上嫌弃你，笔记却整理得比谁都认真。',
     choices: [
-      { text: '立刻收拾书包去图书馆找她。', eff: { gpa: 0.1, energy: -15 }, affection: { su: 10 } },
-      { text: '「发我一份笔记吧，我自己看~」', eff: { gpa: 0.06 }, affection: { su: 3 } },
+      { text: '立刻收拾书包去图书馆找她。', eff: { gpa: 0.1, energy: -15 }, affection: { su: 12 } },
+      { text: '「发我一份笔记吧，我自己看~」', eff: { gpa: 0.06 }, affection: { su: 4 } },
       { text: '「不用了，我自己能行。」', eff: { gpa: 0.03 }, affection: { su: -2 } },
     ]
   },
@@ -607,8 +838,8 @@ const CHOICE_EVENTS = [
     title: '漫展邀约',
     text: '小鹿发来消息：「学长！这周末光谷有漫展，我多了一张票！你要不要一起来？」她发了一个期待的表情包。',
     choices: [
-      { text: '当然去！买好奶茶在门口等她。', eff: { romance: 5, social: 5, money: -60 }, affection: { lu: 10 } },
-      { text: '「好啊，不过我只能待半天。」', eff: { social: 3, money: -30 }, affection: { lu: 5 } },
+      { text: '当然去！买好奶茶在门口等她。', eff: { romance: 5, social: 5, money: -60 }, affection: { lu: 12 } },
+      { text: '「好啊，不过我只能待半天。」', eff: { social: 3, money: -30 }, affection: { lu: 6 } },
       { text: '「周末要赶项目…下次吧。」', eff: { coding: 3 }, affection: { lu: -5 } },
     ]
   },
@@ -616,8 +847,8 @@ const CHOICE_EVENTS = [
     title: '咖啡馆偶遇',
     text: '你在咖啡馆写代码，抬头看到叶学姐坐在窗边看书。阳光透过窗户洒在她身上。她似乎也看到了你，微微笑了笑。',
     choices: [
-      { text: '端着自己的咖啡走过去：「学姐，可以坐这里吗？」', eff: { romance: 4, social: 4, money: -30 }, affection: { ye: 10 } },
-      { text: '对她挥手打个招呼，继续写代码。', eff: {}, affection: { ye: 3 } },
+      { text: '端着自己的咖啡走过去：「学姐，可以坐这里吗？」', eff: { romance: 4, social: 4, money: -30 }, affection: { ye: 12 } },
+      { text: '对她挥手打个招呼，继续写代码。', eff: {}, affection: { ye: 4 } },
       { text: '低头假装没看到，专注屏幕上。', eff: { coding: 2 }, affection: { ye: -5 } },
     ]
   },
@@ -625,26 +856,26 @@ const CHOICE_EVENTS = [
     title: '实习选择',
     text: '林学姐拿到了北京字节的实习offer，她问你要不要也投一下试试。你注意到她说话时，手指不自觉地绞在一起——她希望你去。',
     choices: [
-      { text: '「好！我们一起准备面试！」', eff: { coding: 5, social: 3 }, affection: { lin: 15 } },
+      { text: '「好！我们一起准备面试！」', eff: { coding: 5, social: 3 }, affection: { lin: 18 } },
       { text: '「我再想想，可能去深圳那边。」', eff: { coding: 3 }, affection: { lin: -5 } },
-      { text: '「保研本校吧，留在武汉。」', eff: { gpa: 0.05 }, affection: { lin: 8 } },
+      { text: '「保研本校吧，留在武汉。」', eff: { gpa: 0.05 }, affection: { lin: 10 } },
     ]
   },
   { id: 'c6', char: 'su', need: 45, semMin: 4,
     title: '保研抉择',
     text: '苏念念在保研名单上看到了你的名字——就在她下面一行。她转头看你，眼里亮晶晶的：「以后还是同学哦？」',
     choices: [
-      { text: '「是啊，又可以一起上课了。」', eff: { gpa: 0.05, social: 3 }, affection: { su: 15 } },
+      { text: '「是啊，又可以一起上课了。」', eff: { gpa: 0.05, social: 3 }, affection: { su: 18 } },
       { text: '「我在纠结要不要去工作…」', eff: { coding: 3 }, affection: { su: -5 } },
-      { text: '「还没想好，走一步看一步。」', eff: {}, affection: { su: 3 } },
+      { text: '「还没想好，走一步看一步。」', eff: {}, affection: { su: 4 } },
     ]
   },
   { id: 'c7', char: 'lu', need: 45, semMin: 5,
     title: '生日惊喜',
     text: '小鹿不知道从哪里知道了你的生日，在你寝室楼下等你，手里提着蛋糕。「学长！生日快乐！」她笑得比蛋糕上的蜡烛还亮。',
     choices: [
-      { text: '感动得说不出话，给了她一个拥抱。', eff: { romance: 6 }, affection: { lu: 15 } },
-      { text: '「谢谢！你怎么知道的！」开心地接过蛋糕。', eff: { social: 3, romance: 3 }, affection: { lu: 8 } },
+      { text: '感动得说不出话，给了她一个拥抱。', eff: { romance: 6 }, affection: { lu: 18 } },
+      { text: '「谢谢！你怎么知道的！」开心地接过蛋糕。', eff: { social: 3, romance: 3 }, affection: { lu: 10 } },
       { text: '有点不好意思：「不用这么麻烦的…」', eff: {}, affection: { lu: 0 } },
     ]
   },
@@ -652,9 +883,64 @@ const CHOICE_EVENTS = [
     title: '远方的信',
     text: '叶学姐出国交换了半年。某天你收到一封航空信，里面是一张伦敦的明信片，背面用英文写着：「Wish you were here.」',
     choices: [
-      { text: '立刻给她回了一封长信。', eff: { romance: 6, social: 3 }, affection: { ye: 15 } },
-      { text: '拍了张华科的照片发给她，说「这里也想你」。', eff: { romance: 4 }, affection: { ye: 8 } },
+      { text: '立刻给她回了一封长信。', eff: { romance: 6, social: 3 }, affection: { ye: 18 } },
+      { text: '拍了张华科的照片发给她，说「这里也想你」。', eff: { romance: 4 }, affection: { ye: 10 } },
       { text: '把明信片夹在书里，没回。不知道该说什么。', eff: {}, affection: { ye: -5 } },
+    ]
+  },
+  // ── 新增情景选择事件 ──
+  { id: 'c9', char: 'lin', need: 55, semMin: 6,
+    title: '毕业设计',
+    text: '毕业设计答辩前一天，你的demo出了个大bug。林学姐二话不说赶来了实验室。凌晨两点，整个南一楼只剩你们两个人。她坐在你旁边，帮你一行一行地debug。窗外的月光照在她的侧脸上。',
+    choices: [
+      { text: '「学姐，谢谢你。这四年，你帮了我太多太多。」', eff: { coding: 5, romance: 5 }, affection: { lin: 18 } },
+      { text: '「搞定了！我请你吃夜宵！」', eff: { coding: 3, social: 4 }, affection: { lin: 10 } },
+      { text: '一心debug，假装没注意到她离你很近。', eff: { coding: 8 }, affection: { lin: 2 } },
+    ]
+  },
+  { id: 'c10', char: 'su', need: 45, semMin: 3,
+    title: '选修课同桌',
+    text: '这学期你选了一门公共选修课，发现苏念念也在。她每次都坐你旁边——已经连续八周了。今天她突然问你：「你是不是故意的？」你愣了一下：「什么故意的？」「……选课。」她的耳朵有点红。',
+    choices: [
+      { text: '「是啊，我就是想和你坐一起。」', eff: { romance: 8, social: 3 }, affection: { su: 18 } },
+      { text: '「什么？我没有故意啊。」装傻充愣。', eff: { social: 2 }, affection: { su: 5 } },
+      { text: '「你的笔记太好看了，我想蹭。」', eff: { gpa: 0.06 }, affection: { su: 8 } },
+    ]
+  },
+  { id: 'c11', char: 'lu', need: 50, semMin: 4,
+    title: '雨中等车',
+    text: '武汉的雨说下就下。你在校车站被淋成了落汤鸡。一把粉色的伞突然遮住了你——是小鹿。「学长你没带伞还出门！」她踮起脚尖把伞举过你头顶，自己的肩膀却淋湿了一半。',
+    choices: [
+      { text: '接过伞，自然地把她拉到身边：「一起打。」', eff: { romance: 8, social: 3 }, affection: { lu: 18 } },
+      { text: '「谢谢小鹿！我请你喝奶茶报答！」', eff: { social: 4, money: -25 }, affection: { lu: 10 } },
+      { text: '「没事你快回去，别淋湿了。」', eff: {}, affection: { lu: 3 } },
+    ]
+  },
+  { id: 'c12', char: 'ye', need: 50, semMin: 5,
+    title: '英文情诗',
+    text: '叶学姐在咖啡馆递给你一张纸。「我试着翻译了一首聂鲁达的诗…你帮我看看？」纸上是很漂亮的英文字，但下面有一行中文——「我爱你，但不求拥有你。像星星爱着夜空，不求成为月亮。」你抬头，她正看着你。',
+    choices: [
+      { text: '「译得很美。但为什么选这首诗？」轻声问她。', eff: { romance: 8, social: 3 }, affection: { ye: 18 } },
+      { text: '「太好了！我帮你发到文学社公众号上？」', eff: { social: 5 }, affection: { ye: 8 } },
+      { text: '「挺好的。」把纸还给她，低头继续写代码。', eff: { coding: 3 }, affection: { ye: -5 } },
+    ]
+  },
+  { id: 'c13', char: null, need: 30, semMin: 5,
+    title: '光谷跨年',
+    text: '跨年夜，光谷广场人山人海。烟花在天空中炸开的时候，你身边站着一个特别的人。周围的人在倒数：「三、二、一——」你转头，发现她也正在看你。',
+    choices: [
+      { text: '「新年快乐。」然后鼓起勇气抱住她。', eff: { romance: 10, social: 5 }, affection: { lin: 8, su: 8, lu: 8, ye: 8 } },
+      { text: '「新年快乐！」笑着挥手，和大家一起欢呼。', eff: { social: 6, romance: 3 }, affection: { lin: 4, su: 4, lu: 4, ye: 4 } },
+      { text: '低头看手机，假装在回消息。', eff: {}, affection: {} },
+    ]
+  },
+  { id: 'c14', char: null, need: 60, semMin: 6,
+    title: '毕业散伙饭',
+    text: '毕业聚餐上，大家喝了很多酒。有人在哭，有人在笑，有人在和暗恋了四年的人说第一句真心话。你坐在角落里，看着那个人——你知道，今晚不说，可能再也没有机会了。',
+    choices: [
+      { text: '走到她面前：「我能和你说几句话吗？」', eff: { romance: 12, social: 5, energy: -20 }, affection: { lin: 15, su: 15, lu: 15, ye: 15 } },
+      { text: '端起酒杯，借着酒劲坐到了她旁边。', eff: { romance: 6, social: 4, energy: -10 }, affection: { lin: 8, su: 8, lu: 8, ye: 8 } },
+      { text: '什么都没说。和她干了一杯，然后看别人哭。', eff: {}, affection: { lin: -5, su: -5, lu: -5, ye: -5 } },
     ]
   },
 ];
@@ -694,10 +980,10 @@ function pick(arr) { return arr[randInt(arr.length)]; }
 function gpaText(v) { return v.toFixed(2); }
 
 function getStage(aff) {
-  if (aff >= 80) return '恋人';
-  if (aff >= 50) return '暧昧';
-  if (aff >= 30) return '朋友';
-  if (aff >= 15) return '认识';
+  if (aff >= 60) return '恋人';
+  if (aff >= 38) return '暧昧';
+  if (aff >= 20) return '朋友';
+  if (aff >= 8) return '认识';
   return '陌生人';
 }
 
@@ -741,11 +1027,13 @@ function checkAchievements() {
       S.achievements.push(ach.id);
       const a = ACHIEVEMENTS.find(x => x.id === ach.id);
       S.narrative.push({ type: 'achievement', text: `🏆 成就解锁：${a.emoji} ${a.name} —— ${a.desc}` });
+      sfxAchievement();
     }
   }
 }
 
 function startNewGame() {
+  sfxSuccess();
   S = JSON.parse(JSON.stringify(DEFAULT_STATE));
   S.chars = {
     lin: { affection: 0, stage: 'stranger', met: false },
@@ -805,16 +1093,18 @@ function doAction(actionId) {
     const c = S.chars[action.char];
     if (!c.met && S.semester >= 0) {
       c.met = true;
-      c.affection = clamp(c.affection + 5, 0, 100);
+      c.affection = clamp(c.affection + 10, 0, 100);
       c.stage = getStage(c.affection);
       const cd = CHARACTERS[action.char];
       S.narrative.push({ type: 'event', text: cd.events.meet.text, char: action.char });
+      sfxHeart();
     } else if (c.met) {
-      c.affection = clamp(c.affection + 3, 0, 100);
+      c.affection = clamp(c.affection + 5, 0, 100);
       c.stage = getStage(c.affection);
-      if (Math.random() < 0.3) {
+      if (Math.random() < 0.35) {
         const cd = CHARACTERS[action.char];
-        S.narrative.push({ type: 'event', text: `你${action.name}时遇到了${cd.name}。她对你笑了笑。好感度+3。`, char: action.char });
+        S.narrative.push({ type: 'event', text: `你${action.name}时遇到了${cd.name}。她对你笑了笑。好感度+5。`, char: action.char });
+        sfxHeart();
       }
     }
   }
@@ -856,10 +1146,11 @@ function triggerRandomEvent() {
     const goodEvents = RANDOM_EVENTS.filter(e => e.flavor === 'good' && e.cond(S));
     if (goodEvents.length > 0) {
       const ev = pick(goodEvents);
-      S.narrative.push({ type: 'event', text: '🍀 幸运符生效！' + ev.text });
-      applyEffects(ev.eff);
+      S.narrative.push({ type: 'event', text: '🍀 幸运符生效！' + ev.text, char: ev.char });
+      applyEffects(ev.eff, ev.charEff || null);
       if (ev.minigame) { S.nextMinigame = ev.minigame; }
       if (ev.id === 'r25') S.canteenEvents++;
+      sfxEvent();
       return;
     }
   }
@@ -867,10 +1158,11 @@ function triggerRandomEvent() {
   const eligible = RANDOM_EVENTS.filter(e => e.cond(S));
   if (eligible.length === 0) return;
   const ev = pick(eligible);
-  S.narrative.push({ type: 'event', text: ev.text });
-  applyEffects(ev.eff);
+  S.narrative.push({ type: 'event', text: ev.text, char: ev.char });
+  applyEffects(ev.eff, ev.charEff || null);
   if (ev.id === 'r1') S.canteenEvents++;
   if (ev.minigame) { S.nextMinigame = ev.minigame; }
+  if (ev.flavor === 'good') sfxEvent(); else if (ev.flavor === 'bad') sfxFail();
 }
 
 function endSemester() {
@@ -903,17 +1195,34 @@ function endSemester() {
       if (edata.sem === S.semester && char.affection >= edata.need && !S[`event_${cid}_${ekey}`]) {
         S[`event_${cid}_${ekey}`] = true;
         S.narrative.push({ type: 'keyevent', text: `⭐ ${cdata.name}关键事件：${edata.text}`, char: cid });
-        char.affection = clamp(char.affection + 8, 0, 100);
+        char.affection = clamp(char.affection + 12, 0, 100);
         char.stage = getStage(char.affection);
+        sfxHeart();
       }
     }
   }
 
   // Trigger choice events
   for (const ce of CHOICE_EVENTS) {
+    if (S[`choice_${ce.id}`]) continue;
+    if (S.semester < ce.semMin) continue;
+
+    if (ce.char === null) {
+      // Universal event: trigger if ANY character meets threshold
+      const anyChar = Object.entries(S.chars).find(([, c]) => c.met && c.affection >= ce.need);
+      if (anyChar) {
+        S[`choice_${ce.id}`] = true;
+        S.currentEvent = ce;
+        S.phase = 'choice';
+        renderChoice();
+        return;
+      }
+      continue;
+    }
+
     const char = S.chars[ce.char];
     if (!char || !char.met) continue;
-    if (S.semester >= ce.semMin && char.affection >= ce.need && !S[`choice_${ce.id}`]) {
+    if (char.affection >= ce.need) {
       S[`choice_${ce.id}`] = true;
       S.currentEvent = ce;
       S.phase = 'choice';
@@ -983,21 +1292,26 @@ function confess(characterId) {
   if (S.confessedTo.includes(characterId)) { S.narrative.push({ type: 'error', text: '你已经表白过了，再表白就成骚扰了…' }); renderGame(); return; }
 
   S.confessedTo.push(characterId);
-  const successChance = char.affection / 100 * 0.7 + S.romance / 100 * 0.2 + S.appearance / 100 * 0.1;
+  const successChance = char.affection / 100 * 0.85 + S.romance / 100 * 0.1 + S.appearance / 100 * 0.05;
 
-  if (char.stage === '暧昧' && successChance > 0.5) {
-    char.affection = clamp(char.affection + 20, 0, 100);
+  if (char.stage === '暧昧' && successChance > 0.3) {
+    char.affection = clamp(char.affection + 25, 0, 100);
     char.stage = '恋人';
     S.narrative.push({ type: 'confession', text: `💕 表白成功！${CHARACTERS[characterId].name}脸红了：「…我也喜欢你。」你们在一起了！`, char: characterId });
-  } else if (char.stage === '朋友' && successChance > 0.65) {
-    char.affection = clamp(char.affection + 15, 0, 100);
+    sfxConfession();
+    spawnHeartRain();
+  } else if (char.stage === '朋友' && successChance > 0.4) {
+    char.affection = clamp(char.affection + 20, 0, 100);
     char.stage = getStage(char.affection);
     S.narrative.push({ type: 'confession', text: `💕 表白成功！${CHARACTERS[characterId].name}有些惊讶，但还是点了点头。`, char: characterId });
+    sfxConfession();
+    spawnHeartRain();
   } else {
     S.rejected++;
     S.narrative.push({ type: 'confession', text: `💔 被发好人卡了…「你很好，但是…」${CHARACTERS[characterId].name}委婉地拒绝了你。`, char: characterId });
-    char.affection = clamp(char.affection - 10, 0, 100);
+    char.affection = clamp(char.affection - 5, 0, 100);
     char.stage = getStage(char.affection);
+    sfxFail();
   }
   checkAchievements();
   renderGame();
@@ -1043,6 +1357,57 @@ function calculateEnding() {
 }
 
 // ═══════════════════════════════════════════
+// UTILITY — heart rain, toast, character portraits
+// ═══════════════════════════════════════════
+function spawnHeartRain() {
+  const container = document.createElement('div');
+  container.className = 'heart-rain';
+  const emojis = ['❤️', '💖', '💕', '💗', '💝', '✨', '💫'];
+  for (let i = 0; i < 35; i++) {
+    const drop = document.createElement('div');
+    drop.className = 'heart-drop';
+    drop.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    drop.style.cssText = `
+      left: ${Math.random() * 95}%;
+      --hs: ${18 + Math.random() * 28}px;
+      --hd: ${1.5 + Math.random() * 2.5}s;
+      --hdel: ${Math.random() * 1.5}s;
+      --hr: ${(Math.random() - 0.5) * 360}deg;
+    `;
+    container.appendChild(drop);
+  }
+  document.body.appendChild(container);
+  setTimeout(() => container.remove(), 4000);
+}
+
+function showGameToast(msg) {
+  const existing = document.querySelector('.game-toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'game-toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+function renderCharPortrait(cid) {
+  const cd = CHARACTERS[cid];
+  const c = S.chars[cid];
+  if (!cd || !c || !c.met) return '';
+  const stageEmoji = c.stage === '恋人' ? '💕' : c.stage === '暧昧' ? '💛' : c.stage === '朋友' ? '💚' : '🤍';
+  return html`
+    <div class="char-portrait ${cid} portrait-${cid}">
+      <div class="char-portrait-avatar">${cd.emoji}</div>
+      <div class="char-portrait-info">
+        <div class="char-portrait-name">${cd.name} · ${cd.full}</div>
+        <div class="char-portrait-title">${cd.title}</div>
+        <div class="char-portrait-affection">${stageEmoji} ${c.stage} · 好感 ${Math.floor(c.affection)}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════
 // RENDERER
 // ═══════════════════════════════════════════
 const app = document.getElementById('app');
@@ -1082,6 +1447,7 @@ function renderGame() {
     if (n.type === 'achievement') cls = 'name-tag';
     if (n.type === 'confession') cls = 'highlight';
     if (n.type === 'keyevent') cls = 'name-tag';
+    if (n.char) cls += ' narr-' + n.char;
     return `<p class="${cls}">${n.text}</p>`;
   }).join('');
 
@@ -1119,14 +1485,14 @@ function renderGame() {
 
   // Actions
   let actionsHTML = BASE_ACTIONS.map(a => {
-    return html`<button class="btn" onclick="doAction('${a.id}')" title="${a.desc}">${a.icon} ${a.name}</button>`;
+    return html`<button class="btn" onclick="sfxClick();doAction('${a.id}')" title="${a.desc}">${a.icon} ${a.name}</button>`;
   }).join('');
 
   // Confess buttons
   let confessHTML = Object.entries(CHARACTERS).map(([cid, cd]) => {
     const c = S.chars[cid];
     if (!c.met || c.stage === '恋人') return '';
-    return html`<button class="btn small" onclick="confess('${cid}')" ${S.confessedTo.includes(cid) ? 'disabled' : ''}>💌 向${cd.name}表白</button>`;
+    return html`<button class="btn small" onclick="sfxHeart();confess('${cid}')" ${S.confessedTo.includes(cid) ? 'disabled' : ''}>💌 向${cd.name}表白</button>`;
   }).filter(Boolean).join('');
 
   // Items
@@ -1193,13 +1559,20 @@ function renderChoice() {
   const ce = S.currentEvent;
   if (!ce) { S.phase = 'playing'; renderGame(); return; }
 
+  // Show character portrait if event has a char
+  let portraitHTML = '';
+  if (ce.char && S.chars[ce.char] && S.chars[ce.char].met) {
+    portraitHTML = renderCharPortrait(ce.char);
+  }
+
   let choicesHTML = ce.choices.map((c, i) => {
-    return html`<button class="choice-btn" onclick="resolveChoice(${i})">${c.text}</button>`;
+    return html`<button class="choice-btn" onclick="sfxClick();resolveChoice(${i})">${c.text}</button>`;
   }).join('');
 
   app.innerHTML = html`
     <div class="overlay">
       <div class="overlay-card">
+        ${portraitHTML}
         <div class="overlay-title">⚡ ${ce.title}</div>
         <div class="overlay-text">${ce.text}</div>
         ${choicesHTML}
@@ -1348,22 +1721,23 @@ function startMinigame(type) {
 function startDebugGame() {
   S.phase = 'minigame';
   const bugs = [
-    { code: 'for(int i=0; i<n; i++);', line: 1, bug: 1, hint: '多余的分号' },
-    { code: 'if (x = 5)', line: 2, bug: 2, hint: '赋值当判断' },
-    { code: 'console.log("hello)', line: 3, bug: 3, hint: '缺少引号' },
+    { code: 'while(you.love(me)) {', line: 1, bug: 1, hint: '缺少 forever 条件' },
+    { code: 'if (heart.beats == true)', line: 2, bug: 2, hint: '应该用 ===', fix: 'if (heart.beats === true)' },
+    { code: 'return you && me;', line: 3, bug: 3, hint: '想要 forever ❤️', fix: 'return you && me && forever' },
   ];
   const target = pick(bugs);
 
   app.innerHTML = html`
     <div class="overlay">
-      <div class="overlay-card">
-        <div class="overlay-title">🔧 Debug速修</div>
-        <div style="color:#5d4037;font-size:0.85rem;margin-bottom:12px;">找出代码中的bug！30秒倒计时</div>
-        <div class="minigame-timer" id="debugTimer">⏱ 30s</div>
+      <div class="overlay-card minigame-card">
+        <div class="minigame-heart">💝</div>
+        <div class="overlay-title">💘 心动代码</div>
+        <div style="color:#5d4037;font-size:0.85rem;margin-bottom:12px;">找出这段恋爱代码里的bug！25秒倒计时</div>
+        <div class="minigame-timer-ring" id="debugTimer">⏱ 25s</div>
         <div style="margin:12px 0;">
           ${bugs.map((b, i) => html`
-            <div class="minigame-target bug-btn" onclick="resolveDebug(${b.bug === target.bug})" id="bug${i}">
-              ${b.code}
+            <div class="minigame-target bug-btn" onclick="sfxClick();resolveDebug(${b.bug === target.bug})" id="bug${i}">
+              ${b.code} <span style="font-size:0.7rem;color:#999;">${b.hint}</span>
             </div>
           `).join('')}
         </div>
@@ -1371,7 +1745,7 @@ function startDebugGame() {
     </div>
   `;
 
-  let time = 30;
+  let time = 25;
   window._debugInterval = setInterval(() => {
     time--;
     const timerEl = document.getElementById('debugTimer');
@@ -1385,29 +1759,31 @@ function resolveDebug(success) {
   clearInterval(window._debugInterval);
   if (success) {
     S.coding = clamp(S.coding + 8, 0, 100);
-    S.narrative.push({ type: 'event', text: '✅ Debug成功！你精准地找到了bug。编程力+8！' });
+    S.narrative.push({ type: 'event', text: '✅ Bug修复成功！你对恋爱的理解又深了一层。编程力+8！' });
+    sfxSuccess();
   } else {
-    S.narrative.push({ type: 'event', text: '❌ Debug失败…但没关系，bug就是程序员最好的老师。' });
+    S.narrative.push({ type: 'event', text: '❌ Debug失败…但没关系，爱情本来就没有完美的代码。' });
+    sfxFail();
   }
   S.phase = 'playing';
   checkAchievements();
   renderGame();
 }
-
 function startTypingGame() {
   S.phase = 'minigame';
-  const phrases = ['hello world', 'i love code', 'debug me', 'git push', '404 not found', 'while true', 'return 0'];
+  const phrases = ['you and me', 'forever us', 'i love you', 'be my valentine', 'love at first sight', 'together forever', 'you are my sunshine'];
   const target = pick(phrases);
   window._typingTarget = target;
 
   app.innerHTML = html`
     <div class="overlay">
-      <div class="overlay-card">
+      <div class="overlay-card minigame-card">
+        <div class="minigame-heart">💌</div>
         <div class="overlay-title">⌨️ 心动打字</div>
-        <div style="color:#5d4037;font-size:0.85rem;margin-bottom:12px;">快速打出下面的文字！</div>
-        <div class="minigame-timer" id="typeTimer">⏱ 20s</div>
-        <div class="minigame-target" style="font-size:1.4rem;text-align:center;letter-spacing:2px;">${target}</div>
-        <input id="typeInput" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(233,30,99,0.25);background:#fff;color:#4e342e;font-size:1.1rem;text-align:center;margin-top:12px;font-family:inherit;outline:none;" placeholder="在这里输入..." autofocus>
+        <div style="color:#5d4037;font-size:0.85rem;margin-bottom:12px;">快速打出这句话，练习你的告白手速！</div>
+        <div class="minigame-timer-ring" id="typeTimer">⏱ 20s</div>
+        <div class="minigame-target" style="font-size:1.6rem;text-align:center;letter-spacing:3px;color:#e91e63;font-weight:600;">${target}</div>
+        <input id="typeInput" style="width:100%;padding:14px;border-radius:14px;border:2px solid rgba(233,30,99,0.3);background:#fff;color:#4e342e;font-size:1.2rem;text-align:center;margin-top:16px;font-family:inherit;outline:none;" placeholder="在这里输入..." autofocus>
       </div>
     </div>
   `;
@@ -1436,10 +1812,12 @@ function startTypingGame() {
 function resolveTyping(success) {
   clearInterval(window._typeInterval);
   if (success) {
-    S.romance = clamp(S.romance + 8, 0, 100);
-    S.narrative.push({ type: 'event', text: '⌨️ 打字飞起！你的手速让对方印象深刻。浪漫值+8！' });
+    S.romance = clamp(S.romance + 10, 0, 100);
+    S.narrative.push({ type: 'event', text: '⌨️ 指尖在键盘上飞舞——你的告白手速让对方心跳加速！浪漫值+10！' });
+    sfxSuccess();
   } else {
-    S.narrative.push({ type: 'event', text: '⌨️ 打字超时…下次约会前记得多练练。' });
+    S.narrative.push({ type: 'event', text: '⌨️ 打字超时…不过没关系，有些话不一定要打出来。' });
+    sfxFail();
   }
   S.phase = 'playing';
   checkAchievements();
@@ -1456,16 +1834,17 @@ function startMatchGame() {
   window._matchLocked = false;
 
   let cardsHTML = cards.map((e, i) => html`
-    <div class="bug-btn" id="card${i}" onclick="flipCard(${i})" style="width:50px;height:50px;display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;">❓</div>
+    <div class="bug-btn" id="card${i}" onclick="sfxClick();flipCard(${i})" style="width:50px;height:50px;display:inline-flex;align-items:center;justify-content:center;font-size:1.5rem;border-radius:10px;background:linear-gradient(135deg,#fce4ec,#f3e5f5);transition:all 0.2s;">❓</div>
   `).join('');
 
   app.innerHTML = html`
     <div class="overlay">
-      <div class="overlay-card">
+      <div class="overlay-card minigame-card">
+        <div class="minigame-heart">💞</div>
         <div class="overlay-title">🃏 缘分匹配</div>
-        <div style="color:#5d4037;font-size:0.85rem;margin-bottom:12px;">翻牌配对，全部配对成功即可！</div>
-        <div class="minigame-timer" id="matchTimer">⏱ 25s</div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:260px;margin:12px auto;">${cardsHTML}</div>
+        <div style="color:#5d4037;font-size:0.85rem;margin-bottom:12px;">翻牌找到相同的emoji，配对吧！</div>
+        <div class="minigame-timer-ring" id="matchTimer">⏱ 25s</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:280px;margin:16px auto;">${cardsHTML}</div>
       </div>
     </div>
   `;
@@ -1495,6 +1874,12 @@ function flipCard(idx) {
       window._matchMatched.push(a, b);
       window._matchFlipped = [];
       window._matchLocked = false;
+      sfxMatch();
+      // Mark matched cards
+      const ea = document.getElementById('card' + a);
+      const eb = document.getElementById('card' + b);
+      if (ea) ea.style.background = 'linear-gradient(135deg, #e8f5e9, #a5d6a7)';
+      if (eb) eb.style.background = 'linear-gradient(135deg, #e8f5e9, #a5d6a7)';
       if (window._matchMatched.length === window._matchCards.length) {
         resolveMatch(true);
       }
@@ -1512,10 +1897,12 @@ function flipCard(idx) {
 function resolveMatch(success) {
   clearInterval(window._matchInterval);
   if (success) {
-    S.social = clamp(S.social + 8, 0, 100);
-    S.narrative.push({ type: 'event', text: '🃏 全部配对成功！你在联谊活动上大放异彩。社交力+8！' });
+    S.social = clamp(S.social + 10, 0, 100);
+    S.narrative.push({ type: 'event', text: '🃏 全部配对成功！你在联谊活动上大放异彩。社交力+10！' });
+    sfxSuccess();
   } else {
-    S.narrative.push({ type: 'event', text: '🃏 配对失败…联谊活动上你有点紧张。' });
+    S.narrative.push({ type: 'event', text: '🃏 时间到了…联谊活动上你有点紧张。' });
+    sfxFail();
   }
   S.phase = 'playing';
   checkAchievements();
