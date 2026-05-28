@@ -9,9 +9,20 @@
 
 body {
   display: flex; justify-content: center; align-items: center;
-  min-height: 100vh; background: #0a0a14;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0, #ffccbc, #ffe0b2, #e8eaf6, #fce4ec);
+  background-size: 400% 400%;
+  animation: bgShift 20s ease infinite;
   font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif;
   user-select: none; overflow-x: hidden;
+}
+
+@keyframes bgShift {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Particle Background */
@@ -29,26 +40,39 @@ body {
 
 /* Cards */
 .card {
-  background: rgba(22, 22, 42, 0.92); backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
-  padding: 20px 24px; margin-bottom: 10px;
-  animation: fadeIn 0.4s ease;
+  background: rgba(255,255,255,0.72); backdrop-filter: blur(24px);
+  border: 1px solid rgba(233,30,99,0.15);
+  box-shadow: 0 4px 30px rgba(255,138,128,0.18), inset 0 1px 0 rgba(255,255,255,0.6);
+  border-radius: 20px; padding: 20px 24px; margin-bottom: 10px;
+  animation: fadeIn 0.5s cubic-bezier(0.4,0,0.2,1);
 }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes typewriter { from { width: 0; } to { width: 100%; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-@keyframes glow { 0%,100% { box-shadow: 0 0 5px rgba(233,69,96,0.3); } 50% { box-shadow: 0 0 20px rgba(233,69,96,0.6); } }
+@keyframes glow {
+  0%,100% { box-shadow: 0 0 8px rgba(233,30,99,0.3); }
+  50% { box-shadow: 0 0 25px rgba(255,107,138,0.6); }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
 
 /* Title */
 .game-title {
   text-align: center; font-size: 1.8rem; font-weight: 900;
-  background: linear-gradient(135deg, #e94560, #ff6b8a, #e94560);
+  background: linear-gradient(135deg, #e91e63, #ff6f00, #e91e63);
+  background-size: 200% auto;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text; letter-spacing: 4px; margin-bottom: 4px;
+  animation: shimmer 3s linear infinite;
 }
-.subtitle { text-align: center; color: #888; font-size: 0.85rem; margin-bottom: 12px; }
+.subtitle { text-align: center; color: #b0826a; font-size: 0.85rem; margin-bottom: 12px; }
 
 /* Top Bar */
 .top-bar {
@@ -56,146 +80,202 @@ body {
   flex-wrap: wrap; gap: 8px;
 }
 .top-tag {
-  background: #0f3460; color: #8ec8ff; padding: 4px 12px;
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  color: #c2185b; padding: 5px 14px;
   border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+  border: 1px solid rgba(233,30,99,0.2);
 }
 .top-stat {
-  color: #ccc; font-size: 0.85rem;
+  color: #6d4c41; font-size: 0.85rem; font-weight: 500;
 }
-.top-stat span { color: #e94560; font-weight: 700; }
+.top-stat span { color: #e91e63; font-weight: 700; }
 
 /* Stat Bars */
 .stat-row {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px;
 }
 .stat-item { margin: 2px 0; }
 .stat-label {
   display: flex; justify-content: space-between;
-  color: #aaa; font-size: 0.75rem; margin-bottom: 2px;
+  color: #795548; font-size: 0.75rem; margin-bottom: 3px; font-weight: 500;
 }
-.stat-label span:last-child { color: #e94560; font-weight: 600; }
+.stat-label span:last-child { color: #e91e63; font-weight: 700; }
 .stat-bar-bg {
-  height: 6px; background: #1a1a3a; border-radius: 3px; overflow: hidden;
+  height: 8px; background: rgba(233,30,99,0.08); border-radius: 4px;
+  overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
 }
 .stat-bar-fill {
-  height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  height: 100%; border-radius: 4px;
+  transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 0 8px currentColor;
 }
-.fill-coding { background: linear-gradient(90deg, #0f3460, #4fc3f7); }
-.fill-social { background: linear-gradient(90deg, #1b5e20, #66bb6a); }
-.fill-appearance { background: linear-gradient(90deg, #880e4f, #f06292); }
-.fill-romance { background: linear-gradient(90deg, #b71c1c, #ef5350); }
-.fill-gpa { background: linear-gradient(90deg, #4a148c, #ba68c8); }
+.fill-coding { background: linear-gradient(90deg, #42a5f5, #7c4dff); box-shadow: 0 0 10px rgba(66,165,245,0.5); }
+.fill-social { background: linear-gradient(90deg, #66bb6a, #26a69a); box-shadow: 0 0 10px rgba(102,187,106,0.5); }
+.fill-appearance { background: linear-gradient(90deg, #ec407a, #ff7043); box-shadow: 0 0 10px rgba(236,64,122,0.5); }
+.fill-romance { background: linear-gradient(90deg, #ef5350, #ff6d00); box-shadow: 0 0 10px rgba(239,83,80,0.5); }
+.fill-gpa { background: linear-gradient(90deg, #ab47bc, #5c6bc0); box-shadow: 0 0 10px rgba(171,71,188,0.5); }
 
 /* Character Affection */
 .char-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .char-tag {
-  flex: 1; min-width: 120px; background: #1a1a3a; border-radius: 10px;
-  padding: 8px 12px; border: 1px solid rgba(255,255,255,0.05);
-  transition: all 0.3s;
+  flex: 1; min-width: 120px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(252,228,236,0.5));
+  border-radius: 14px; padding: 10px 14px;
+  border: 1px solid rgba(233,30,99,0.12);
+  transition: all 0.3s; box-shadow: 0 2px 8px rgba(255,138,128,0.1);
 }
-.char-tag.locked { opacity: 0.4; }
-.char-name { color: #ddd; font-size: 0.8rem; font-weight: 600; }
-.char-stage { color: #888; font-size: 0.7rem; }
-.char-hearts { color: #e94560; font-size: 0.75rem; margin-top: 2px; }
-.char-bar-bg { height: 3px; background: #252545; border-radius: 2px; margin-top: 3px; }
+.char-tag:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,138,128,0.2); }
+.char-tag.locked { opacity: 0.45; filter: grayscale(0.3); }
+.char-name { color: #4e342e; font-size: 0.82rem; font-weight: 700; }
+.char-stage { color: #b0826a; font-size: 0.7rem; }
+.char-hearts { color: #e91e63; font-size: 0.75rem; margin-top: 3px; }
+.char-bar-bg {
+  height: 4px; background: rgba(233,30,99,0.08); border-radius: 2px; margin-top: 4px;
+}
 .char-bar-fill {
-  height: 100%; background: #e94560; border-radius: 2px;
-  transition: width 0.5s ease;
+  height: 100%;
+  background: linear-gradient(90deg, #f48fb1, #e91e63, #ff6f00);
+  border-radius: 2px; transition: width 0.5s ease;
+  box-shadow: 0 0 6px rgba(233,30,99,0.4);
 }
 
 /* Narrative */
 .narrative {
   min-height: 100px; max-height: 250px; overflow-y: auto;
-  color: #ccc; font-size: 0.9rem; line-height: 1.7;
-  padding: 8px 0;
+  color: #5d4037; font-size: 0.9rem; line-height: 1.8;
+  padding: 10px 4px;
 }
-.narrative .highlight { color: #e94560; font-weight: 600; }
-.narrative .name-tag { color: #8ec8ff; }
-.narrative::-webkit-scrollbar { width: 4px; }
-.narrative::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+.narrative p { margin-bottom: 4px; }
+.narrative .highlight { color: #e91e63; font-weight: 600; }
+.narrative .name-tag { color: #7c4dff; font-weight: 600; }
+.narrative::-webkit-scrollbar { width: 5px; }
+.narrative::-webkit-scrollbar-thumb { background: rgba(233,30,99,0.2); border-radius: 3px; }
+.narrative::-webkit-scrollbar-track { background: rgba(233,30,99,0.04); border-radius: 3px; }
 
 /* Action Buttons */
 .actions-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
 }
 .btn {
-  padding: 10px 8px; border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 10px; background: #1a1a3a; color: #ccc;
-  font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+  padding: 11px 8px;
+  border: 1px solid rgba(233,30,99,0.18);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(252,228,236,0.7));
+  color: #5d4037; font-size: 0.8rem; font-weight: 500;
+  cursor: pointer; transition: all 0.25s;
   text-align: center; font-family: inherit;
+  box-shadow: 0 1px 4px rgba(255,138,128,0.1);
 }
-.btn:hover { background: #252550; border-color: #e94560; color: #fff; transform: translateY(-1px); }
-.btn:active { transform: scale(0.97); }
-.btn.primary { background: #e94560; color: #fff; border-color: #e94560; font-weight: 700; }
-.btn.primary:hover { background: #ff6b8a; }
-.btn.danger { background: #3a1a1a; border-color: #e94560; color: #e94560; }
-.btn.small { padding: 6px 10px; font-size: 0.7rem; }
+.btn:hover {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  border-color: #e91e63; color: #c2185b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233,30,99,0.25);
+}
+.btn:active { transform: scale(0.96); }
+.btn.primary {
+  background: linear-gradient(135deg, #e91e63, #ff6f00);
+  color: #fff; border: none; font-weight: 700;
+  box-shadow: 0 4px 15px rgba(233,30,99,0.35);
+}
+.btn.primary:hover {
+  background: linear-gradient(135deg, #f06292, #ff8f00);
+  box-shadow: 0 6px 25px rgba(233,30,99,0.5);
+}
+.btn.danger {
+  background: linear-gradient(135deg, #fff, #ffebee);
+  border-color: #e91e63; color: #e91e63;
+}
+.btn.small { padding: 6px 12px; font-size: 0.72rem; border-radius: 8px; }
 
 /* Overlay */
 .overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7); z-index: 100;
-  display: flex; justify-content: center; align-items: center;
+  background: rgba(30,10,20,0.6); backdrop-filter: blur(4px);
+  z-index: 100; display: flex; justify-content: center; align-items: center;
   animation: fadeIn 0.3s ease;
 }
 .overlay-card {
-  background: #16162a; border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 16px; padding: 24px; max-width: 500px; width: 90%;
+  background: linear-gradient(135deg, #fff, #fce4ec);
+  border: 1px solid rgba(233,30,99,0.2);
+  border-radius: 20px; padding: 28px 24px; max-width: 500px; width: 90%;
   max-height: 80vh; overflow-y: auto;
+  box-shadow: 0 12px 50px rgba(233,30,99,0.2);
 }
 .overlay-title {
-  font-size: 1.3rem; font-weight: 700; color: #e94560;
-  text-align: center; margin-bottom: 16px;
+  font-size: 1.3rem; font-weight: 700;
+  background: linear-gradient(135deg, #e91e63, #ff6f00);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; text-align: center; margin-bottom: 16px;
 }
-.overlay-text { color: #ccc; font-size: 0.9rem; line-height: 1.7; margin-bottom: 16px; }
+.overlay-text { color: #5d4037; font-size: 0.9rem; line-height: 1.8; margin-bottom: 16px; }
 .choice-btn {
-  display: block; width: 100%; padding: 12px 16px; margin: 6px 0;
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
-  background: #1a1a3a; color: #ccc; font-size: 0.85rem;
-  cursor: pointer; transition: all 0.2s; text-align: left; font-family: inherit;
+  display: block; width: 100%; padding: 14px 18px; margin: 8px 0;
+  border: 1px solid rgba(233,30,99,0.15); border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(252,228,236,0.5));
+  color: #5d4037; font-size: 0.85rem; font-weight: 500;
+  cursor: pointer; transition: all 0.25s; text-align: left; font-family: inherit;
+  box-shadow: 0 1px 4px rgba(255,138,128,0.08);
 }
-.choice-btn:hover { background: #252550; border-color: #e94560; color: #fff; }
+.choice-btn:hover {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  border-color: #e91e63; color: #c2185b;
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(233,30,99,0.2);
+}
 
 /* Mini-game */
 .minigame-area { text-align: center; padding: 16px; }
-.minigame-timer { color: #e94560; font-size: 1.2rem; font-weight: 700; }
+.minigame-timer { color: #e91e63; font-size: 1.3rem; font-weight: 700; }
 .minigame-target {
-  background: #1a1a3a; border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 8px; padding: 12px; margin: 8px 0; color: #8ec8ff;
+  background: linear-gradient(135deg, #fff3e0, #fce4ec);
+  border: 1px solid rgba(233,30,99,0.2); border-radius: 12px;
+  padding: 14px; margin: 8px 0; color: #4e342e;
   font-size: 0.9rem; font-family: 'Courier New', monospace;
 }
 .bug-btn {
-  display: inline-block; padding: 8px 20px; margin: 4px;
-  border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
-  background: #1a1a3a; color: #ff6b6b; cursor: pointer;
-  font-size: 0.85rem; font-family: 'Courier New', monospace;
-  transition: all 0.2s;
+  display: inline-block; padding: 10px 22px; margin: 4px;
+  border: 1px solid rgba(233,30,99,0.2); border-radius: 10px;
+  background: linear-gradient(135deg, #fff, #fce4ec);
+  color: #c2185b; cursor: pointer; font-size: 0.85rem;
+  font-family: 'Courier New', monospace; transition: all 0.2s;
 }
-.bug-btn:hover { background: #3a1a1a; border-color: #e94560; }
-.bug-btn.correct { background: #1a3a1a; color: #66bb6a; border-color: #66bb6a; }
+.bug-btn:hover { background: #fce4ec; border-color: #e91e63; transform: scale(1.03); }
+.bug-btn.correct { background: #e8f5e9; color: #2e7d32; border-color: #66bb6a; }
 
 /* Ending */
 .ending-card { text-align: center; }
-.ending-icon { font-size: 4rem; margin: 16px 0; }
-.ending-title { font-size: 1.4rem; font-weight: 700; color: #e94560; margin: 8px 0; }
-.ending-desc { color: #ccc; font-size: 0.9rem; line-height: 1.7; margin: 12px 0; }
-.ending-stats { color: #888; font-size: 0.8rem; margin: 12px 0; }
+.ending-icon { font-size: 4.5rem; margin: 16px 0; animation: float 3s ease-in-out infinite; }
+.ending-title {
+  font-size: 1.5rem; font-weight: 700;
+  background: linear-gradient(135deg, #e91e63, #ff6f00);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin: 8px 0;
+}
+.ending-desc { color: #5d4037; font-size: 0.9rem; line-height: 1.8; margin: 12px 0; }
+.ending-stats { color: #8d6e63; font-size: 0.8rem; margin: 12px 0; }
 
 /* Achievements */
-.ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+.ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .ach-item {
-  background: #1a1a3a; border-radius: 8px; padding: 8px 12px;
-  border: 1px solid rgba(255,255,255,0.05); font-size: 0.75rem;
-  color: #aaa; display: flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(252,228,236,0.4));
+  border-radius: 12px; padding: 10px 14px;
+  border: 1px solid rgba(233,30,99,0.1); font-size: 0.75rem;
+  color: #8d6e63; display: flex; align-items: center; gap: 8px;
+  transition: all 0.2s;
 }
-.ach-item.unlocked { color: #ffd54f; border-color: rgba(255,213,79,0.3); }
-.ach-icon { font-size: 1.2rem; }
+.ach-item.unlocked {
+  color: #e65100; border-color: rgba(255,111,0,0.3);
+  background: linear-gradient(135deg, #fff8e1, #fce4ec);
+  box-shadow: 0 2px 10px rgba(255,111,0,0.15);
+}
+.ach-icon { font-size: 1.3rem; }
 
 /* Title screen */
-.title-screen { text-align: center; padding: 40px 20px; }
-.title-screen .game-title { font-size: 2.2rem; margin-bottom: 8px; }
-.title-btns { display: flex; flex-direction: column; gap: 8px; max-width: 280px; margin: 24px auto; }
-.title-btns .btn { padding: 14px; font-size: 0.95rem; }
+.title-screen { text-align: center; padding: 48px 24px; }
+.title-screen .game-title { font-size: 2.4rem; margin-bottom: 8px; }
+.title-btns { display: flex; flex-direction: column; gap: 10px; max-width: 280px; margin: 28px auto; }
+.title-btns .btn { padding: 16px; font-size: 1rem; }
 
 /* Responsive */
 @media (max-width: 500px) {
@@ -203,7 +283,10 @@ body {
   .actions-grid { grid-template-columns: repeat(2, 1fr); }
   .stat-row { grid-template-columns: 1fr; }
   .char-tag { min-width: 100%; }
+  .title-screen .game-title { font-size: 1.8rem; }
 }
+
+#typeInput:focus { border-color: #e91e63; box-shadow: 0 0 12px rgba(233,30,99,0.2); }
 
 .hidden { display: none !important; }
 .text-center { text-align: center; }
@@ -218,11 +301,11 @@ body {
 
 <script>
 // ═══════════════════════════════════════════
-// PARTICLE BACKGROUND
+// PARTICLE BACKGROUND — cherry blossoms, hearts, sparkles
 // ═══════════════════════════════════════════
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
-let W, H, particles = [];
+let W, H, petals = [], sparkles = [], hearts = [];
 
 function resize() {
   W = canvas.width = window.innerWidth;
@@ -231,42 +314,136 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-for (let i = 0; i < 60; i++) {
-  particles.push({
+// Cherry blossom petals
+for (let i = 0; i < 35; i++) {
+  petals.push({
+    x: Math.random() * W, y: Math.random() * H,
+    r: Math.random() * 6 + 3,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: Math.random() * 0.5 + 0.15,
+    angle: Math.random() * Math.PI * 2,
+    rot: (Math.random() - 0.5) * 0.02,
+    o: Math.random() * 0.5 + 0.35,
+    hue: Math.random() * 30 + 340 // pink range
+  });
+}
+
+// Golden sparkles
+for (let i = 0; i < 25; i++) {
+  sparkles.push({
     x: Math.random() * W, y: Math.random() * H,
     r: Math.random() * 1.5 + 0.5,
-    vx: (Math.random() - 0.5) * 0.4,
-    vy: (Math.random() - 0.5) * 0.4,
-    o: Math.random() * 0.5 + 0.2
+    vx: (Math.random() - 0.5) * 0.2,
+    vy: (Math.random() - 0.5) * 0.2 - 0.1,
+    o: Math.random() * 0.6 + 0.2,
+    phase: Math.random() * Math.PI * 2,
+    speed: Math.random() * 0.03 + 0.01
   });
+}
+
+// Floating hearts
+for (let i = 0; i < 10; i++) {
+  hearts.push({
+    x: Math.random() * W, y: Math.random() * H,
+    size: Math.random() * 8 + 4,
+    vy: -(Math.random() * 0.15 + 0.05),
+    vx: (Math.random() - 0.5) * 0.2,
+    o: Math.random() * 0.25 + 0.08,
+    phase: Math.random() * Math.PI * 2
+  });
+}
+
+function drawPetal(x, y, r, angle, color) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+  ctx.beginPath();
+  ctx.ellipse(0, 0, r, r * 0.45, 0, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+  // Vein
+  ctx.beginPath();
+  ctx.moveTo(-r, 0);
+  ctx.lineTo(r, 0);
+  ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+  ctx.lineWidth = 0.5;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawHeart(x, y, size, alpha) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(size / 20, size / 20);
+  ctx.beginPath();
+  ctx.moveTo(0, -8);
+  ctx.bezierCurveTo(-8, -14, -18, -6, 0, 10);
+  ctx.bezierCurveTo(18, -6, 8, -14, 0, -8);
+  ctx.fillStyle = `rgba(233,30,99,${alpha})`;
+  ctx.fill();
+  ctx.restore();
 }
 
 function animateParticles() {
   ctx.clearRect(0, 0, W, H);
-  for (const p of particles) {
-    p.x += p.vx; p.y += p.vy;
-    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+
+  // Draw petals
+  for (const p of petals) {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.angle += p.rot;
+    if (p.x < -20) p.x = W + 20;
+    if (p.x > W + 20) p.x = -20;
+    if (p.y > H + 20) { p.y = -20; p.x = Math.random() * W; }
+    drawPetal(p.x, p.y, p.r, p.angle, `hsla(${p.hue}, 70%, 75%, ${p.o})`);
+  }
+
+  // Draw sparkles
+  for (const s of sparkles) {
+    s.x += s.vx;
+    s.y += s.vy;
+    s.o = 0.2 + Math.sin(s.phase) * 0.25;
+    s.phase += s.speed;
+    if (s.x < 0) s.x = W; if (s.x > W) s.x = 0;
+    if (s.y < 0) s.y = H; if (s.y > H) s.y = 0;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(233,69,96,${p.o})`;
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,215,0,${s.o})`;
+    ctx.fill();
+    // Glow
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,215,0,${s.o * 0.2})`;
     ctx.fill();
   }
-  // Lines
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
+
+  // Draw hearts
+  for (const h of hearts) {
+    h.x += h.vx;
+    h.y += h.vy;
+    h.o = 0.08 + Math.sin(h.phase) * 0.06;
+    h.phase += 0.01;
+    if (h.y < -30) { h.y = H + 30; h.x = Math.random() * W; }
+    if (h.x < -20) h.x = W + 20; if (h.x > W + 20) h.x = -20;
+    drawHeart(h.x, h.y, h.size, h.o);
+  }
+
+  // Subtle connections between nearby sparkles
+  for (let i = 0; i < sparkles.length; i++) {
+    for (let j = i + 1; j < sparkles.length; j++) {
+      const dx = sparkles[i].x - sparkles[j].x;
+      const dy = sparkles[i].y - sparkles[j].y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 100) {
+      if (dist < 80) {
         ctx.beginPath();
-        ctx.moveTo(particles[i].x, particles[i].y);
-        ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.strokeStyle = `rgba(233,69,96,${0.06 * (1 - dist / 100)})`;
+        ctx.moveTo(sparkles[i].x, sparkles[i].y);
+        ctx.lineTo(sparkles[j].x, sparkles[j].y);
+        ctx.strokeStyle = `rgba(255,183,77,${0.04 * (1 - dist / 80)})`;
         ctx.stroke();
       }
     }
   }
+
   requestAnimationFrame(animateParticles);
 }
 animateParticles();
@@ -877,7 +1054,7 @@ function renderTitle() {
     <div class="card title-screen">
       <div class="game-title">华科计院找爱情</div>
       <div class="subtitle">HUST CS · Love Simulator</div>
-      <p style="color:#888;font-size:0.85rem;margin:16px 0;line-height:1.6;">
+      <p style="color:#8d6e63;font-size:0.85rem;margin:16px 0;line-height:1.6;">
         你是华中科技大学计算机学院的一名新生。<br>
         四年时间，1440天——<br>
         你能在代码和ddl的夹缝中找到爱情吗？
@@ -887,7 +1064,7 @@ function renderTitle() {
         <button class="btn" onclick="loadGame()">💾 继续游戏</button>
         <button class="btn" onclick="showAchievements()">🏆 成就收藏</button>
       </div>
-      <p style="color:#555;font-size:0.7rem;margin-top:20px;">含大量华科梗 · CS梗 · 请勿在考试周过度沉迷</p>
+      <p style="color:#a1887f;font-size:0.7rem;margin-top:20px;">含大量华科梗 · CS梗 · 请勿在考试周过度沉迷</p>
     </div>
   `;
 }
@@ -955,18 +1132,18 @@ function renderGame() {
   // Items
   let inventoryHTML = '';
   if (S.inventory.length > 0) {
-    inventoryHTML = '<div style="margin-top:6px;font-size:0.7rem;color:#888;">🎒 背包：';
+    inventoryHTML = '<div style="margin-top:6px;font-size:0.7rem;color:#8d6e63;">🎒 背包：';
     S.inventory.forEach(id => {
       const item = ITEMS.find(i => i.id === id);
-      inventoryHTML += ` <span style="cursor:pointer;color:#8ec8ff;" onclick="useItem('${id}');renderGame();" title="${item.desc}">${item.emoji}${item.name}</span>`;
+      inventoryHTML += ` <span style="cursor:pointer;color:#7c4dff;" onclick="useItem('${id}');renderGame();" title="${item.desc}">${item.emoji}${item.name}</span>`;
     });
     inventoryHTML += '</div>';
   }
 
   // Shop
-  let shopHTML = '<div style="margin-top:4px;font-size:0.7rem;color:#888;">🛒 ';
+  let shopHTML = '<div style="margin-top:4px;font-size:0.7rem;color:#8d6e63;">🛒 ';
   ITEMS.forEach(item => {
-    shopHTML += `<span style="cursor:pointer;color:#66bb6a;margin-right:8px;" onclick="if(S.money>=${item.price}){S.money-=${item.price};S.inventory.push('${item.id}');renderGame();}" title="${item.desc}">${item.emoji}¥${item.price}</span>`;
+    shopHTML += `<span style="cursor:pointer;color:#2e7d32;margin-right:8px;" onclick="if(S.money>=${item.price}){S.money-=${item.price};S.inventory.push('${item.id}');renderGame();}" title="${item.desc}">${item.emoji}¥${item.price}</span>`;
   });
   shopHTML += `</div>`;
 
@@ -975,14 +1152,14 @@ function renderGame() {
       <div class="game-title" style="font-size:1.4rem;">华科计院找爱情</div>
       <div class="top-bar">
         <span class="top-tag">📅 ${sem} · 第${S.week + 1}周</span>
-        <span class="top-tag" style="background:#1a3a1a;color:#66bb6a;">🎯 ${semEvent}</span>
+        <span class="top-tag" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:#2e7d32;">🎯 ${semEvent}</span>
         <span class="top-stat">⚡ <span>${S.energy}</span></span>
         <span class="top-stat">💰 <span>¥${S.money}</span></span>
       </div>
     </div>
 
     <div class="card">
-      <div class="narrative" id="narrativeBox">${narrHTML || '<p style="color:#888;">新学期开始了，选择你的行动吧！</p>'}</div>
+      <div class="narrative" id="narrativeBox">${narrHTML || '<p style="color:#8d6e63;">新学期开始了，选择你的行动吧！</p>'}</div>
     </div>
 
     <div class="card">
@@ -996,7 +1173,7 @@ function renderGame() {
     </div>
 
     <div class="card">
-      <div style="color:#aaa;font-size:0.75rem;margin-bottom:6px;">🎯 选择行动</div>
+      <div style="color:#8d6e63;font-size:0.75rem;margin-bottom:6px;">🎯 选择行动</div>
       <div class="actions-grid">${actionsHTML}</div>
       ${confessHTML ? `<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">${confessHTML}</div>` : ''}
       <div style="margin-top:8px;text-align:center;">
@@ -1045,7 +1222,7 @@ function renderEnding() {
         毕业那天你看着空荡荡的聊天列表，打开了LeetCode。<br>
         「Runtime: 0ms, faster than 100%」<br>
         你想：至少代码从不会拒绝你。<br><br>
-        <span style="color:#888;">——恭喜你成为华科最会写代码的单身汉。</span>
+        <span style="color:#8d6e63;">——恭喜你成为华科最会写代码的单身汉。</span>
       </div>
     `;
   } else if (e.allHigh && e.loveCount >= 2) {
@@ -1056,7 +1233,7 @@ function renderEnding() {
         你太受欢迎了！多个人对你的好感度都到了顶峰。<br>
         毕业聚餐上，她们同时坐到了你对面。<br>
         空气凝固了。<br><br>
-        <span style="color:#888;">——海王最终会淹死在自己的鱼塘里。</span>
+        <span style="color:#8d6e63;">——海王最终会淹死在自己的鱼塘里。</span>
       </div>
     `;
   } else if (e.love.length > 0) {
@@ -1066,7 +1243,7 @@ function renderEnding() {
       <div class="ending-title">${best.tier === 'love' ? '💕 甜蜜结局' : best.tier === 'ambiguous' ? '💛 暧昧未满' : '💔 遗憾错过'}</div>
       <div class="ending-desc">${best.text}</div>
       ${e.love.filter(l => l !== best).map(l => html`
-        <div class="ending-desc" style="font-size:0.8rem;color:#888;margin-top:8px;">${l.emoji} ${l.name}：${l.text}</div>
+        <div class="ending-desc" style="font-size:0.8rem;color:#8d6e63;margin-top:8px;">${l.emoji} ${l.name}：${l.text}</div>
       `).join('')}
     `;
   } else if (e.allLow) {
@@ -1113,9 +1290,9 @@ function renderEnding() {
       <div class="game-title">华科计院找爱情</div>
       <div class="subtitle">—— 全剧终 ——</div>
 
-      <div style="margin:20px 0;padding:16px;background:#1a1a3a;border-radius:12px;">
-        <div style="font-size:1.1rem;font-weight:700;color:#8ec8ff;">${e.career.text}</div>
-        <div style="color:#ccc;font-size:0.85rem;margin-top:6px;">${e.career.desc}</div>
+      <div style="margin:20px 0;padding:16px;background:linear-gradient(135deg,#fce4ec,#f3e5f5);border-radius:12px;border:1px solid rgba(233,30,99,0.12);">
+        <div style="font-size:1.1rem;font-weight:700;color:#7c4dff;">${e.career.text}</div>
+        <div style="color:#5d4037;font-size:0.85rem;margin-top:6px;">${e.career.desc}</div>
       </div>
 
       ${loveHTML}
@@ -1149,7 +1326,7 @@ function showAchievements() {
     <div class="overlay">
       <div class="overlay-card">
         <div class="overlay-title">🏆 成就收藏</div>
-        <div style="color:#888;font-size:0.8rem;margin-bottom:12px;">已解锁：${S.achievements.length} / ${ACHIEVEMENTS.length}</div>
+        <div style="color:#8d6e63;font-size:0.8rem;margin-bottom:12px;">已解锁：${S.achievements.length} / ${ACHIEVEMENTS.length}</div>
         <div class="ach-grid">${gridHTML}</div>
         <div style="text-align:center;margin-top:16px;">
           <button class="btn primary" onclick="if(S.phase==='title')renderTitle();else if(S.phase==='ending')renderEnding();else renderGame();">返回</button>
@@ -1181,7 +1358,7 @@ function startDebugGame() {
     <div class="overlay">
       <div class="overlay-card">
         <div class="overlay-title">🔧 Debug速修</div>
-        <div style="color:#ccc;font-size:0.85rem;margin-bottom:12px;">找出代码中的bug！30秒倒计时</div>
+        <div style="color:#5d4037;font-size:0.85rem;margin-bottom:12px;">找出代码中的bug！30秒倒计时</div>
         <div class="minigame-timer" id="debugTimer">⏱ 30s</div>
         <div style="margin:12px 0;">
           ${bugs.map((b, i) => html`
@@ -1227,10 +1404,10 @@ function startTypingGame() {
     <div class="overlay">
       <div class="overlay-card">
         <div class="overlay-title">⌨️ 心动打字</div>
-        <div style="color:#ccc;font-size:0.85rem;margin-bottom:12px;">快速打出下面的文字！</div>
+        <div style="color:#5d4037;font-size:0.85rem;margin-bottom:12px;">快速打出下面的文字！</div>
         <div class="minigame-timer" id="typeTimer">⏱ 20s</div>
         <div class="minigame-target" style="font-size:1.4rem;text-align:center;letter-spacing:2px;">${target}</div>
-        <input id="typeInput" style="width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#0a0a14;color:#fff;font-size:1rem;text-align:center;margin-top:12px;font-family:inherit;" autofocus>
+        <input id="typeInput" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(233,30,99,0.25);background:#fff;color:#4e342e;font-size:1.1rem;text-align:center;margin-top:12px;font-family:inherit;outline:none;" placeholder="在这里输入..." autofocus>
       </div>
     </div>
   `;
@@ -1286,7 +1463,7 @@ function startMatchGame() {
     <div class="overlay">
       <div class="overlay-card">
         <div class="overlay-title">🃏 缘分匹配</div>
-        <div style="color:#ccc;font-size:0.85rem;margin-bottom:12px;">翻牌配对，全部配对成功即可！</div>
+        <div style="color:#5d4037;font-size:0.85rem;margin-bottom:12px;">翻牌配对，全部配对成功即可！</div>
         <div class="minigame-timer" id="matchTimer">⏱ 25s</div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:260px;margin:12px auto;">${cardsHTML}</div>
       </div>
